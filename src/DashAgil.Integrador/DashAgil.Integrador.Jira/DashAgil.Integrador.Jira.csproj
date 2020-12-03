@@ -5,13 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\Input\" />
-    <Folder Include="Commands\Output\" />
-    <Folder Include="Entidades\" />
     <Folder Include="Enums\" />
-    <Folder Include="Handlers\" />
-    <Folder Include="Queries\" />
-    <Folder Include="Repositorio\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flunt" Version="1.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DashAgil.Integrador.Infra\DashAgil.Integrador.Infra.csproj" />
   </ItemGroup>
 
 </Project>

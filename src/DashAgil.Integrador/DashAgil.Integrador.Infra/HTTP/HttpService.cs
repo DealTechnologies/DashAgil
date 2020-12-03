@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
@@ -21,8 +23,8 @@ namespace DashAgil.Integrador.Infra.HTTP
             {
                 using var client = new HttpClient();
 
-                var jsonContent = JsonSerializer.Serialize(content, new JsonSerializerOptions { IgnoreNullValues = true });
-                var queryParams = JsonSerializer.Deserialize<Dictionary<string, dynamic>>(jsonContent);
+                var jsonContent = System.Text.Json.JsonSerializer.Serialize(content, new JsonSerializerOptions { IgnoreNullValues = true });
+                var queryParams = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, dynamic>>(jsonContent);
                 var parameters = new Dictionary<string, string>();
                 if (queryParams != null)
                 {
@@ -65,7 +67,7 @@ namespace DashAgil.Integrador.Infra.HTTP
 
                     if (!string.IsNullOrEmpty(json) && response.Content.Headers.ContentType.MediaType.Equals("application/json"))
                     {
-                        return JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                        return System.Text.Json.JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                     }
                     else if (!string.IsNullOrEmpty(json) && response.Content.Headers.ContentType.MediaType.Equals("text/xml"))
                     {
@@ -103,10 +105,10 @@ namespace DashAgil.Integrador.Infra.HTTP
             {
                 using var client = new HttpClient();
 
-                var ObjectContent = new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json");
+                var ObjectContent = new StringContent(System.Text.Json.JsonSerializer.Serialize(content), Encoding.UTF8, "application/json");
 
                 Console.WriteLine($"uri http: {url}");
-                Console.WriteLine($"uri http content: {JsonSerializer.Serialize(content)}");
+                Console.WriteLine($"uri http content: {System.Text.Json.JsonSerializer.Serialize(content)}");
 
                 if (!string.IsNullOrEmpty(header))
                 {
@@ -129,7 +131,7 @@ namespace DashAgil.Integrador.Infra.HTTP
                 var json = await response.Content.ReadAsStringAsync();
                 if (!string.IsNullOrEmpty(json))
                 {
-                    return JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    return System.Text.Json.JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 }
 
                 if (response.IsSuccessStatusCode)
@@ -144,6 +146,32 @@ namespace DashAgil.Integrador.Infra.HTTP
                 Console.WriteLine(ex.Message);
                 return default;
             }
+        }
+
+        public async Task<T> GetAsync<T>(string baseUrl, string endpoint, string token = null, string tokenType = "Basic", Dictionary<string, string> headers = null)
+        {
+            using(var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrl);
+
+                client.DefaultRequestHeaders.Clear();
+
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                if (!string.IsNullOrEmpty(token))
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, token);
+
+                HttpResponseMessage Res = await client.GetAsync(endpoint);
+
+                if (Res.IsSuccessStatusCode)
+                {
+                    var json = Res.Content.ReadAsStringAsync().Result;
+                    var result = JsonConvert.DeserializeObject<T>(json);
+                    return result;
+                }
+            }
+
+            return default;
         }
     }
 }

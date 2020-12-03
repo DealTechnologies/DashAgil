@@ -1,6 +1,10 @@
 ﻿using DashAgil.Integrador.Handlers;
 using DashAgil.Integrador.Infra.Data;
 using DashAgil.Integrador.Infra.Data.Context;
+using DashAgil.Integrador.Infra.Data.Repositorio;
+using DashAgil.Integrador.Infra.HTTP;
+using DashAgil.Integrador.Jira.Handlers;
+using DashAgil.Integrador.Jira.Repositorio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +24,7 @@ namespace DashAgil.Integrador.Api.Extensions
         {
             services.AddTransient<DataContext, DataContext>(provider => new DataContext(configuration.GetConnectionString("ConnectionString")));
             services.Configure<AppSettings>(options => configuration.GetSection("AppSettings").Bind(options));
+            services.AddTransient<HttpService, HttpService>();
         }
 
         /// <summary>
@@ -28,10 +33,8 @@ namespace DashAgil.Integrador.Api.Extensions
         /// <param name="services"></param>
         public static void AddHandlers(this IServiceCollection services)
         {
-            services.AddTransient<IntegradorHandler, IntegradorHandler>();
-
-
-
+            services.AddSingleton<IntegradorHandler, IntegradorHandler>();
+            services.AddSingleton<IntegradorJiraHandler, IntegradorJiraHandler>();
 
             //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             //services.AddSingleton<MonitorLoop>();
@@ -45,6 +48,8 @@ namespace DashAgil.Integrador.Api.Extensions
         {
             //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             //services.AddSingleton<MonitorLoop>();
+            services.AddSingleton<IBoardRepositorio, BoardRepositorio>();
+
         }
 
         #endregion
