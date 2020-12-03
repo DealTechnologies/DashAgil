@@ -13,9 +13,6 @@ namespace DashAgil.Infra.Data.Context
             Connection.Open();
         }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+        public void Dispose() => Connection.Dispose();
     }
 }

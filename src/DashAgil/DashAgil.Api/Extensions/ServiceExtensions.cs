@@ -1,5 +1,7 @@
 ﻿using DashAgil.Handlers;
 using DashAgil.Infra.Data.Context;
+using DashAgil.Infra.Data.Repositorio;
+using DashAgil.Repositorio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +19,7 @@ namespace DashAgil.Api.Extensions
         /// <param name="services"></param>
         public static void AddContexts(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<DataContext, DataContext>(provider => new DataContext(configuration.GetConnectionString("ConnectionString")));
+            services.AddTransient<DataContext, DataContext>(provider => new DataContext(configuration["ConnectionString:Connection"]));
         }
 
         /// <summary>
@@ -27,7 +29,7 @@ namespace DashAgil.Api.Extensions
         public static void AddHandlers(this IServiceCollection services)
         {
             services.AddTransient<DashAgilHandler, DashAgilHandler>();
-
+            services.AddTransient<VisaoGeralHandler, VisaoGeralHandler>();
 
 
 
@@ -41,6 +43,7 @@ namespace DashAgil.Api.Extensions
         /// <param name="services"></param>
         public static void AddRepositories(this IServiceCollection services)
         {
+            services.AddTransient<IDemandaRepository, DemandaRepository>();
             //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             //services.AddSingleton<MonitorLoop>();
         }
