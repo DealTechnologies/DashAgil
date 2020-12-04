@@ -30,7 +30,7 @@ namespace DashAgil.Integrador.Api.Controllers.Dominio
         }
 
         [HttpGet("tipos-work-itens")]
-        public async Task<IActionResult> WorkItens([FromQuery] string organizacao, string projeto, string team)
+        public async Task<IActionResult> TiposWorkItens([FromQuery] string organizacao, string projeto, string team)
         {
             var result = await _handler.Handle(new AtualizarTiposWorkItens { Organizacao = organizacao, Projeto = projeto, Time = team });
 
@@ -39,6 +39,11 @@ namespace DashAgil.Integrador.Api.Controllers.Dominio
 
             return Ok(result);
         }
+
+        //public async Task<IActionResult> WorkItens([FromQuery] string organizacao)
+        //{
+
+        //}
 
     }
 }

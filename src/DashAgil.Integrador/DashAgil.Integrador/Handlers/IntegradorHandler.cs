@@ -11,7 +11,8 @@ namespace DashAgil.Integrador.Handlers
 {
     public class IntegradorHandler : ICommandHandler<SalvarEstoriaCommand>,
                                      ICommandHandler<AtualizarProjetosCommand>,
-                                     ICommandHandler<AtualizarTiposWorkItens>
+                                     ICommandHandler<AtualizarTiposWorkItens>,
+                                     ICommandHandler<ObterWorkItensSumarizado>
     {
         private readonly IAzureDevopsRepository repository;
 
@@ -36,7 +37,7 @@ namespace DashAgil.Integrador.Handlers
         {
             var projetosDevops = await repository.ObterProjetos(command.Organizacao);
 
-            if(projetosDevops is null || !projetosDevops.Value.Any())
+            if (projetosDevops is null || !projetosDevops.Value.Any())
                 return new IntegradorCommandResult(false, "falha ao tentar atualizar a base de projetos", null);
 
             var projetos = projetosDevops.Value.Select(x => new ProjetosDevops
@@ -64,13 +65,26 @@ namespace DashAgil.Integrador.Handlers
             {
                 Nome = x.Name,
                 Url = x.Url,
-                WorkItemTypeId= x.Id
+                WorkItemTypeId = x.Id
 
             }).ToList();
 
             repository.SalvarTiposWorkItens(tiposWorkItens);
 
             return new IntegradorCommandResult(true, "Tipos de work itens atualizados com sucesso", tiposWorkItens);
+        }
+
+        public async Task<ICommandResult> Handle(ObterWorkItensSumarizado command)
+        {
+            var result = await repository.ConsultarPorQuery(command.Organizacao);
+
+            if (result is null || !result.Value.Any())
+                return new IntegradorCommandResult(false, "falha ao tentar obter por query", command);
+
+
+
+            return new IntegradorCommandResult(true, "Tipos de work itens atualizados com sucesso", null);
+
         }
 
         public void teste()

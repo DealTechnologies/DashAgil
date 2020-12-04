@@ -9,6 +9,7 @@ namespace DashAgil.Integrador.Repositorio
     {
         Task<DevopsResult<Projects>> ObterProjetos(string organizacao);
         Task<DevopsResult<WorkItensType>> ObterWorkItensTypes(string organizacao, string time, string projeto);
+        Task<DevopsResult<QueryResult>> ConsultarPorQuery(string organizacao);
         void SalvarProjetos(List<ProjetosDevops> projetos);
         void SalvarTiposWorkItens(List<TiposWorkItensDevops> tipos);
         void test();
