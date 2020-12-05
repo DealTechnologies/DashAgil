@@ -5,6 +5,7 @@ using DashAgil.Integrador.Jira.Repositorio;
 using Flunt.Notifications;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,10 +14,12 @@ namespace DashAgil.Integrador.Jira.Handlers
     public class IntegradorJiraHandler : Notifiable, ICommandHandler<IntegracaoInicialCommand>
     {
         private readonly IBoardRepositorio _boardRepositorio;
+        private readonly IBacklogRepositorio _backlogRepositorio;
 
-        public IntegradorJiraHandler(IBoardRepositorio boardRepositorio)
+        public IntegradorJiraHandler(IBoardRepositorio boardRepositorio, IBacklogRepositorio backlogRepositorio)
         {
             _boardRepositorio = boardRepositorio;
+            _backlogRepositorio = backlogRepositorio;
         }
         public async Task<ICommandResult> Handle(IntegracaoInicialCommand command)
         {
@@ -25,9 +28,19 @@ namespace DashAgil.Integrador.Jira.Handlers
 
             _boardRepositorio.PreencherAcesso(command.Token, command.Url);
 
-            var result = await _boardRepositorio.Obter();
+            var boradResult = await _boardRepositorio.Obter();
 
-            return new IntegradorJiraCommandResult(true, "Integração efetuada com sucesso", result);
+            if(boradResult == null || !boradResult.Boards.Any())
+                return new IntegradorJiraCommandResult(false, "Não foramencontrados projetos para o link informado", null);
+
+            _backlogRepositorio.PreencherAcesso(command.Token, command.Url);
+
+            foreach (var item in boradResult.Boards)
+            {
+                var backlog = await _backlogRepositorio.Obter(item.Id);
+            }
+
+            return new IntegradorJiraCommandResult(true, "Integração efetuada com sucesso", boradResult);
         }
     }
 }
