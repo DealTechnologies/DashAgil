@@ -5,13 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.78" />
+    <PackageReference Include="Dapper.contrib" Version="2.0.78" />
     <PackageReference Include="MySqlConnector" Version="1.2.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositorio\" />
     <Folder Include="Queries\" />
     <Folder Include="Settings\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DashAgil\DashAgil.csproj" />
   </ItemGroup>
 
 </Project>

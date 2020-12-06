@@ -8,6 +8,7 @@ CREATE TABLE Demandas(
 	ClienteId int NOT NULL,
 	SquadId bigInt NOT NULL,
 	Tipo int NOT NULL,
+    Descricao varchar(200) NULL,
 	DemandaPaiId varchar(38) NULL,
 	Responsavel varchar (200) NULL,
 	DataInicio datetime NOT NULL,

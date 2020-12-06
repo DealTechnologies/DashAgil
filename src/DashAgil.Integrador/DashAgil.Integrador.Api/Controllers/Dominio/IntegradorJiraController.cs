@@ -1,8 +1,8 @@
 ﻿using DashAgil.Integrador.Api.Controllers.Comum;
-using DashAgil.Integrador.Jira.Handlers;
 using DashAgil.Integrador.Jira.Commands.Input.Integrador;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DashAgil.Integrador.Handlers;
 
 namespace DashAgil.Integrador.Api.Controllers.Dominio
 {
@@ -17,7 +17,7 @@ namespace DashAgil.Integrador.Api.Controllers.Dominio
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(IntegracaoInicialCommand command)
+        public async Task<IActionResult> Post(IntegracaoInicialJiraCommand command)
         {
             var response = await _handler.Handle(command);
             return Ok(response);
