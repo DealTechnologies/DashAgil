@@ -13,11 +13,11 @@ BEGIN
 END
 GO
 
-CREATE TABLE [dbo].[Squads](
+CREATE TABLE [dbo].[Squads] (
 	[Id] [bigInt] IDENTITY(1,1) NOT NULL,
 	[Nome] [varchar] (200) NOT NULL,
 	[Descricao] [varchar] (200) NOT NULL,
-	[ClienteId] [int] NOT NULL,
+	[ProjetoId] [bigInt] NOT NULL,
 	[SubSquadId] [bigInt] NULL,
 	[DataInicio] [dateTime] NOT NULL,
 	[DataFim] [dateTime] NULL,
@@ -30,8 +30,8 @@ CREATE TABLE [dbo].[Squads](
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[Squads]  WITH CHECK ADD  CONSTRAINT [FK_Squads_ClienteId] FOREIGN KEY([ClienteId])
-REFERENCES [dbo].[Clientes] ([Id])
+ALTER TABLE [dbo].[Squads]  WITH CHECK ADD  CONSTRAINT [FK_Squads_Projetos] FOREIGN KEY([ProjetoId])
+REFERENCES [dbo].[Projetos] ([Id])
 GO
 
 ALTER TABLE [dbo].[Squads]  WITH CHECK ADD  CONSTRAINT [FK_Squads_SubSquadId] FOREIGN KEY([SubSquadId])
