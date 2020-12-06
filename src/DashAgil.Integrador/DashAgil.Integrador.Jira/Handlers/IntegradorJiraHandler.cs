@@ -3,9 +3,7 @@ using DashAgil.Integrador.Jira.Commands.Input.Integrador;
 using DashAgil.Integrador.Jira.Commands.Output;
 using DashAgil.Integrador.Jira.Repositorio;
 using Flunt.Notifications;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DashAgil.Integrador.Jira.Handlers
@@ -13,10 +11,12 @@ namespace DashAgil.Integrador.Jira.Handlers
     public class IntegradorJiraHandler : Notifiable, ICommandHandler<IntegracaoInicialCommand>
     {
         private readonly IBoardRepositorio _boardRepositorio;
+        private readonly IBacklogRepositorio _backlogRepositorio;
 
-        public IntegradorJiraHandler(IBoardRepositorio boardRepositorio)
+        public IntegradorJiraHandler(IBoardRepositorio boardRepositorio, IBacklogRepositorio backlogRepositorio)
         {
             _boardRepositorio = boardRepositorio;
+            _backlogRepositorio = backlogRepositorio;
         }
         public async Task<ICommandResult> Handle(IntegracaoInicialCommand command)
         {
@@ -25,9 +25,37 @@ namespace DashAgil.Integrador.Jira.Handlers
 
             _boardRepositorio.PreencherAcesso(command.Token, command.Url);
 
-            var result = await _boardRepositorio.Obter();
+            var boardResult = await _boardRepositorio.Obter();
 
-            return new IntegradorJiraCommandResult(true, "Integração efetuada com sucesso", result);
+            if(boardResult == null || !boardResult.Boards.Any())
+                return new IntegradorJiraCommandResult(false, "Não foram encontrados projetos para o endereço informado", null);
+
+
+
+
+
+
+
+
+
+
+
+
+            _backlogRepositorio.PreencherAcesso(command.Token, command.Url);
+
+            foreach (var item in boardResult.Boards)
+            {
+                var backlog = await _backlogRepositorio.Obter(item.Id);
+            }
+
+            return new IntegradorJiraCommandResult(true, "Integração efetuada com sucesso", boardResult);
+        }
+
+
+        public async Task<int> InserirProjetoIntegracao()
+        {
+
+            return 1;
         }
     }
 }

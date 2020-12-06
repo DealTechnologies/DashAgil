@@ -67,7 +67,12 @@ namespace DashAgil.Integrador.Api.Extensions
             //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             //services.AddSingleton<MonitorLoop>();
             services.AddSingleton<IBoardRepositorio, BoardRepositorio>();
+<<<<<<< HEAD
             services.AddSingleton<IAzureDevopsRepository, AzureDevopsRepository>();
+=======
+            services.AddSingleton<IBacklogRepositorio, BacklogRepositorio>();
+            
+>>>>>>> hml
 
         }
 
