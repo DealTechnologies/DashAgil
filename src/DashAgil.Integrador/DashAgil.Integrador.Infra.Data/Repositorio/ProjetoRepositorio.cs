@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using DashAgil.Integrador.Entidades;
 using DashAgil.Integrador.Infra.Data.Context;
+using DashAgil.Integrador.Repositorio;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DashAgil.Integrador.Infra.Data.Repositorio
 {
-    public class ProjetoRepositorio
+    public class ProjetoRepositorio : IProjetoRepositorio
     {
         private readonly DataContext _context;
         DynamicParameters _param = new DynamicParameters();
