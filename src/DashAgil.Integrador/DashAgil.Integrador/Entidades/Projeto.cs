@@ -15,3 +15,4 @@ namespace DashAgil.Integrador.Entidades
         public DateTime? DataExclusao { get; set; }
 
     }
+}

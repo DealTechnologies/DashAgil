@@ -12,11 +12,11 @@ namespace DashAgil.Integrador.Entidades
 
         }
 
+        public int Id { get; set; }
+
         public int ProjetoId { get; set; }
 
-        public int ProjetotoIntegracaoId { get; set; }
-
-        public int? ProjetoOrigemId { get; set; }
+        public string ProjetoOrigemId { get; set; } // JIRA OU DEVOPS
 
         public int ProvedorId { get; set; }
 
@@ -27,7 +27,7 @@ namespace DashAgil.Integrador.Entidades
             return new ProjetoIntegracao()
             {
                 ProjetoId = 1,
-                ProjetoOrigemId = board.Id,
+                ProjetoOrigemId = board.Id.ToString(),
                 ProvedorId = 1,
                 UrlOrigem = board.Url
             };

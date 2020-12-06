@@ -3,12 +3,15 @@ using DashAgil.Integrador.Jira.Commands.Input.Integrador;
 using DashAgil.Integrador.Jira.Commands.Output;
 using DashAgil.Integrador.Jira.Repositorio;
 using Flunt.Notifications;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace DashAgil.Integrador.Jira.Handlers
+namespace DashAgil.Integrador.Handlers
 {
-    public class IntegradorJiraHandler : Notifiable, ICommandHandler<IntegracaoInicialCommand>
+    public class IntegradorJiraHandler : Notifiable, ICommandHandler<IntegracaoInicialJiraCommand>
     {
         private readonly IBoardRepositorio _boardRepositorio;
         private readonly IBacklogRepositorio _backlogRepositorio;
@@ -18,7 +21,7 @@ namespace DashAgil.Integrador.Jira.Handlers
             _boardRepositorio = boardRepositorio;
             _backlogRepositorio = backlogRepositorio;
         }
-        public async Task<ICommandResult> Handle(IntegracaoInicialCommand command)
+        public async Task<ICommandResult> Handle(IntegracaoInicialJiraCommand command)
         {
             if (!command.EhValido())
                 return new IntegradorJiraCommandResult(false, "Não foi possível efetuar a integração", Notifications);
@@ -27,18 +30,8 @@ namespace DashAgil.Integrador.Jira.Handlers
 
             var boardResult = await _boardRepositorio.Obter();
 
-            if(boardResult == null || !boardResult.Boards.Any())
+            if (boardResult == null || !boardResult.Boards.Any())
                 return new IntegradorJiraCommandResult(false, "Não foram encontrados projetos para o endereço informado", null);
-
-
-
-
-
-
-
-
-
-
 
 
             _backlogRepositorio.PreencherAcesso(command.Token, command.Url);

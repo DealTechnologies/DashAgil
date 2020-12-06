@@ -5,7 +5,6 @@ using DashAgil.Integrador.Infra.Data;
 using DashAgil.Integrador.Infra.Data.Context;
 using DashAgil.Integrador.Infra.Data.Repositorio;
 using DashAgil.Integrador.Infra.HTTP;
-using DashAgil.Integrador.Jira.Handlers;
 using DashAgil.Integrador.Jira.Repositorio;
 using DashAgil.Integrador.Repositorio;
 using Microsoft.AspNetCore.Builder;
@@ -67,13 +66,8 @@ namespace DashAgil.Integrador.Api.Extensions
             //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             //services.AddSingleton<MonitorLoop>();
             services.AddSingleton<IBoardRepositorio, BoardRepositorio>();
-<<<<<<< HEAD
             services.AddSingleton<IAzureDevopsRepository, AzureDevopsRepository>();
-=======
             services.AddSingleton<IBacklogRepositorio, BacklogRepositorio>();
-            
->>>>>>> hml
-
         }
 
         #endregion
