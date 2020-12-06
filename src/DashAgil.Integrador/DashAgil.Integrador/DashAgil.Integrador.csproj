@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DashAgil.Integrador.Infra.Data\DashAgil.Integrador.Infra.Data.csproj" />
     <ProjectReference Include="..\DashAgil.Integrador.Infra\DashAgil.Integrador.Infra.csproj" />
+    <ProjectReference Include="..\DashAgil.Integrador.Jira\DashAgil.Integrador.Jira.csproj" />
   </ItemGroup>
 
 </Project>

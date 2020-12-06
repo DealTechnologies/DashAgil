@@ -12,6 +12,7 @@ namespace DashAgil.Integrador.Entidades
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public DateTime DataCriacao { get; set; }
+        public DateTime? DataModificacao { get; set; }
         public DateTime? DataExclusao { get; set; }
 
     }
