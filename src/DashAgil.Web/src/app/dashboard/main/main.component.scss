@@ -10,3 +10,33 @@
    margin-right: 20px; 
    padding-left: 0px;
 }
+
+.card {
+    box-shadow: none;
+
+    .radar {
+        height: 500px;
+    }
+}
+
+#cross {
+    div {
+        position: absolute;
+        background: black;
+        z-index: 10;
+    }
+
+    #cross-vertical {   
+        left: 49.8%;
+        height: 90%;
+        width: 4px;
+        top: 5%;
+    }
+    
+    #cross-horizontal {   
+        top: 49.8%;
+        left: 24%;
+        width: 52%;
+        height: 3px;
+    }
+}
