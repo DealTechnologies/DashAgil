@@ -5,10 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DashAgil.Integrador.DevOps\DashAgil.Integrador.DevOps.csproj" />
     <ProjectReference Include="..\DashAgil.Integrador.Infra.Data\DashAgil.Integrador.Infra.Data.csproj" />
     <ProjectReference Include="..\DashAgil.Integrador.Jira\DashAgil.Integrador.Jira.csproj" />
     <ProjectReference Include="..\DashAgil.Integrador\DashAgil.Integrador.csproj" />
