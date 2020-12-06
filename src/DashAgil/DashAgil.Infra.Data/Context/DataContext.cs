@@ -1,15 +1,15 @@
-﻿using MySqlConnector;
-using System;
+﻿using System;
+using System.Data.SqlClient;
 
 namespace DashAgil.Infra.Data.Context
 {
     public class DataContext : IDisposable
     {
-        public MySqlConnection Connection { get; set; }
+        public SqlConnection Connection { get; set; }
 
         public DataContext(string connection)
         {
-            Connection = new MySqlConnection(connection);
+            Connection = new SqlConnection(connection);
             Connection.Open();
         }
 

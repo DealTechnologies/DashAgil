@@ -6,12 +6,12 @@ namespace DashAgil.Commands.Input
 {
     public class ObterVisaoGeralDemandasCommand : Notifiable, ICommandPadrao
     {
-        public string IdCliente { get; set; }
+        public string IdProjeto { get; set; }
 
         public bool EhValido()
         {
             AddNotifications(new Contract()
-                .IsNotNullOrEmpty(IdCliente, "IdCliente", "Id do cliente é obrigatório")
+                .IsNotNullOrEmpty(IdProjeto, "IdProjeto", "Id do projeto é obrigatório")
             );
 
             return Valid;
