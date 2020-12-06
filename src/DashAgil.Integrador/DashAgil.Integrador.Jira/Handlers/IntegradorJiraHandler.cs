@@ -3,10 +3,6 @@ using DashAgil.Integrador.Jira.Commands.Input.Integrador;
 using DashAgil.Integrador.Jira.Commands.Output;
 using DashAgil.Integrador.Jira.Repositorio;
 using Flunt.Notifications;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DashAgil.Integrador.Jira.Handlers
