@@ -3,6 +3,7 @@ using DashAgil.Integrador.Jira.Commands.Input.Integrador;
 using DashAgil.Integrador.Jira.Commands.Output;
 using DashAgil.Integrador.Jira.Repositorio;
 using Flunt.Notifications;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DashAgil.Integrador.Jira.Handlers
@@ -24,19 +25,37 @@ namespace DashAgil.Integrador.Jira.Handlers
 
             _boardRepositorio.PreencherAcesso(command.Token, command.Url);
 
-            var boradResult = await _boardRepositorio.Obter();
+            var boardResult = await _boardRepositorio.Obter();
 
-            if(boradResult == null || !boradResult.Boards.Any())
+            if(boardResult == null || !boardResult.Boards.Any())
                 return new IntegradorJiraCommandResult(false, "Não foram encontrados projetos para o endereço informado", null);
+
+
+
+
+
+
+
+
+
+
+
 
             _backlogRepositorio.PreencherAcesso(command.Token, command.Url);
 
-            foreach (var item in boradResult.Boards)
+            foreach (var item in boardResult.Boards)
             {
                 var backlog = await _backlogRepositorio.Obter(item.Id);
             }
 
-            return new IntegradorJiraCommandResult(true, "Integração efetuada com sucesso", boradResult);
+            return new IntegradorJiraCommandResult(true, "Integração efetuada com sucesso", boardResult);
+        }
+
+
+        public async Task<int> InserirProjetoIntegracao()
+        {
+
+            return 1;
         }
     }
 }
