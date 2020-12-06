@@ -31,7 +31,7 @@ namespace DashAgil.Integrador.Jira.Handlers
             var boradResult = await _boardRepositorio.Obter();
 
             if(boradResult == null || !boradResult.Boards.Any())
-                return new IntegradorJiraCommandResult(false, "Não foramencontrados projetos para o link informado", null);
+                return new IntegradorJiraCommandResult(false, "Não foram encontrados projetos para o endereço informado", null);
 
             _backlogRepositorio.PreencherAcesso(command.Token, command.Url);
 
