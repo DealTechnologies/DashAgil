@@ -9,7 +9,7 @@ namespace DashAgil.Integrador.Jira.Commands.Input.Integrador
         public string Url { get; set; }
 
         public string Token { get; set; }
-        public int OrganizacaoId { get; set; }
+        public long OrganizacaoId { get; set; }
         public bool EhValido()
         {
             AddNotifications(new Contract()

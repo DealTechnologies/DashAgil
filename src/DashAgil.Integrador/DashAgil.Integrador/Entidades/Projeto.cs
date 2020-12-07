@@ -9,7 +9,7 @@ namespace DashAgil.Integrador.Entidades
     {
         public int Id { get; set; }
         public string ExternalId { get; set; }
-        public int OrganizacaoId { get; set; }
+        public long OrganizacaoId { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public DateTime DataCriacao { get; set; }
@@ -18,7 +18,7 @@ namespace DashAgil.Integrador.Entidades
 
 
 
-        public static Projeto PreencherProjetoJira(BoardQueryResult board)
+        public static Projeto PreencherProjetoJira(BoardQueryResult board, )
         {
             return new Projeto()
             {
