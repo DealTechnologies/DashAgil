@@ -1,5 +1,7 @@
 ﻿
+using DashAgil.Integrador.Jira.Queries.Issues;
 using System;
+using System.Collections.Generic;
 
 namespace DashAgil.Integrador.Entidades
 {
@@ -24,5 +26,27 @@ namespace DashAgil.Integrador.Entidades
         public string Comentario { get; set; }
         public int? Status { get; set; }
         public string Descricao { get; set; }
+
+
+        public static List<Demandas> PreencherDemandasJira(IssuesPaginateQueryResult issue)
+        {
+            var demandas = new List<Demandas>();
+
+            foreach (var item in issue.Issues)
+            {
+                var demanda = new Demandas()
+                {
+                    ExternalId = item.Id
+                };
+
+
+            }
+
+
+            return demandas;
+
+        }
+
     }
+
 }

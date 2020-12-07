@@ -67,7 +67,10 @@ namespace DashAgil.Integrador.Api.Extensions
             //services.AddSingleton<MonitorLoop>();
             services.AddSingleton<IBoardRepositorio, BoardRepositorio>();
             services.AddSingleton<IAzureDevopsRepository, AzureDevopsRepository>();
-            services.AddSingleton<IBacklogRepositorio, BacklogRepositorio>();
+            services.AddSingleton<IIssuegRepositorio, IssueRepositorio>();
+            services.AddSingleton<IProjetoRepositorio, ProjetoRepositorio>();
+            services.AddSingleton<IProjetoIntegracaoRepositorio, ProjetoIntegracaoRepositorio>();
+            
         }
 
         #endregion
