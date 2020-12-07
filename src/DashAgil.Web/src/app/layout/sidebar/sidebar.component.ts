@@ -9,7 +9,7 @@ import {
   HostListener
 } from '@angular/core';
 import { ROUTES } from './sidebar-items';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',

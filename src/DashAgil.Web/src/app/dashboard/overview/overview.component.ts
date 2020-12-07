@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { EChartOption } from 'echarts';
+import { OverviewService } from 'src/app/core/services';
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  selector: 'app-overview',
+  templateUrl: './overview.component.html',
+  styleUrls: ['./overview.component.scss']
 })
-export class MainComponent implements OnInit {
+export class OverviewComponent implements OnInit {
 
   options1: EChartOption;
   options2: EChartOption;
@@ -15,9 +16,13 @@ export class MainComponent implements OnInit {
   options5: EChartOption;
   options6: EChartOption;
 
-  constructor() { }
+  constructor(private _overviewService: OverviewService) { }
 
   ngOnInit() {
+    this._overviewService.getDemandsOverview().subscribe(demands => {
+      console.log(demands);      
+    });
+
     this.chart1();
     this.chart2();
     this.chart3();
@@ -176,6 +181,8 @@ export class MainComponent implements OnInit {
         }
       },
       polar: {
+      },
+      tooltip: {
       },
       itemStyle: {
         borderWidth: 0.5,

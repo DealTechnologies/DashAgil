@@ -11,23 +11,13 @@ export const ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
-    path: '',
-    title: 'Home',
-    moduleName: 'dashboard',
-    icon: 'fas fa-tachometer-alt',
-    class: 'menu-toggle',
+    path: 'dashboard/overview',
+    title: 'Visão Geral',
+    moduleName: 'overview',
+    icon: 'fas fa-chart-line',
+    class: '',
     groupTitle: false,
-    submenu: [
-      {
-        path: 'dashboard/main',
-        title: 'Dashboard',
-        moduleName: 'dashboard',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: []
-      },
-    ]
+    submenu: []
   },
   {
     path: '',
