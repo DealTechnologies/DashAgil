@@ -53,7 +53,7 @@ namespace DashAgil.Integrador.Api.Extensions
 
             var devopsSettings = appSettingsSection.Get<DevopsSettings>(); 
             devopsSettings.EndPoints = endPointsSection.Get<EndPointsDevops>();
-            devopsSettings.Queries = querySection.Get<Queries>();
+            //devopsSettings.Queries = querySection.Get<Queries>();
 
             services.Configure<DevopsSettings>(appSettingsSection);
             services.AddSingleton(devopsSettings);
@@ -73,7 +73,7 @@ namespace DashAgil.Integrador.Api.Extensions
             services.AddSingleton<IProjetoRepositorio, ProjetoRepositorio>();
             services.AddSingleton<IProjetoIntegracaoRepositorio, ProjetoIntegracaoRepositorio>();
             services.AddSingleton<ISprintRepositorio, SprintRepositorio>();
-            services.AddSingleton<IDemandasRepostory, DemandasRepostory>();
+            services.AddSingleton<IDemandasRepostorio, DemandasRepostorio>();
             
             services.AddSingleton<ISprintsRepositorio, SprintsRepositorio>();
 

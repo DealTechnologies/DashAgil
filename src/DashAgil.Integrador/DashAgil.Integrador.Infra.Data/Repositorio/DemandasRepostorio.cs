@@ -72,6 +72,7 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
                 entity.Descricao,
                 entity.ExternalId,
                 entity.HorasEstimadas,
+                entity.HorasRestantes,
                 entity.HorasUtilizadas,
                 entity.Id,
                 entity.Pontos,

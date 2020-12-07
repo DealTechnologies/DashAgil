@@ -20,9 +20,9 @@ namespace DashAgil.Integrador.Handlers
         private readonly IProjetoRepositorio _projetoRepositorio;
         private readonly IProjetoIntegracaoRepositorio _projetoIntegracaoRepositorio;
         private readonly ISprintRepositorio _sprintRepositorio;
-        private readonly IDemandasRepostory _demandasRepostory;
+        private readonly IDemandasRepostorio _demandasRepostory;
 
-        public IntegradorJiraHandler(IBoardRepositorio boardRepositorio, IIssuegRepositorio issueRepositorio, IProjetoRepositorio projetoRepositorio, IProjetoIntegracaoRepositorio projetoIntegracaoRepositorio, ISprintRepositorio sprintRepositorio, IDemandasRepostory demandasRepostory)
+        public IntegradorJiraHandler(IBoardRepositorio boardRepositorio, IIssuegRepositorio issueRepositorio, IProjetoRepositorio projetoRepositorio, IProjetoIntegracaoRepositorio projetoIntegracaoRepositorio, ISprintRepositorio sprintRepositorio, IDemandasRepostorio demandasRepostory)
         {
             _boardRepositorio = boardRepositorio;
             _issueRepositorio = issueRepositorio;
