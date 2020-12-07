@@ -11,12 +11,16 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { OverviewService } from '../core/services';
+import { ChartsConfigurationService, OverviewService } from '../core/services';
+import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../shared/material.module';
 
 @NgModule({
   declarations: [OverviewComponent],
   imports: [
     CommonModule,
+    SharedModule,
+    MaterialModule,
     DashboardRoutingModule,
     chartjsModule,
     MatMenuModule,
@@ -30,7 +34,8 @@ import { OverviewService } from '../core/services';
     GaugeModule.forRoot()
   ],
   providers: [
-    OverviewService
+    OverviewService,
+    ChartsConfigurationService
   ]
 })
 export class DashboardModule {}

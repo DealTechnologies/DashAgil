@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { EChartOption } from 'echarts';
-import { OverviewService } from 'src/app/core/services';
+import { ChartsConfigurationService, OverviewService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-overview',
@@ -9,86 +10,33 @@ import { OverviewService } from 'src/app/core/services';
 })
 export class OverviewComponent implements OnInit {
 
-  options1: EChartOption;
+  optionsDemandsVsSquad: EChartOption;
+  optionsInExecution: EChartOption;
+  project: FormControl;
+
   options2: EChartOption;
   options3: EChartOption;
   options4: EChartOption;
   options5: EChartOption;
   options6: EChartOption;
-
-  constructor(private _overviewService: OverviewService) { }
+  
+  constructor(private _overviewService: OverviewService, private _chartsConfiguration: ChartsConfigurationService) { }
 
   ngOnInit() {
-    this._overviewService.getDemandsOverview().subscribe(demands => {
-      console.log(demands);      
-    });
+    this.project = new FormControl('1');
 
-    this.chart1();
+    // this._overviewService.getDemandsOverview().subscribe(demands => {
+    //   console.log(demands);      
+    // });
+    
+    this.optionsDemandsVsSquad = this._chartsConfiguration.contructDemandsVsSquad(null);
+    this.optionsInExecution = this._chartsConfiguration.contructInExecution();
+
     this.chart2();
     this.chart3();
     this.chart4();
     this.chart5();
     this.chart6();
-  }
-
-  private chart1() {
-    this.options1 = {
-      tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b}: {c}'
-      },
-      legend: {
-        orient: 'vertical',
-        right: 20,
-        textStyle: {
-          color: '#fff'
-        },
-        data: [
-          'Squad 1',
-          'Squad 2',
-          'Squad 3',
-          'Squad 4',
-          'Squad 5',
-          'Squad 6',
-          'Squad 7',
-          'Squad 8',
-          'Squad 9',
-          'Squad 10']
-      },
-      series: [
-        {
-          name: 'Demandas',
-          type: 'pie',
-          radius: ['38%', '70%'],
-          label: {
-            show: true,
-            color: '#fff',
-          },
-          emphasis: {
-            label: {
-              show: true,
-              fontSize: 25,
-              fontWeight: 'bold',
-            }
-          },
-          labelLine: {
-            show: true
-          },
-          data: [
-            { value: 335, name: 'Squad 1' },
-            { value: 310, name: 'Squad 2' },
-            { value: 234, name: 'Squad 3' },
-            { value: 135, name: 'Squad 4' },
-            { value: 1200, name: 'Squad 5' },
-            { value: 548, name: 'Squad 6' },
-            { value: 25, name: 'Squad 7' },
-            { value: 85, name: 'Squad 8' },
-            { value: 200, name: 'Squad 9' },
-            { value: 12, name: 'Squad 10' },
-          ]
-        }
-      ]
-    };
   }
 
   private chart2() {
