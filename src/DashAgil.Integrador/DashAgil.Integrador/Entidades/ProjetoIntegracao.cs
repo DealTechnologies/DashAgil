@@ -11,7 +11,6 @@ namespace DashAgil.Integrador.Entidades
         {
 
         }
-
         public int Id { get; set; }
 
         public int ProjetoId { get; set; }
