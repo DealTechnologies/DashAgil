@@ -3,14 +3,15 @@ using System;
 
 namespace DashAgil.Integrador.Entidades
 {
-    public class Demanda : EntidadeDashAgil
+    public class Demandas : EntidadeDashAgil
     {
-        public int ExternalId { get; set; }
-        public int ClienteId { get; set; }
+        public string ExternalId { get; set; }
+        public int SprintId { get; set; }
+        public int ProjetoId { get; set; }
         public int SquadId { get; set; }
-        public int TipoId { get; set; }
+        public int Tipo { get; set; }
         public string DemandaPaiId { get; set; }
-        public string ResponsavelId { get; set; }
+        public string Responsavel { get; set; }
         public DateTime? DataInicio { get; set; }
         public DateTime? DataModificacao { get; set; }
         public DateTime? DataFim { get; set; }
@@ -22,5 +23,6 @@ namespace DashAgil.Integrador.Entidades
         public int? Risco { get; set; }
         public string Comentario { get; set; }
         public int? Status { get; set; }
+        public string Descricao { get; set; }
     }
 }

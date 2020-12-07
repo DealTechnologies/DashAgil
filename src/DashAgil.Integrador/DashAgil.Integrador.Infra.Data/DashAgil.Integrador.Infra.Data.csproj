@@ -12,10 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DashAgil.Integrador.Jira\DashAgil.Integrador.Jira.csproj" />
     <ProjectReference Include="..\DashAgil.Integrador\DashAgil.Integrador.csproj" />
   </ItemGroup>
