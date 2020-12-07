@@ -13,11 +13,13 @@ name: CI-CD Pipelines
 on:
   push:
     branches:
+      - dev
       - hml
       - release
       - main
   pull_request:
     branches:
+      - dev
       - hml
       - release
       - main
