@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
@@ -40,7 +40,7 @@ export class SigninComponent implements OnInit {
             if (res) {
               const token = this.authService.currentUserValue.token;
               if (token) {
-                this.router.navigate(['/dashboard/main']);
+                this.router.navigate(['/dashboard/overview']);
               }
             } else {
               this.error = 'Invalid Login';

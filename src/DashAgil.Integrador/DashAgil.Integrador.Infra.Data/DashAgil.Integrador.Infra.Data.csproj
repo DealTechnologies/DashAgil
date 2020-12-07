@@ -5,18 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper.Contrib" Version="2.0.78" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
     <PackageReference Include="MySqlConnector" Version="1.2.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DashAgil.Integrador.Infra\DashAgil.Integrador.Infra.csproj" />
     <ProjectReference Include="..\DashAgil.Integrador.Jira\DashAgil.Integrador.Jira.csproj" />
+    <ProjectReference Include="..\DashAgil.Integrador\DashAgil.Integrador.csproj" />
   </ItemGroup>
 
 </Project>

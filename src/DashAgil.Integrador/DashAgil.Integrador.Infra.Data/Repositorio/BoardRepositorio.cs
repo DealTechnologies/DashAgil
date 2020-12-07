@@ -22,7 +22,7 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
 
         public async Task<BoardPaginateQueryResult> Obter()
         {
-            return await _httpService.GetAsync<BoardPaginateQueryResult>(_dadosAcesso.BaseUrl, "board", _dadosAcesso.Token);
+            return await _httpService.GetAsync<BoardPaginateQueryResult>(_dadosAcesso.BaseUrl, "board?type=scrum", _dadosAcesso.Token);
         }
     }
 }

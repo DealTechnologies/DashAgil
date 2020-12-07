@@ -1,0 +1,192 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Visão Geral</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/overview">
+                <i class="fas fa-home"></i> Visão Geral</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="widgets col-xl-2 col-lg-2 col-md-12 col-sm-12">
+        <div class="col-lg-3 col-sm-6">
+          <div class="counter-box text-center">
+            <div class="text font-15 m-b-5">Demandas Total</div>
+            <h3 class="m-b-10">2342 </h3>
+          </div>
+          <div class="counter-box text-center">
+            <div class="text font-15 m-b-5">Em Backlog</div>
+            <h3 class="m-b-10">324 </h3>
+          </div>
+          <div class="counter-box text-center">
+            <div class="text font-15 m-b-5">Em Desenvolvimento </div>
+            <h3 class="m-b-10">511
+            </h3>
+          </div>
+          <div class="counter-box text-center">
+            <div class="text font-15 m-b-5">Desenv. concluído </div>
+            <h3 class="m-b-10">135
+            </h3>
+          </div>
+          <div class="counter-box text-center">
+            <div class="text font-15 m-b-5">Em Homologação </div>
+            <h3 class="m-b-10">78
+            </h3>
+          </div>
+          <div class="counter-box text-center">
+            <div class="text font-15 m-b-5">Homologado </div>
+            <h3 class="m-b-10">258
+            </h3>
+          </div>
+          <div class="counter-box text-center">
+            <div class="text font-15 m-b-5">Concluídas no Período </div>
+            <h3 class="m-b-10">1231
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header text-center">
+            <h2>Demandas X Squad</h2>
+            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Action</button>
+              <button mat-menu-item>Another action</button>
+              <button mat-menu-item>Something else here</button>
+            </mat-menu>
+          </div>
+          <div class="body">
+            <div class="card">
+              <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header text-center">
+            <h2>Sprint 5</h2>
+            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Action</button>
+              <button mat-menu-item>Another action</button>
+              <button mat-menu-item>Something else here</button>
+            </mat-menu>
+          </div>
+          <div class="body">
+            <div class="card">
+              <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header text-center">
+            <h2>Radar Agil</h2>
+            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Action</button>
+              <button mat-menu-item>Another action</button>
+              <button mat-menu-item>Something else here</button>
+            </mat-menu>
+          </div>
+          <div class="body">
+            <div class="card div-radar">
+              <div id="cross">
+                <div id="cross-vertical">
+                </div>
+                <div id="cross-horizontal">
+                </div>
+              </div>
+              <div class="radar" echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header text-center">
+            <h2>Velocidade</h2>
+            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Action</button>
+              <button mat-menu-item>Another action</button>
+              <button mat-menu-item>Something else here</button>
+            </mat-menu>
+          </div>
+          <div class="body">
+            <div class="card">
+              <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header text-center">
+            <h2>SQUAD</h2>
+            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Action</button>
+              <button mat-menu-item>Another action</button>
+              <button mat-menu-item>Something else here</button>
+            </mat-menu>
+          </div>
+          <div class="body">
+            <div class="card">
+              <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options5"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header text-center">
+            <h2>DIAGRAMA DE FLUXO CUMULATIVO</h2>
+            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Action</button>
+              <button mat-menu-item>Another action</button>
+              <button mat-menu-item>Something else here</button>
+            </mat-menu>
+          </div>
+          <div class="body">
+            <div class="card">
+              <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options6"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

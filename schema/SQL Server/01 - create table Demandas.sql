@@ -16,7 +16,8 @@ GO
 CREATE TABLE [dbo].[Demandas](
 	[Id] [uniqueidentifier] NOT NULL,
 	[ExternalId] [varchar] (max) NOT NULL,
-	[ClienteId] [int] NOT NULL,
+	[SprintId] [BigInt] Null,
+	[ProjetoId] [Bigint] Null,
 	[SquadId] [bigInt] NOT NULL,
 	[Tipo] [int] NOT NULL,
 	[DemandaPaiId] [uniqueidentifier] NULL,
@@ -42,8 +43,13 @@ CREATE TABLE [dbo].[Demandas](
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[Demandas]  WITH CHECK ADD  CONSTRAINT [FK_Demandas_ClienteId] FOREIGN KEY([ClienteId])
-REFERENCES [dbo].[Clientes] ([Id])
+ALTER TABLE [dbo].[Demandas]  WITH CHECK ADD  CONSTRAINT [FK_Demandas_SprintId] FOREIGN KEY([SprintId])
+REFERENCES [dbo].[Sprints] ([Id])
+GO
+
+
+ALTER TABLE [dbo].[Demandas]  WITH CHECK ADD  CONSTRAINT [FK_Demandas_ProjetoId] FOREIGN KEY([ProjetoId])
+REFERENCES [dbo].[Projetos] ([Id])
 GO
 
 ALTER TABLE [dbo].[Demandas]  WITH CHECK ADD  CONSTRAINT [FK_Demandas_SquadId] FOREIGN KEY([SquadId])
@@ -66,18 +72,18 @@ GO
 
 BEGIN
 
-	INSERT INTO [Demandas] VALUES ('D50B631C-17B1-4FF7-BBB6-A067F8E548DE', '4', 1, 1, 1, null, null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
-	INSERT INTO [Demandas] VALUES ('A5CB0A0F-CA93-4975-B6BA-6F9C8AFF9967', '5', 1, 1, 2, 'D50B631C-17B1-4FF7-BBB6-A067F8E548DE', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
-	INSERT INTO [Demandas] VALUES ('2FBA7D69-6B99-4A19-B1DB-3808E5F1C504', '6', 1, 1, 3, 'A5CB0A0F-CA93-4975-B6BA-6F9C8AFF9967', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
-	INSERT INTO [Demandas] VALUES ('B2FC9C51-5075-4773-9D8A-9752041C438F', '7', 1, 1, 4, '2FBA7D69-6B99-4A19-B1DB-3808E5F1C504', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
+	INSERT INTO [Demandas] VALUES ('D50B631C-17B1-4FF7-BBB6-A067F8E548DE', '4', 1, 1, 1, 1, null, null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
+	INSERT INTO [Demandas] VALUES ('A5CB0A0F-CA93-4975-B6BA-6F9C8AFF9967', '5', 1, 1, 1, 2, 'D50B631C-17B1-4FF7-BBB6-A067F8E548DE', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
+	INSERT INTO [Demandas] VALUES ('2FBA7D69-6B99-4A19-B1DB-3808E5F1C504', '6', 1, 1, 1, 3, 'A5CB0A0F-CA93-4975-B6BA-6F9C8AFF9967', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
+	INSERT INTO [Demandas] VALUES ('B2FC9C51-5075-4773-9D8A-9752041C438F', '7', 1, 1, 1, 4, '2FBA7D69-6B99-4A19-B1DB-3808E5F1C504', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
 
-	INSERT INTO [Demandas] VALUES ('67A01E08-7DCD-46CA-BD14-6B931734C8AD', '1', 2, 8, 1, null, null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
-	INSERT INTO [Demandas] VALUES ('948B8DA5-E242-439D-9E53-9689904107F1', '2', 2, 8, 2, '67A01E08-7DCD-46CA-BD14-6B931734C8AD', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
-	INSERT INTO [Demandas] VALUES ('27424B0C-BF7D-4A2C-9CB6-F366E6B38CC5', '3', 2, 8, 3, '948B8DA5-E242-439D-9E53-9689904107F1', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
-	INSERT INTO [Demandas] VALUES ('B72ABCE4-16FA-41CA-A4B0-40522C68A84A', '3', 2, 8, 4, '27424B0C-BF7D-4A2C-9CB6-F366E6B38CC5', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
-	INSERT INTO [Demandas] VALUES ('78203C63-D0C5-44AE-A957-130C76369D99', '3', 2, 8, 4, '27424B0C-BF7D-4A2C-9CB6-F366E6B38CC5', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
-	INSERT INTO [Demandas] VALUES ('0605DA6B-F491-45A9-8C4D-3001546ADDA0', '3', 2, 8, 4, '27424B0C-BF7D-4A2C-9CB6-F366E6B38CC5', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
-	INSERT INTO [Demandas] VALUES ('0138432C-705A-4D7C-BF2D-B3B00392246D', '3', 2, 8, 4, '27424B0C-BF7D-4A2C-9CB6-F366E6B38CC5', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
+	INSERT INTO [Demandas] VALUES ('67A01E08-7DCD-46CA-BD14-6B931734C8AD', '1', 2, 2, 8, 1, null, null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
+	INSERT INTO [Demandas] VALUES ('948B8DA5-E242-439D-9E53-9689904107F1', '2', 2, 2, 8, 2, '67A01E08-7DCD-46CA-BD14-6B931734C8AD', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
+	INSERT INTO [Demandas] VALUES ('27424B0C-BF7D-4A2C-9CB6-F366E6B38CC5', '3', 2, 2, 8, 3, '948B8DA5-E242-439D-9E53-9689904107F1', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
+	INSERT INTO [Demandas] VALUES ('B72ABCE4-16FA-41CA-A4B0-40522C68A84A', '3', 2, 2, 8, 4, '27424B0C-BF7D-4A2C-9CB6-F366E6B38CC5', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
+	INSERT INTO [Demandas] VALUES ('78203C63-D0C5-44AE-A957-130C76369D99', '3', 2, 2, 8, 4, '27424B0C-BF7D-4A2C-9CB6-F366E6B38CC5', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
+	INSERT INTO [Demandas] VALUES ('0605DA6B-F491-45A9-8C4D-3001546ADDA0', '3', 2, 2, 8, 4, '27424B0C-BF7D-4A2C-9CB6-F366E6B38CC5', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
+	INSERT INTO [Demandas] VALUES ('0138432C-705A-4D7C-BF2D-B3B00392246D', '3', 2, 2, 8, 4, '27424B0C-BF7D-4A2C-9CB6-F366E6B38CC5', null, GETDATE(), null, null, null, null, null, null, null, null, null, null, 1)
 	
 END
 
