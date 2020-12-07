@@ -2,7 +2,7 @@
 
 namespace DashAgil.Infra.Data.Repositorio
 {
-    public class AzureDevopsRepository : IAzureDevopsRepository
+    public class AzureDevopsRepository
     {
        
     }
