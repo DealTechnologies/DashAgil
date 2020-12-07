@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace DashAgil.Integrador.Jira.Queries.Issues
 {
@@ -13,16 +11,16 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
         public string Expand { get; set; }
 
         [JsonProperty("startAt")]
-        public long StartAt { get; set; }
+        public long? StartAt { get; set; }
 
         [JsonProperty("maxResults")]
-        public long MaxResults { get; set; }
+        public long? MaxResults { get; set; }
 
         [JsonProperty("total")]
-        public long Total { get; set; }
+        public long? Total { get; set; }
 
         [JsonProperty("issues")]
-        public Issue[] Issues { get; set; }
+        public List<Issue> Issues { get; set; }
     }
 
     public partial class Issue
@@ -64,19 +62,19 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
         public object[] FixVersions { get; set; }
 
         [JsonProperty("aggregatetimespent")]
-        public long Aggregatetimespent { get; set; }
+        public long? Aggregatetimespent { get; set; }
 
         [JsonProperty("resolution")]
         public Priority Resolution { get; set; }
 
         [JsonProperty("customfield_10028")]
-        public long StoryPoints { get; set; }
+        public long? StoryPoints { get; set; }
 
         [JsonProperty("resolutiondate")]
         public string Resolutiondate { get; set; }
 
         [JsonProperty("workratio")]
-        public long Workratio { get; set; }
+        public long? Workratio { get; set; }
 
         [JsonProperty("lastViewed")]
         public object LastViewed { get; set; }
@@ -157,7 +155,7 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
         public object Timeoriginalestimate { get; set; }
 
         [JsonProperty("description")]
-        public object Description { get; set; }
+        public string Description { get; set; }
 
         [JsonProperty("customfield_10010")]
         public object Customfield10010 { get; set; }
@@ -187,7 +185,7 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
         public object Customfield10008 { get; set; }
 
         [JsonProperty("aggregatetimeestimate")]
-        public long Aggregatetimeestimate { get; set; }
+        public long? Aggregatetimeestimate { get; set; }
 
         [JsonProperty("attachment")]
         public object[] Attachment { get; set; }
@@ -253,13 +251,13 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
     public partial class Aggregateprogress
     {
         [JsonProperty("progress")]
-        public long Progress { get; set; }
+        public long? Progress { get; set; }
 
         [JsonProperty("total")]
-        public long Total { get; set; }
+        public long? Total { get; set; }
 
         [JsonProperty("percent")]
-        public long Percent { get; set; }
+        public long? Percent { get; set; }
     }
 
     public partial class Assignee
@@ -304,7 +302,7 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
     public partial class ClosedSprint
     {
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("self", NullValueHandling = NullValueHandling.Ignore)]
         public Uri Self { get; set; }
@@ -340,13 +338,13 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
         public object[] Comments { get; set; }
 
         [JsonProperty("maxResults")]
-        public long MaxResults { get; set; }
+        public long? MaxResults { get; set; }
 
         [JsonProperty("total")]
-        public long Total { get; set; }
+        public long? Total { get; set; }
 
         [JsonProperty("startAt")]
-        public long StartAt { get; set; }
+        public long? StartAt { get; set; }
 
         [JsonProperty("worklogs", NullValueHandling = NullValueHandling.Ignore)]
         public object[] Worklogs { get; set; }
@@ -376,7 +374,7 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
     public partial class Epic
     {
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("key")]
         public string Key { get; set; }
@@ -414,6 +412,23 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
 
     public partial class Timetracking
     {
+        [JsonProperty("remainingEstimate", NullValueHandling = NullValueHandling.Ignore)]
+        public string RemainingEstimate { get; set; }
+
+        [JsonProperty("timeSpent", NullValueHandling = NullValueHandling.Ignore)]
+        public string TimeSpent { get; set; }
+
+        [JsonProperty("remainingEstimateSeconds", NullValueHandling = NullValueHandling.Ignore)]
+        public long? RemainingEstimateSeconds { get; set; }
+
+        [JsonProperty("timeSpentSeconds", NullValueHandling = NullValueHandling.Ignore)]
+        public long? TimeSpentSeconds { get; set; }
+
+        [JsonProperty("originalEstimate", NullValueHandling = NullValueHandling.Ignore)]
+        public string OriginalEstimate { get; set; }
+
+        [JsonProperty("originalEstimateSeconds", NullValueHandling = NullValueHandling.Ignore)]
+        public long? OriginalEstimateSeconds { get; set; }
     }
 
     public partial class Issuetype
@@ -449,7 +464,7 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
         public Uri Self { get; set; }
 
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("key")]
         public string Key { get; set; }
@@ -482,10 +497,10 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
     public partial class Progress
     {
         [JsonProperty("progress")]
-        public long ProgressProgress { get; set; }
+        public long? ProgressProgress { get; set; }
 
         [JsonProperty("total")]
-        public long Total { get; set; }
+        public long? Total { get; set; }
     }
 
     public partial class Project
@@ -548,7 +563,7 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
         public Uri Self { get; set; }
 
         [JsonProperty("votes")]
-        public long VotesVotes { get; set; }
+        public long? VotesVotes { get; set; }
 
         [JsonProperty("hasVoted")]
         public bool HasVoted { get; set; }
@@ -560,7 +575,7 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
         public Uri Self { get; set; }
 
         [JsonProperty("watchCount")]
-        public long WatchCount { get; set; }
+        public long? WatchCount { get; set; }
 
         [JsonProperty("isWatching")]
         public bool IsWatching { get; set; }

@@ -70,7 +70,11 @@ namespace DashAgil.Integrador.Api.Extensions
             services.AddSingleton<IIssuegRepositorio, IssueRepositorio>();
             services.AddSingleton<IProjetoRepositorio, ProjetoRepositorio>();
             services.AddSingleton<IProjetoIntegracaoRepositorio, ProjetoIntegracaoRepositorio>();
+            services.AddSingleton<ISprintRepositorio, SprintRepositorio>();
+            services.AddSingleton<IDemandasRepostory, DemandasRepostory>();
             
+
+
         }
 
         #endregion

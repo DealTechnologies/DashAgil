@@ -72,6 +72,7 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
                 demanda.Descricao,
                 demanda.ExternalId,
                 demanda.HorasEstimadas,
+                demanda.HorasRestantes,
                 demanda.HorasUtilizadas,
                 demanda.Id,
                 demanda.Pontos,

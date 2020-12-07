@@ -20,8 +20,7 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
 
         public async Task<long> Inserir(Projeto projeto)
         {
-            try
-            {
+
             _param.Add("@ExternalId", projeto.ExternalId);
             _param.Add("@OrganizacaoId", projeto.OrganizacaoId);
             _param.Add("@Nome", projeto.Nome);
@@ -34,17 +33,10 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
                 @" INSERT INTO DashAgil.dbo.Projetos
                    (ExternalId, OrganizacaoId, Nome, Descricao, DataCriacao, DataModificacao, DataExclusao)
                    VALUES(@ExternalId, @OrganizacaoId, @Nome, @Descricao, @DataCriacao, @DataModificacao, @DataExclusao);
-SELECT SCOPE_IDENTITY()
-", _param
-                );
+                   SELECT SCOPE_IDENTITY() ", _param);
 
             return result;
-            }
-            catch (Exception ex)
-            {
 
-                throw;
-            }
         }
     }
 }
