@@ -31,6 +31,8 @@ namespace DashAgil.Integrador.Api
 
             services.AddRepositories();
 
+            services.AddQueries();
+
             services.AddSToSwagger();            
 
             services.AddControllers();

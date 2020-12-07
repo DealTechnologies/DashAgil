@@ -1,4 +1,5 @@
-﻿using DashAgil.Integrador.DevOps.Repositorio;
+﻿using DashAgil.Integrador.DevOps.Query;
+using DashAgil.Integrador.DevOps.Repositorio;
 using DashAgil.Integrador.DevOps.Settings;
 using DashAgil.Integrador.Handlers;
 using DashAgil.Integrador.Infra.Data;
@@ -6,6 +7,7 @@ using DashAgil.Integrador.Infra.Data.Context;
 using DashAgil.Integrador.Infra.Data.Repositorio;
 using DashAgil.Integrador.Infra.HTTP;
 using DashAgil.Integrador.Jira.Repositorio;
+using DashAgil.Integrador.Queries;
 using DashAgil.Integrador.Repositorio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -73,8 +75,13 @@ namespace DashAgil.Integrador.Api.Extensions
             services.AddSingleton<ISprintRepositorio, SprintRepositorio>();
             services.AddSingleton<IDemandasRepostory, DemandasRepostory>();
             
+            services.AddSingleton<ISprintsRepositorio, SprintsRepositorio>();
 
+        }
 
+        public static void AddQueries(this IServiceCollection services)
+        { 
+            services.AddSingleton<IAzureDevopsQueries, AzureDevopsQueries>(); 
         }
 
         #endregion

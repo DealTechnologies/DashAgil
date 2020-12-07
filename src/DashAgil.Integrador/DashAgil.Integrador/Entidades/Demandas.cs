@@ -8,10 +8,10 @@ namespace DashAgil.Integrador.Entidades
     public class Demandas : EntidadeDashAgil
     {
         public string ExternalId { get; set; }
-        public int SprintId { get; set; }
+        public long SprintId { get; set; }
         public long ProjetoId { get; set; }
-        public int? SquadId { get; set; }
-        public int? Tipo { get; set; }
+        public long? SquadId { get; set; }
+        public long? Tipo { get; set; }
         public string DemandaPaiId { get; set; }
         public string Responsavel { get; set; }
         public DateTime? DataInicio { get; set; }
