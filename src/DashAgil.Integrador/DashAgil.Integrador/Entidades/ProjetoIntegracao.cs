@@ -1,4 +1,5 @@
-﻿using DashAgil.Integrador.Jira.Queries;
+﻿using DashAgil.Integrador.Enums;
+using DashAgil.Integrador.Jira.Queries;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,13 +23,13 @@ namespace DashAgil.Integrador.Entidades
 
         public string UrlOrigem { get; set; }
 
-        public static ProjetoIntegracao PreencherInsercao(BoardQueryResult board, long projetoId, long? provedorId)
+        public static ProjetoIntegracao PreencherInsercao(BoardQueryResult board, long projetoId)
         {
             return new ProjetoIntegracao()
             {
                 ProjetoId = projetoId,
                 ProjetoOrigemId = board.Id.ToString(),
-                ProvedorId = provedorId,
+                ProvedorId = (int)Provedor.Jira,
                 UrlOrigem = board.Url
             };
         }
