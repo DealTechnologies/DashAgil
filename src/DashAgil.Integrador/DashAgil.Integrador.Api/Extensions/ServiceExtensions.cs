@@ -1,4 +1,5 @@
-﻿using DashAgil.Integrador.DevOps.Repositorio;
+﻿using DashAgil.Integrador.DevOps.Query;
+using DashAgil.Integrador.DevOps.Repositorio;
 using DashAgil.Integrador.DevOps.Settings;
 using DashAgil.Integrador.Handlers;
 using DashAgil.Integrador.Infra.Data;
@@ -6,6 +7,7 @@ using DashAgil.Integrador.Infra.Data.Context;
 using DashAgil.Integrador.Infra.Data.Repositorio;
 using DashAgil.Integrador.Infra.HTTP;
 using DashAgil.Integrador.Jira.Repositorio;
+using DashAgil.Integrador.Queries;
 using DashAgil.Integrador.Repositorio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -51,7 +53,7 @@ namespace DashAgil.Integrador.Api.Extensions
 
             var devopsSettings = appSettingsSection.Get<DevopsSettings>(); 
             devopsSettings.EndPoints = endPointsSection.Get<EndPointsDevops>();
-            devopsSettings.Queries = querySection.Get<Queries>();
+            //devopsSettings.Queries = querySection.Get<Queries>();
 
             services.Configure<DevopsSettings>(appSettingsSection);
             services.AddSingleton(devopsSettings);
@@ -67,7 +69,19 @@ namespace DashAgil.Integrador.Api.Extensions
             //services.AddSingleton<MonitorLoop>();
             services.AddSingleton<IBoardRepositorio, BoardRepositorio>();
             services.AddSingleton<IAzureDevopsRepository, AzureDevopsRepository>();
-            services.AddSingleton<IBacklogRepositorio, BacklogRepositorio>();
+            services.AddSingleton<IIssuegRepositorio, IssueRepositorio>();
+            services.AddSingleton<IProjetoRepositorio, ProjetoRepositorio>();
+            services.AddSingleton<IProjetoIntegracaoRepositorio, ProjetoIntegracaoRepositorio>();
+            services.AddSingleton<ISprintRepositorio, SprintRepositorio>();
+            services.AddSingleton<IDemandasRepostorio, DemandasRepostorio>();
+            
+            services.AddSingleton<ISprintsRepositorio, SprintsRepositorio>();
+
+        }
+
+        public static void AddQueries(this IServiceCollection services)
+        { 
+            services.AddSingleton<IAzureDevopsQueries, AzureDevopsQueries>(); 
         }
 
         #endregion

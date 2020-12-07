@@ -2,7 +2,7 @@
 
 namespace DashAgil.Integrador.Entidades.Devops
 {
-    public class WorkItensType
+    public class WorkItensTypeResult
     {
         [JsonProperty("id")]
         public string Id { get; set; }
