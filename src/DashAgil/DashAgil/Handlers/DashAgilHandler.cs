@@ -10,7 +10,7 @@ namespace DashAgil.Handlers
     {
         public async Task<ICommandResult> Handle(SalvarEstoriaCommand command)
         {
-            var estoria = new Estoria(command.Nome, command.Descricao);
+            //var estoria = new Demanda(command.Nome, command.Descricao);
 
             //salvar
             var result = true;
