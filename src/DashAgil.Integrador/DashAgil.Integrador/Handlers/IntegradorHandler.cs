@@ -2,6 +2,7 @@
 using DashAgil.Integrador.Commands.Output;
 using DashAgil.Integrador.Entidades;
 using DashAgil.Integrador.Infra.Comum;
+using DashAgil.Integrador.Queries;
 using DashAgil.Integrador.Repositorio;
 using System;
 using System.Linq;
@@ -15,10 +16,11 @@ namespace DashAgil.Integrador.Handlers
                                      ICommandHandler<ObterWorkItensSumarizado>
     {
         private readonly IAzureDevopsRepository repository;
-
-        public IntegradorHandler(IAzureDevopsRepository repository)
+        private readonly IAzureDevopsQueries _query;
+        public IntegradorHandler(IAzureDevopsRepository repository, IAzureDevopsQueries query)
         {
             this.repository = repository;
+            _query = query;
         }
 
         public async Task<ICommandResult> Handle(SalvarEstoriaCommand command)
@@ -35,7 +37,7 @@ namespace DashAgil.Integrador.Handlers
 
         public async Task<ICommandResult> Handle(AtualizarProjetosCommand command)
         {
-            var projetosDevops = await repository.ObterProjetos(command.Organizacao);
+            var projetosDevops = await _query.ObterProjetos(command.Organizacao);
 
             if (projetosDevops is null || !projetosDevops.Value.Any())
                 return new IntegradorCommandResult(false, "falha ao tentar atualizar a base de projetos", null);
@@ -56,7 +58,7 @@ namespace DashAgil.Integrador.Handlers
 
         public async Task<ICommandResult> Handle(AtualizarTiposWorkItens command)
         {
-            var tipos = await repository.ObterWorkItensTypes(command.Organizacao, command.Time, command.Projeto);
+            var tipos = await _query.ObterWorkItensTypes(command.Organizacao, command.Time, command.Projeto);
 
             if (tipos is null || !tipos.Value.Any())
                 return new IntegradorCommandResult(false, "falha ao tentar atualizar os tipos de work itens", null);
@@ -76,12 +78,11 @@ namespace DashAgil.Integrador.Handlers
 
         public async Task<ICommandResult> Handle(ObterWorkItensSumarizado command)
         {
-            var result = await repository.ConsultarPorQuery(command.Organizacao);
+            var result = await _query.ConsultarPorQuery(command.Organizacao);
 
             if (result is null || !result.Value.Any())
                 return new IntegradorCommandResult(false, "falha ao tentar obter por query", command);
-
-
+             
 
             return new IntegradorCommandResult(true, "Tipos de work itens atualizados com sucesso", null);
 

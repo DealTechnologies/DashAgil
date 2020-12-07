@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
 
 namespace DashAgil.Integrador.Entidades.Devops
 {
-    public class Projects
+    public class ProjectsResult
     {
         [JsonProperty("id")]
         public string Id { get; set; }
