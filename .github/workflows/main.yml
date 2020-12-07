@@ -1,0 +1,40 @@
+#---------------------------------------------------------------------
+# GitHub Action Workflow to Deploy Flask App to AWS ElasticBeanstalk
+#
+# Version      Date        Info
+# 1.0          2019        Initial Version
+#
+# Made by Luciano Santos
+#---------------------------------------------------------------------
+
+name: CI-CD Pipelines
+
+on:
+  push:
+    branches: 
+      - hml
+      - release
+      - main
+  pull_request:
+    branches: 
+      - hml
+      - release
+      - main
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal      
