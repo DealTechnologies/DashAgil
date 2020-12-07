@@ -10,9 +10,9 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigService } from 'src/app/config/config.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { RightSidebarService } from 'src/app/core/service/rightsidebar.service';
-import { WINDOW } from 'src/app/core/service/window.service';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { RightSidebarService } from 'src/app/core/services/core/rightsidebar.service';
+import { WINDOW } from 'src/app/core/services/core/window.service';
 const document: any = window.document;
 
 @Component({

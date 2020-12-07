@@ -8,7 +8,7 @@ import {
   Renderer2,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { RightSidebarService } from 'src/app/core/service/rightsidebar.service';
+import { RightSidebarService } from 'src/app/core/services/core/rightsidebar.service';
 import { ConfigService } from 'src/app/config/config.service';
 @Component({
   selector: 'app-right-sidebar',

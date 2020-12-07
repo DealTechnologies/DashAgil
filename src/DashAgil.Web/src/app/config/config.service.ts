@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { InConfiguration } from '../core/models/config.interface';
+import { NotifierOptions } from 'angular-notifier';
+import { InConfiguration } from '../core/interfaces/config.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,12 @@ export class ConfigService {
   setConfigData() {
     this.configData = {
       layout: {
-        variant: 'light', // options:  light & dark
+        variant: 'dark', // options:  light & dark
         theme_color: 'black', // options:  white, black, purple, blue, cyan, green, orange
-        logo_bg_color: 'white', // options:  white, black, purple, blue, cyan, green, orange
+        logo_bg_color: 'black', // options:  white, black, purple, blue, cyan, green, orange
         sidebar: {
           collapsed: false, // options:  true & false
-          backgroundColor: 'light' // options:  light & dark
+          backgroundColor: 'dark' // options:  light & dark
         }
       }
     };

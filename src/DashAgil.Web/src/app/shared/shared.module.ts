@@ -6,6 +6,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { MaterialModule } from './material.module';
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -26,4 +28,4 @@ import { MaterialModule } from './material.module';
     MaterialModule
   ]
 })
-export class SharedModule {}
+export class SharedModule { }
