@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Dynamic;
 
 namespace DashAgil.Entidades
 {
@@ -95,7 +96,7 @@ namespace DashAgil.Entidades
                     StatusDeXPara = group.Key.StatusDeXPara,
                     Quantidade = group.Count()
                 })
-                .Where(c => c.StatusDeXPara == (int)EDemandaStatusDexPara.Homologacao)
+                .Where(c => c.StatusDeXPara == ((int)EDemandaStatusDexPara.Homologacao).ToString())
                 .Count();
 
             var totalEstoriasAux = Convert.ToDouble(totalEstorias);
@@ -116,6 +117,42 @@ namespace DashAgil.Entidades
 
             return estoriasGroup;
         }
+
+        //public dynamic Burndown(IEnumerable<dynamic> demandas, string sprintId)
+        //{
+        //    var sprint = demandas
+        //        .Where(x => x.SprintId == sprintId)
+        //        .Select(group => new
+        //        {
+        //            SprintNome = group.SprintNome,
+        //            SprintDataInicio = group.SprintDataInicio,
+        //            SprintDataFim = group.SprintDataFim
+        //        }).FirstOrDefault();
+
+        //    DateTime dataInicioSprint = sprint.SprintDataInicio.Date();
+        //    DateTime dataFimSprint = sprint.SprintDataFim.Date();
+        //    dynamic retorno = new ExpandoObject();
+        //    retorno.SprintNome = sprint.SprintNome;
+        //    retorno.SprintDataInicio = dataInicioSprint;
+        //    retorno.SprintDataFim = dataFimSprint;
+                        
+        //    while (dataInicioSprint <= dataFimSprint)
+        //    {
+        //        var estoriasSprint = demandas
+        //        .Where(x => x.SprintId == sprintId)
+        //        .GroupBy(x => new { x.SprintNome, x.SprintDataInicio, x.SprintDataFim })
+        //        .Select(group => new
+        //        {
+        //            Data = dataInicioSprint,
+        //            PontosTotalDia = group.Count(),//total pontos sprint
+        //            PontosConcluidosDia = group.Where(x => x.StatusDeXPara == (int)EDemandaStatusDexPara.DesenvolvimentoConcluido).Sum(x => x.Pontos) //pontos baixados nesse dia
+        //        });
+                
+        //        dataInicioSprint.AddDays(1);
+        //    }
+            
+        //    return estoriasSprint;
+        //}
 
         public EDemandaStatusDexPara ConverterEstoriasStatus(EDemandaStatus status)
         {
