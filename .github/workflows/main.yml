@@ -52,8 +52,8 @@ jobs:
 #        run: |
 #          cd ${{ github.workspace }}/out 
 #          zip -r ${{ github.workspace }}/out.zip *
-
-        run: zip -r '${{ github.workspace }}/out.zip *'
+        
+        run : zip -r ${{  github.workspace }} ./  -x  *.git*
         working-directory: '${{ github.workspace }}/out'
 
       - name: Deploy to EB
