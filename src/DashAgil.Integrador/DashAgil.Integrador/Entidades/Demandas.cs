@@ -2,6 +2,7 @@
 using DashAgil.Integrador.Jira.Queries.Issues;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DashAgil.Integrador.Entidades
 {
@@ -28,11 +29,22 @@ namespace DashAgil.Integrador.Entidades
         public int? Status { get; set; }
         public string Descricao { get; set; }
 
+        public static List<Demandas> PreencherDemandaDevops(List<Devops.WorkItemResult> workItens, long projetoId)
+        {
+            return (List<Demandas>)workItens.Select(x => new Demandas
+            {
+                ProjetoId = projetoId,
+                ExternalId = x.Id.ToString(),
+                DataInicio = Convert.ToDateTime(x.Fields.MicrosoftVstsCommonActivatedDate),
+                Descricao = x.Fields.SystemAreaPath, 
+            });
+        }
+
 
         public static List<Demandas> PreencherDemandasJira(IssuesPaginateQueryResult issue, List<Sprint> sprints, long projetoId)
         {
             var demandas = new List<Demandas>();
-            
+
             foreach (var item in issue.Issues)
             {
                 var demanda = new Demandas()
@@ -66,10 +78,10 @@ namespace DashAgil.Integrador.Entidades
         {
             demanda.DataInicio = Convert.ToDateTime(issue.Fields.Created);
 
-            if(issue?.Fields?.Updated != null)
+            if (issue?.Fields?.Updated != null)
                 demanda.DataModificacao = Convert.ToDateTime(issue.Fields.Updated);
 
-            if(issue?.Fields?.Status?.Name != null && issue?.Fields?.Status?.Name == "Concluído")
+            if (issue?.Fields?.Status?.Name != null && issue?.Fields?.Status?.Name == "Concluído")
                 demanda.DataFim = Convert.ToDateTime(issue.Fields.Updated);
         }
 

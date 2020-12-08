@@ -12,8 +12,8 @@ namespace DashAgil.Integrador.Handlers
 {
     public class IntegradorHandler : ICommandHandler<SalvarEstoriaCommand>,
                                      ICommandHandler<AtualizarProjetosCommand>,
-                                     ICommandHandler<AtualizarTiposWorkItens>,
-                                     ICommandHandler<ObterWorkItensSumarizado>
+                                     ICommandHandler<AtualizarTiposWorkItensCommand>,
+                                     ICommandHandler<ObterWorkItensSumarizadoCommand>
     {
         private readonly IAzureDevopsRepository repository;
         private readonly IAzureDevopsQueries _query;
@@ -37,7 +37,7 @@ namespace DashAgil.Integrador.Handlers
 
         public async Task<ICommandResult> Handle(AtualizarProjetosCommand command)
         {
-            var projetosDevops = await _query.ObterProjetos(command.Organizacao);
+            var projetosDevops = await _query.ObterProjetos(command.Organizacao, command.Token);
 
             if (projetosDevops is null || !projetosDevops.Value.Any())
                 return new IntegradorCommandResult(false, "falha ao tentar atualizar a base de projetos", null);
@@ -56,9 +56,10 @@ namespace DashAgil.Integrador.Handlers
             return new IntegradorCommandResult(true, "projetos atualizados com sucesso", projetos);
         }
 
-        public async Task<ICommandResult> Handle(AtualizarTiposWorkItens command)
+        public async Task<ICommandResult> Handle(AtualizarTiposWorkItensCommand command)
         {
-            var tipos = await _query.ObterWorkItensTypes(command.Organizacao, command.Time, command.Projeto);
+            string token = "";
+            var tipos = await _query.ObterWorkItensTypes(command.Organizacao, command.Time, command.Projeto, token);
 
             if (tipos is null || !tipos.Value.Any())
                 return new IntegradorCommandResult(false, "falha ao tentar atualizar os tipos de work itens", null);
@@ -76,16 +77,16 @@ namespace DashAgil.Integrador.Handlers
             return new IntegradorCommandResult(true, "Tipos de work itens atualizados com sucesso", tiposWorkItens);
         }
 
-        public async Task<ICommandResult> Handle(ObterWorkItensSumarizado command)
+        public async Task<ICommandResult> Handle(ObterWorkItensSumarizadoCommand command)
         {
-            var result = await _query.ConsultarPorQuery(command.Organizacao);
+            string token = "";
+            var result = await _query.ConsultarPorQuery(command.Organizacao, token);
 
             if (result is null || !result.Value.Any())
                 return new IntegradorCommandResult(false, "falha ao tentar obter por query", command);
              
 
-            return new IntegradorCommandResult(true, "Tipos de work itens atualizados com sucesso", null);
-
+            return new IntegradorCommandResult(true, "Tipos de work itens atualizados com sucesso", null); 
         }
 
         public void teste()

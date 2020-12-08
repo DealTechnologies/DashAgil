@@ -19,9 +19,9 @@ namespace DashAgil.Integrador.Api.Controllers.Dominio
         }
 
         [HttpGet("projetos")]
-        public async Task<IActionResult> Projetos([FromQuery] string organizacao)
+        public async Task<IActionResult> Projetos(AtualizarProjetosCommand command)
         {
-            var result = await _handler.Handle(new AtualizarProjetosCommand { Organizacao = organizacao });
+            var result = await _handler.Handle(command);
             
             if (!result.Success)
                 return BadRequest(result);
