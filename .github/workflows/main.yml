@@ -9,6 +9,12 @@
 #---------------------------------------------------------------------
 
 name: CI-CD Pipelines
+env:
+  EB_PACKAGE_S3_BUCKET_NAME : "elasticbeanstalk-sa-east-1-710542179278"
+  EB_APPLICATION_NAME       : "DashAgil"
+  EB_ENVIRONMENT_NAME       : "Dashagil-env"
+  DEPLOY_PACKAGE_NAME       : "aws-dashagil-app-${{ github.sha }}.zip"
+  AWS_REGION_NAME           : "sa-east-1"
 
 on:
   push:
@@ -55,17 +61,25 @@ jobs:
       - name: Zip Package
         run: |
           cd ${{ github.workspace }}/out 
-          zip -r ${{ github.workspace }}/out.zip *
+          zip -r ${{ env.DEPLOY_PACKAGE_NAME }} ./  -x  *.git*
 
 
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v13
+      - name: Configure my AWS Credentils
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws_access_key: AKIA2K345HPHLCQRQI7X
-          aws_secret_key: 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
-          application_name: DashAgil
-          environment_name: Dashagil-env
-          region: sa-east-1
-          version_label: ${{ github.run_id }}
-          version_description: ${{ github.sha }}
-          deployment_package: ${{ github.workspace }}/out.zip
+         aws-access-key-id    : ${{ secrets.MY_AWS_ACCESS_KEY }}
+         aws-secret-access-key: ${{ secrets.MY_AWS_SECRET_KEY }}
+         aws-region           : ${{ env.AWS_REGION_NAME }}
+
+      - name: Create new ElasticBeanstalk Applicaiton Version
+        run : |
+         aws elasticbeanstalk create-application-version \
+         --application-name ${{ env.EB_APPLICATION_NAME }} \
+         --source-bundle S3Bucket="${{ env.EB_PACKAGE_S3_BUCKET_NAME }}",S3Key="${{ env.DEPLOY_PACKAGE_NAME }}" \
+         --version-label "Ver-${{ github.sha }}" \
+         --description "CommitSHA-${{ github.sha }}"
+      - name: Deploy our new Application Version
+        run : aws elasticbeanstalk update-environment --environment-name ${{ env.EB_ENVIRONMENT_NAME }} --version-label "Ver-${{ github.sha }}"
+
+      - name: Print nice message on completion of CD Pipeline
+        run : echo "CD Pipeline part finished successfully"  
