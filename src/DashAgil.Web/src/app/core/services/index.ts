@@ -1,1 +1,2 @@
-export * from './overview.service';
+export * from './api/overview.service';
+export * from './charts/charts-configuration.service';
