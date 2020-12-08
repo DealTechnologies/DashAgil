@@ -38,19 +38,19 @@ jobs:
           
       - name: Install dependencies
         run: dotnet restore
-        working-directory: src/DashAgil
+        working-directory: src/DashAgil/DashAgil.Api
 
       - name: Build
         run: dotnet build --configuration Release --no-restore
-        working-directory: src/DashAgil
+        working-directory: src/DashAgil/DashAgil.Api
 
       - name: Test
         run: dotnet test --no-restore --verbosity normal
-        working-directory: src/DashAgil
+        working-directory: src/DashAgil/DashAgil.Api
 
       - name: Publish
         run: dotnet publish -c Release -o '${{ github.workspace }}/out'
-        working-directory: src/DashAgil
+        working-directory: src/DashAgil/DashAgil.Api
 
       - name: Zip Package
         run: |
