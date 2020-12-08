@@ -14,28 +14,14 @@ namespace DashAgil.Infra.Data.Repositorio
         {
         }
 
-        public async Task<IEnumerable<Demanda>> GetAll(string projetoId, int tipo)
+        public async Task<IEnumerable<Demanda>> GetAll(string projetoId, int tipo, int squadId = 0)
         {
-            var query = @"SELECT d.Id, d.SquadId, d.Tipo, d.DataInicio, d.DataModificacao, d.DataFim, d.Pontos, d.Status, d.Descricao, v.status_novo_num as StatusDeXPara
-                           FROM Demandas d 
-                                INNER JOIN v_estoria_status_dexpara v on d.status = v.status_num
-                          WHERE d.ProjetoId = @ProjetoId 
-                                and d.Tipo = @Tipo";
-
-            return await _context.Connection.QueryAsync<Demanda>(query, new { ProjetoId = projetoId, Tipo = tipo });
+            return await _context.Connection.QueryAsync<Demanda>(Queries.DemandaQueries.GetAll, new { ProjetoId = projetoId, Tipo = tipo, SquadId = squadId });
         }
 
         public async Task<IEnumerable<Demanda>> GetDemandas(string projetoId, int tipo)
         {
-            var query = @"SELECT d.Id, d.SquadId, d.Tipo, d.DataInicio, d.DataModificacao, d.DataFim, d.Pontos, d.Status, d.Descricao, v.status_novo_num as StatusDeXPara,
-                                 s.Id, s.Nome   
-                           FROM Demandas d 
-                                INNER JOIN Squads s on d.SquadId = s.Id
-                                INNER JOIN v_estoria_status_dexpara v on d.status = v.status_num
-                          WHERE d.ProjetoId = @ProjetoId 
-                                and d.Tipo = @Tipo";
-
-            return _context.Connection.Query<Demanda, Squad, Demanda>(query,
+            return _context.Connection.Query<Demanda, Squad, Demanda>(Queries.DemandaQueries.GetDemandas,
                 (demanda, squad) =>
                 {
                     demanda.Squad = squad;
@@ -47,17 +33,16 @@ namespace DashAgil.Infra.Data.Repositorio
 
         public async Task<IEnumerable<dynamic>> GetFeaturesEstorias(string projetoId, string squadId)
         {
-            var query = @"SELECT features.id as FeatureId, features.descricao as FeatureDescricao, 
-                                 estorias.Id, estorias.SquadId, estorias.Tipo, estorias.DataInicio, estorias.DataModificacao, estorias.DataFim, 
-                                 estorias.Pontos, estorias.Status, v.status_novo_num as StatusDeXPara, estorias.Descricao
-                          FROM Demandas features
-                               INNER JOIN Demandas estorias on features.Id = estorias.DemandaPaiId and estorias.Tipo = @TipoEstoria
-                               INNER JOIN v_estoria_status_dexpara v on estorias.status = v.status_num
-                          WHERE features.ProjetoId = @ProjetoId
-                                and features.Tipo = @TipoFeature
-                                and features.SquadId = @SquadId";
+            return await _context.Connection.QueryAsync<dynamic>(Queries.DemandaQueries.GetFeaturesEstorias, new { ProjetoId = projetoId, SquadId = squadId, @TipoEstoria = EDemandaTipo.UserStory, @TipoFeature = EDemandaTipo.Feature });
+        }
 
-            return await _context.Connection.QueryAsync<dynamic>(query, new { ProjetoId = projetoId, SquadId = squadId, @TipoEstoria = EDemandaTipo.UserStory, @TipoFeature = EDemandaTipo.Feature });
+        public async Task<IEnumerable<dynamic>> GetEstoriasHistorico(string projetoId, string squadId, string sprintId)
+        {
+            return await _context.Connection.QueryAsync<dynamic>(Queries.DemandaQueries.GetEstoriasHistorico, 
+                new { ProjetoId = projetoId, 
+                    SquadId = squadId, 
+                    SprintId = sprintId,
+                    TipoDemanda = EDemandaTipo.UserStory });
         }
 
         //public async Task<IEnumerable<DemandasEstagio>> GetTotalDemandasPorEstagio(string ProjetoId)
