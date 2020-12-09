@@ -7,7 +7,7 @@ export class ChartsConfigurationService {
 
   constructor() { }
 
-  public contructDemandsVsSquad(overview: Overview) {
+  demandsVsSquad(overview: Overview) {
 
     const legends =
       ['Squad 1', 'Squad 2', 'Squad 3', 'Squad 4', 'Squad 5', 'Squad 6', 'Squad 7', 'Squad 8', 'Squad 9', 'Squad 10'];
@@ -76,7 +76,7 @@ export class ChartsConfigurationService {
     return chartOptions;
   }
 
-  public contructInExecution() {
+  inExecution() {
 
     const legends =
       ['Squad 1', 'Squad 2', 'Squad 3', 'Squad 4', 'Squad 5', 'Squad 6', 'Squad 7', 'Squad 8', 'Squad 9', 'Squad 10'];
@@ -141,4 +141,213 @@ export class ChartsConfigurationService {
 
     return chartOptions;
   }
+
+  squad() {
+    const chartOptions: EChartOption = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'line'
+        }
+      },
+      legend: {
+        data: [
+          { name: 'Concluído' },
+          { name: 'Desenvolvimento Concluído' },
+          { name: 'Homologação' },
+          { name: 'Em Andamento' },
+          { name: 'Remanescente' },
+        ],
+        textStyle: {
+          color: 'rgba(255, 255, 255, 1)'
+        },
+        bottom: 0
+      },
+      grid: {
+        top: '3%',
+        left: '3%',
+        right: '4%',
+        bottom: '10%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'value',
+        max: 100,
+        position: 'top',
+        axisLabel: {
+          formatter: '{value}%',
+          color: 'rgba(255, 255, 255, 1)'
+        },
+        axisLine: { show: false },
+        axisTick: { show: false }
+      },
+      yAxis: {
+        type: 'category',
+        data: [
+          'Monitoramento de Auditoria',
+          'Donload de Documentos',
+          'Consulta de Documentos',
+          'Cadastro de Documentos',
+          'Tratamento das Requisições pelo Sistema de Câmbio',
+          'Estruturação do Projeto'
+        ],
+        axisLine: { show: false },
+        axisTick: { show: false },
+        axisLabel: {
+          color: 'rgba(255, 255, 255, 1)'
+        },
+      },
+      series: [
+        {
+          name: 'Concluído',
+          type: 'bar',
+          barWidth: '35%',
+          stack: '1',
+          itemStyle: {
+            color: 'rgb(0, 176, 80)'
+          },
+          label: {
+            show: true,
+            position: 'inside',
+            formatter: '{c}%'
+          },
+          data: []
+        }, 
+        {
+          name: 'Desenvolvimento Concluído',
+          type: 'bar',
+          barWidth: '35%',
+          stack: '1',
+          itemStyle: {
+            color: 'rgb(169, 209, 142)'
+          },
+          label: {
+            show: true,
+            position: 'inside',
+            formatter: '{c}%'
+          },
+          data: [30, 40, 50, 60, 70, 80, 90]
+        },
+        {
+          name: 'Homologação',
+          type: 'bar',
+          barWidth: '35%',
+          itemStyle: {
+            color: 'rgb(0, 176, 240)'
+          },
+          stack: '1',
+          label: {
+            show: true,
+            position: 'inside',
+            formatter: '{c}%'
+          },
+          data: [70, 60, 50, 40, 30, 20, 10]
+        },
+        {
+          name: 'Em Andamento',
+          type: 'bar',
+          barWidth: '35%',
+          stack: '1',
+          itemStyle: {
+            color: 'rgb(255, 192, 0)'
+          },
+          label: {
+            show: true,
+            position: 'inside',
+            formatter: '{c}%'
+          },
+          data: []
+        },
+        {
+          name: 'Remanescente',
+          type: 'bar',
+          barWidth: '35%',
+          stack: '1',
+          itemStyle: {
+            color: 'rgb(166, 166, 166)'
+          },
+          label: {
+            show: true,
+            position: 'inside',
+            formatter: '{c}%'
+          },
+          data: []
+        },
+      ]
+    };
+
+    return chartOptions;
+  }
+
+  sprint() {
+    const chartOptions: EChartOption = {
+      legend: {
+        icon: 'roundRect',
+        data: [
+          { name: 'Velocidade Ideal' },
+          { name: 'Velocidade da Sprint' },
+        ],
+        textStyle: {
+          color: 'rgba(255, 255, 255, 1)'
+        },
+        bottom: 0
+      },
+      grid: {
+        top: '3%',
+      },
+      xAxis: {
+        type: 'category',
+        data: ['1', '2', '3', '4', '5', '6', '7', '8'],
+        axisLabel: {
+          color: 'rgba(255, 255, 255, 1)'
+        },
+        axisLine: {
+          lineStyle: {
+            color: 'rgba(255, 255, 255, 1)'
+          }
+        }
+      },
+      yAxis: {
+        type: 'value',
+        axisLine: {
+          lineStyle: {
+            color: 'rgba(255, 255, 255, 1)'
+          }
+        },
+        axisTick: {
+          show: false
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            type: 'dashed'
+          }
+        }
+      },
+      series: [{
+        name: 'Velocidade Ideal',
+        data: [90, 80, 40, 55, 30, 28, 15, 0],
+        type: 'line',
+        symbol: 'none',
+        lineStyle: {
+          color: 'rgb(190, 75, 72)',
+          width: 3,
+        },
+      },
+      {
+        name: 'Velocidade da Sprint',
+        data: [90, 90, 50, 42, 27, 30, 20, 0],
+        type: 'line',
+        symbol: 'none',
+        lineStyle: {
+          color: 'rgb(125, 95, 160)',
+          width: 3,
+        },
+      },
+      ]
+    };
+
+    return chartOptions;
+  }
+
 }

@@ -14,91 +14,29 @@ export class OverviewComponent implements OnInit {
   optionsInExecution: EChartOption;
   project: FormControl;
 
-  options2: EChartOption;
   options3: EChartOption;
   options4: EChartOption;
-  options5: EChartOption;
   options6: EChartOption;
-  
+
   constructor(private _overviewService: OverviewService, private _chartsConfiguration: ChartsConfigurationService) { }
 
   ngOnInit() {
     this.project = new FormControl('1');
 
-    // this._overviewService.getDemandsOverview().subscribe(demands => {
-    //   console.log(demands);      
-    // });
-    
-    this.optionsDemandsVsSquad = this._chartsConfiguration.contructDemandsVsSquad(null);
-    this.optionsInExecution = this._chartsConfiguration.contructInExecution();
+    this.project.valueChanges.subscribe(projectId => {
+      console.log(projectId);
+    });
 
-    this.chart2();
+    this._overviewService.getDemandsOverview(1).subscribe(demands => {
+      console.log(demands);
+    });
+
+    this.optionsDemandsVsSquad = this._chartsConfiguration.demandsVsSquad(null);
+    this.optionsInExecution = this._chartsConfiguration.inExecution();
+
     this.chart3();
     this.chart4();
-    this.chart5();
     this.chart6();
-  }
-
-  private chart2() {
-    this.options2 = {
-      legend: {
-        icon: 'roundRect',
-        data: ['1', '2'],
-        textStyle: {
-          color: 'rgba(255, 255, 255, 1)'
-        }
-      },
-      xAxis: {
-        type: 'category',
-        data: ['1', '2', '3', '4', '5', '6', '7', '8'],
-        axisLabel: {
-          color: 'rgba(255, 255, 255, 1)'
-        },
-        axisLine: {
-          lineStyle: {
-            color: 'rgba(255, 255, 255, 1)'
-          }
-        }
-      },
-      yAxis: {
-        type: 'value',
-        axisLine: {
-          lineStyle: {
-            color: 'rgba(255, 255, 255, 1)'
-          }
-        },
-        axisTick: {
-          show: false
-        },
-        splitLine: {
-          show: true,
-          lineStyle: {
-            type: 'dashed'
-          }
-        }
-      },
-      series: [{
-        name: '1',
-        data: [90, 80, 40, 55, 30, 28, 15, 0],
-        type: 'line',
-        symbol: 'none',
-        lineStyle: {
-          color: 'rgb(190, 75, 72)',
-          width: 3,
-        },
-      },
-      {
-        name: '2',
-        data: [90, 90, 50, 42, 27, 30, 20, 0],
-        type: 'line',
-        symbol: 'none',
-        lineStyle: {
-          color: 'rgb(125, 95, 160)',
-          width: 3,
-        },
-      },
-      ]
-    };
   }
 
   private chart3() {
@@ -254,79 +192,6 @@ export class OverviewComponent implements OnInit {
     };
   }
 
-  private chart5() {
-    this.options5 = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'line'
-        }
-      },
-      legend: {
-        data: ['1', '2'],
-        textStyle: {
-          color: 'rgba(255, 255, 255, 1)'
-        }
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      xAxis: {
-        type: 'value',
-        max: 100,
-        position: 'top',
-        axisLabel: {
-          formatter: '{value}%',
-          color: 'rgba(255, 255, 255, 1)'
-        },
-        axisLine: { show: false },
-        axisTick: { show: false }
-      },
-      yAxis: {
-        type: 'category',
-        data: ['1', '2', '3', '4', '5', '6'],
-        axisLine: { show: false },
-        axisTick: { show: false },
-        axisLabel: {
-          color: 'rgba(255, 255, 255, 1)'
-        },
-      },
-      series: [
-        {
-          name: '1',
-          type: 'bar',
-          barWidth: '35%',
-          stack: '1',
-          itemStyle: {
-            color: 'rgb(169, 209, 142)'
-          },
-          label: {
-            show: true,
-            position: 'inside'
-          },
-          data: [30, 40, 50, 60, 70, 80, 90]
-        },
-        {
-          name: '2',
-          type: 'bar',
-          barWidth: '35%',
-          itemStyle: {
-            color: 'rgb(0, 176, 240)'
-          },
-          stack: '1',
-          label: {
-            show: true,
-            position: 'inside'
-          },
-          data: [70, 60, 50, 40, 30, 20, 10]
-        },
-      ]
-    };
-  }
-
   private chart6() {
     this.options6 = {
       grid: {
@@ -345,7 +210,7 @@ export class OverviewComponent implements OnInit {
       legend: {
         icon: 'roundRect',
         data: ['1', '2'],
-        left: 10,        
+        left: 10,
         textStyle: {
           color: 'rgba(255, 255, 255, 1)'
         }

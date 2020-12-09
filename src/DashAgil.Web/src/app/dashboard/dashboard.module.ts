@@ -14,9 +14,10 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartsConfigurationService, OverviewService } from '../core/services';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../shared/material.module';
+import { SquadComponent } from './squad/squad.component';
 
 @NgModule({
-  declarations: [OverviewComponent],
+  declarations: [OverviewComponent, SquadComponent],
   imports: [
     CommonModule,
     SharedModule,

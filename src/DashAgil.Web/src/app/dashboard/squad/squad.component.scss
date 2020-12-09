@@ -1,0 +1,68 @@
+#sprint {
+  height: 45vh;
+}
+
+#squad {
+  height: 45vh;
+}
+
+#risks {
+  td {
+    font-size: 12px;
+  }
+}
+
+.date {
+  background: #212529;
+  padding: 3px 4px;
+  border-radius: 5px;
+  border: solid 1px #e7e7e7;
+  position: absolute;
+  z-index: 10;
+  top: 15px;
+}
+
+.delivery {
+  .timeline::before {
+    top: 15px;
+    width: 2px;
+  }
+
+  .timeline-panel {
+    width: calc(100% - 105px);
+
+    &::before {
+      top: 15px;
+      left: -15px;
+    }
+
+    &::after {
+      top: 15px;
+      left: -15px;
+    }
+  }
+
+  .timeline-body {
+    min-height: 45px;
+    display: grid;
+    align-items: center;
+
+    > p {
+      margin-bottom: 5px;
+
+      &::before {
+        content: '';
+        display: block;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        position: absolute;
+        background-color: #fdfeff;
+        transform: translate(-10px, -50%);
+        opacity: 1;
+        transition: all 0.2s ease;
+        margin-top: 8px;
+      }
+    }
+  }
+}

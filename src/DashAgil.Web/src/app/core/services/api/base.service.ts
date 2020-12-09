@@ -1,6 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { InRequest } from '../../interfaces';
 
 export class BaseService<T> {
 
@@ -11,6 +13,8 @@ export class BaseService<T> {
     }
 
     get(): Observable<T> {
-        return this.http.get<T>(this.url);
+        return this.http.get<T>(this.url).pipe(map((req: any) => {
+            return req.data;
+        }));
     }
 }

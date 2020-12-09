@@ -8,9 +8,10 @@
               <h4 class="page-title">Visão Geral</h4>
             </li>
             <li class="breadcrumb-item bcrumb-1">
-              <a routerLink="/dashboard/overview">
-                <i class="fas fa-home"></i>Visão Geral</a>
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Dashboard</a>
             </li>
+            <li class="breadcrumb-item active">Visão Geral </li>
           </ul>
         </div>
       </div>
@@ -113,14 +114,6 @@
         <div class="card">
           <div class="header">
             <h2>Evolução</h2>
-            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>Action</button>
-              <button mat-menu-item>Another action</button>
-              <button mat-menu-item>Something else here</button>
-            </mat-menu>
           </div>
           <div class="body">
             <div class="media-list position-relative">
@@ -171,27 +164,6 @@
     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
       <div class="card">
         <div class="header text-center">
-          <h2>Sprint 5</h2>
-          <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Action</button>
-            <button mat-menu-item>Another action</button>
-            <button mat-menu-item>Something else here</button>
-          </mat-menu>
-        </div>
-        <div class="body">
-          <div class="card">
-            <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options2"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
-      <div class="card">
-        <div class="header text-center">
           <h2>Radar Agil</h2>
           <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
             <mat-icon>more_vert</mat-icon>
@@ -232,27 +204,6 @@
         <div class="body">
           <div class="card">
             <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options4"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
-      <div class="card">
-        <div class="header text-center">
-          <h2>SQUAD</h2>
-          <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Action</button>
-            <button mat-menu-item>Another action</button>
-            <button mat-menu-item>Something else here</button>
-          </mat-menu>
-        </div>
-        <div class="body">
-          <div class="card">
-            <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options5"></div>
           </div>
         </div>
       </div>
