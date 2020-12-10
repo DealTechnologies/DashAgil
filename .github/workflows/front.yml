@@ -1,0 +1,70 @@
+#---------------------------------------------------------------------
+# GitHub Action Workflow to Deploy Flask App to AWS ElasticBeanstalk
+#
+# Version      Date        Info
+# 1.0          2019        Initial Version
+#
+# Made by Luciano Santos
+#---------------------------------------------------------------------
+
+name: CI-CD Pipelines Angular
+
+on:
+  push:
+    branches:
+      - dev
+      - hml
+      - release
+      - main
+  pull_request:
+    branches:
+      - dev
+      - hml
+      - release
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+      working-directory: src/DashAgil.Web
+      
+    - run: npm run build
+      working-directory: src/DashAgil.Web
+      
+    - run: npm test
+      working-directory: src/DashAgil.Web
+      
+      env:
+        CI: true
+
+#      - name: Publish
+#        run: dotnet publish -c Release -o '${{ github.workspace }}/out'
+#        working-directory: src/DashAgil/DashAgil.Api
+
+#      - name: Zip Package
+#        run: |
+#          cd ${{ github.workspace }}/out 
+#          zip -r ${{ github.workspace }}/out.zip *
+#      - name: Deploy to EB
+#        uses: einaregilsson/beanstalk-deploy@v13
+#        with:
+#          aws_access_key: AKIA2K345HPHLCQRQI7X
+#          aws_secret_key: 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
+#          application_name: DashAgil
+#          environment_name: Dashagil-env-1
+#          region: sa-east-1
+#          version_label: ${{ github.run_id }}
+#          version_description: ${{ github.sha }}
+#          deployment_package: ${{ github.workspace }}/out.zip
