@@ -72,12 +72,12 @@ jobs:
         flags: 'g'
 
     - name: Deploy to EB
-      uses: einaregilsson/beanstalk-deploy@v3
+      uses: einaregilsson/beanstalk-deploy@v13
       with:
         aws_access_key: AKIA2K345HPHLCQRQI7X
         aws_secret_key: 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
         application_name: DashAgil
-        environment_name: Dashagil-env
+        environment_name: Dashagil-env-2
         region: sa-east-1
         version_label: "my-app-${{ steps.format-time.outputs.replaced }}"
         deployment_package: deploy.zip
