@@ -36,6 +36,15 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         submenu: []
       },
+      {
+        path: 'dashboard/leadtime',
+        title: 'Lead Time',
+        moduleName: 'leadtime',
+        icon: '',
+        class: '',
+        groupTitle: false,
+        submenu: []
+      },
     ]
   },
   {

@@ -187,47 +187,5 @@
         </div>
       </div>
     </div>
-
-    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
-      <div class="card">
-        <div class="header text-center">
-          <h2>Velocidade</h2>
-          <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Action</button>
-            <button mat-menu-item>Another action</button>
-            <button mat-menu-item>Something else here</button>
-          </mat-menu>
-        </div>
-        <div class="body">
-          <div class="card">
-            <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options4"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
-      <div class="card">
-        <div class="header text-center">
-          <h2>DIAGRAMA DE FLUXO CUMULATIVO</h2>
-          <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Action</button>
-            <button mat-menu-item>Another action</button>
-            <button mat-menu-item>Something else here</button>
-          </mat-menu>
-        </div>
-        <div class="body">
-          <div class="card">
-            <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options6"></div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>

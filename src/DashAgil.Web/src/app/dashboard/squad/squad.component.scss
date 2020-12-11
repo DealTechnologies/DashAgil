@@ -1,11 +1,3 @@
-#sprint {
-  height: 45vh;
-}
-
-#squad {
-  height: 45vh;
-}
-
 #risks {
   td {
     font-size: 12px;
@@ -13,7 +5,7 @@
 }
 
 .date {
-  background: #212529;
+  background: #232b3e;
   padding: 3px 4px;
   border-radius: 5px;
   border: solid 1px #e7e7e7;
@@ -23,6 +15,8 @@
 }
 
 .delivery {
+  padding: 15px 30px;
+
   .timeline::before {
     top: 15px;
     width: 2px;

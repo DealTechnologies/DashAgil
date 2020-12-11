@@ -15,10 +15,8 @@ export class OverviewComponent implements OnInit {
   project: FormControl;
 
   options3: EChartOption;
-  options4: EChartOption;
-  options6: EChartOption;
 
-  constructor(private _overviewService: OverviewService, private _chartsConfiguration: ChartsConfigurationService) { }
+  constructor(private _overviewService: OverviewService, private chartsConfiguration: ChartsConfigurationService) { }
 
   ngOnInit() {
     this.project = new FormControl('1');
@@ -31,12 +29,10 @@ export class OverviewComponent implements OnInit {
       console.log(demands);
     });
 
-    this.optionsDemandsVsSquad = this._chartsConfiguration.demandsVsSquad(null);
-    this.optionsInExecution = this._chartsConfiguration.inExecution();
+    this.optionsDemandsVsSquad = this.chartsConfiguration.demandsVsSquad(null);
+    this.optionsInExecution = this.chartsConfiguration.inExecution();
 
     this.chart3();
-    this.chart4();
-    this.chart6();
   }
 
   private chart3() {
@@ -110,234 +106,6 @@ export class OverviewComponent implements OnInit {
           ]
         },
       ],
-    };
-  }
-
-  private chart4() {
-    this.options4 = {
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'line'
-        }
-      },
-      legend: {
-        textStyle: {
-          color: 'rgba(255, 255, 255, 1)'
-        }
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      xAxis: [
-        {
-          type: 'category',
-          data: [
-            'Sprint 0',
-            'Sprint 1',
-            'Sprint 2',
-            'Sprint 3',
-            'Sprint 4',
-            'Sprint 5',
-            'Sprint 6',
-            'Sprint 7',
-            'Sprint 8',
-            'Sprint 9',
-            'Sprint 10',
-            'Sprint 11',
-            'Sprint 12'
-          ],
-          axisLine: {
-            lineStyle: {
-              color: 'rgba(255, 255, 255, 1)'
-            }
-          },
-        }
-      ],
-      yAxis: [
-        {
-          type: 'value',
-          axisLine: {
-            lineStyle: {
-              color: 'rgba(255, 255, 255, 1)'
-            }
-          },
-          interval: 50,
-          max: 300
-        }
-      ],
-      series: [
-        {
-          type: 'bar',
-          boundaryGap: '0%',
-          barWidth: 15,
-          itemStyle: {
-            color: 'rgb(79, 129, 189)'
-          },
-          data: [18, 32, 47, 33, 88, 56, 62, 67, 94, 106, 158, 143, 231],
-          markLine: {
-            lineStyle: {
-              type: 'dashed'
-            },
-            data: [
-              //@ts-ignore
-              [{ type: 'min' }, { type: 'max' }]
-            ]
-          }
-        }
-      ]
-    };
-  }
-
-  private chart6() {
-    this.options6 = {
-      grid: {
-        bottom: 80
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'cross',
-          animation: false,
-          label: {
-            backgroundColor: '#505765'
-          }
-        }
-      },
-      legend: {
-        icon: 'roundRect',
-        data: ['1', '2'],
-        left: 10,
-        textStyle: {
-          color: 'rgba(255, 255, 255, 1)'
-        }
-      },
-      dataZoom: [
-        {
-          show: true,
-          realtime: true,
-          start: 1,
-          end: 100,
-          dataBackground: {
-            areaStyle: {
-              color: 'rgb(136, 136, 136)',
-              opacity: 1
-            }
-          }
-        },
-        {
-          type: 'inside',
-          realtime: true,
-          start: 1,
-          end: 100
-        }
-      ],
-      xAxis:
-      {
-        type: 'category',
-        boundaryGap: false,
-        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        axisLine: {
-          lineStyle: {
-            color: 'rgba(255, 255, 255, 1)'
-          }
-        },
-      },
-      yAxis:
-      {
-        type: 'value',
-        max: 300,
-        axisLine: {
-          lineStyle: {
-            color: 'rgba(255, 255, 255, 1)'
-          }
-        },
-      },
-      series: [
-        {
-          name: '1',
-          type: 'line',
-          symbol: 'none',
-          zlevel: 10,
-          areaStyle: {
-            color: 'rgb(136, 136, 136)',
-            opacity: 1
-          },
-          lineStyle: {
-            width: 0
-          },
-          data: [0, 5, 50, 20, 10, 15, 20, 8, 5, 5]
-        },
-        {
-          name: '2',
-          type: 'line',
-          symbol: 'none',
-          zlevel: 9,
-          areaStyle: {
-            color: 'rgb(246, 139, 30)',
-            opacity: 1
-          },
-          lineStyle: {
-            width: 0
-          },
-          data: [0, 5, 50, 30, 20, 25, 32, 15, 12, 8]
-        },
-        {
-          type: 'line',
-          symbol: 'none',
-          zlevel: 8,
-          areaStyle: {
-            color: 'rgb(0, 122, 204)',
-            opacity: 1
-          },
-          lineStyle: {
-            width: 0
-          },
-          data: [0, 5, 50, 40, 50, 45, 40, 60, 30, 20]
-        },
-        {
-          type: 'line',
-          symbol: 'none',
-          zlevel: 7,
-          areaStyle: {
-            color: 'rgb(156, 195, 178)',
-            opacity: 1
-          },
-          lineStyle: {
-            width: 0
-          },
-          data: [0, 5, 50, 80, 90, 110, 90, 100, 50, 80]
-        },
-        {
-          type: 'line',
-          symbol: 'none',
-          zlevel: 6,
-          areaStyle: {
-            color: 'rgb(127, 23, 37)',
-            opacity: 1
-          },
-          lineStyle: {
-            width: 0
-          },
-          data: [0, 5, 50, 80, 90, 200, 230, 115, 150, 110]
-        },
-        {
-          type: 'line',
-          symbol: 'none',
-          zlevel: 5,
-          areaStyle: {
-            color: 'rgb(136, 136, 136)',
-            opacity: 1
-          },
-          lineStyle: {
-            width: 0
-          },
-          data: [0, 5, 50, 100, 120, 230, 270, 150, 200, 180]
-        }
-      ]
     };
   }
 
