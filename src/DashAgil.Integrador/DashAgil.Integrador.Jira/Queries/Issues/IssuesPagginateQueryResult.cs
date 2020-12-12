@@ -41,6 +41,16 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
         public IssueFields Fields { get; set; }
     }
 
+    public partial class Parent
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("key")]
+        public string Key { get; set; }
+
+    }
+
     public partial class IssueFields
     {
         [JsonProperty("statuscategorychangedate")]
@@ -48,6 +58,9 @@ namespace DashAgil.Integrador.Jira.Queries.Issues
 
         [JsonProperty("issuetype")]
         public Issuetype Issuetype { get; set; }
+
+        [JsonProperty("parent")]
+        public Parent Parent { get; set; }
 
         [JsonProperty("timespent")]
         public object Timespent { get; set; }

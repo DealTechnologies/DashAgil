@@ -2,17 +2,19 @@
 using DashAgil.Integrador.Jira.Queries.Issues;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DashAgil.Integrador.Entidades
 {
     public class Demandas : EntidadeDashAgil
     {
         public string ExternalId { get; set; }
-        public long SprintId { get; set; }
+        public long? SprintId { get; set; }
         public long ProjetoId { get; set; }
         public long? SquadId { get; set; }
         public long? Tipo { get; set; }
-        public string DemandaPaiId { get; set; }
+        public Guid? DemandaPaiId { get; set; }
+        public string DemandaPaiIntegracaoId { get; set; }
         public string Responsavel { get; set; }
         public DateTime? DataInicio { get; set; }
         public DateTime? DataModificacao { get; set; }
@@ -28,8 +30,7 @@ namespace DashAgil.Integrador.Entidades
         public int? Status { get; set; }
         public string Descricao { get; set; }
 
-
-        public static List<Demandas> PreencherDemandasJira(IssuesPaginateQueryResult issue, List<Sprint> sprints, long projetoId)
+        public static List<Demandas> PreencherDemandasJira(IssuesPaginateQueryResult issue, List<Sprint> sprints, long projetoId, long squadId)
         {
             var demandas = new List<Demandas>();
             
@@ -39,11 +40,12 @@ namespace DashAgil.Integrador.Entidades
                 {
                     Id = Guid.NewGuid(),
                     ExternalId = item.Id,
-                    SprintId = 1,
+                    Descricao = item.Fields.Summary,
+                    SprintId = PreencherSprint(item, sprints),
                     ProjetoId = projetoId,
                     Tipo = PreencherTipo(Convert.ToInt64(item.Fields.Issuetype.Id)),
-                    SquadId = 1, //JIRA NÃO TRAZ
-                    DemandaPaiId = "",
+                    SquadId = squadId,
+                    DemandaPaiId = null,
                     Responsavel = item?.Fields?.Assignee?.DisplayName,
                     Pontos = item?.Fields?.StoryPoints,
                     Prioridade = PreencherPrioridade(item?.Fields?.Priority.Name),
@@ -55,8 +57,13 @@ namespace DashAgil.Integrador.Entidades
 
                 PreencherDataJira(item, demanda);
 
+                if (demanda.Tipo == 4)
+                   demanda.DemandaPaiIntegracaoId = PreencherPai(item);
+
                 demandas.Add(demanda);
             }
+
+            PreencherIdsPai(demandas);
 
             return demandas;
 
@@ -129,6 +136,41 @@ namespace DashAgil.Integrador.Entidades
                 default:
                     return 0;
             }
+        }
+
+        private static long? PreencherSprint(Issue issue, List<Sprint> sprints)
+        {
+            if(issue?.Fields?.ClosedSprints != null)
+            {
+               var sprint = issue.Fields.ClosedSprints.ToList().LastOrDefault();
+
+                if(sprint != null)
+                {
+                    return sprints.FirstOrDefault(x => x.ExternalId == sprint.Id.ToString()).Id;
+                }
+
+            }
+            else if (issue?.Fields?.Sprint != null)
+            {
+                    return sprints.FirstOrDefault(x => x.ExternalId == issue.Fields.Sprint.Id.ToString()).Id;
+            }
+
+            return null;
+        }
+
+        public static string PreencherPai(Issue issue)
+        {
+                return issue?.Fields?.Parent?.Id;
+        }
+
+        public static void PreencherIdsPai(List<Demandas> demandas)
+        {
+
+            foreach (var item in demandas.Where(x => x.DemandaPaiIntegracaoId != null))
+            {
+                item.DemandaPaiId = demandas.FirstOrDefault(y => y.ExternalId == item.DemandaPaiIntegracaoId).Id;
+            }
+
         }
 
     }

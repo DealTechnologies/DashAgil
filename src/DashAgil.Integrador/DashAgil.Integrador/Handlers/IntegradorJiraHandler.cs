@@ -21,8 +21,9 @@ namespace DashAgil.Integrador.Handlers
         private readonly IProjetoIntegracaoRepositorio _projetoIntegracaoRepositorio;
         private readonly ISprintRepositorio _sprintRepositorio;
         private readonly IDemandasRepostorio _demandasRepostory;
+        private readonly ISquadRepositorio _squadRepositorio;
 
-        public IntegradorJiraHandler(IBoardRepositorio boardRepositorio, IIssuegRepositorio issueRepositorio, IProjetoRepositorio projetoRepositorio, IProjetoIntegracaoRepositorio projetoIntegracaoRepositorio, ISprintRepositorio sprintRepositorio, IDemandasRepostorio demandasRepostory)
+        public IntegradorJiraHandler(IBoardRepositorio boardRepositorio, IIssuegRepositorio issueRepositorio, IProjetoRepositorio projetoRepositorio, IProjetoIntegracaoRepositorio projetoIntegracaoRepositorio, ISprintRepositorio sprintRepositorio, IDemandasRepostorio demandasRepostory, ISquadRepositorio squadRepositorio)
         {
             _boardRepositorio = boardRepositorio;
             _issueRepositorio = issueRepositorio;
@@ -30,6 +31,7 @@ namespace DashAgil.Integrador.Handlers
             _projetoIntegracaoRepositorio = projetoIntegracaoRepositorio;
             _sprintRepositorio = sprintRepositorio;
             _demandasRepostory = demandasRepostory;
+            _squadRepositorio = squadRepositorio;
         }
 
         public async Task<ICommandResult> Handle(IntegracaoInicialJiraCommand command)
@@ -49,7 +51,9 @@ namespace DashAgil.Integrador.Handlers
 
                 var sprints = await InserirSprints(command, item.Id, projetoId);
 
-                await InserirDemandas(command, sprints, item.Id);
+                var squadId = await _squadRepositorio.Inserir(Squad.PreencherInsercao(item.Name, projetoId));
+
+                await InserirDemandas(command, sprints, item.Id, squadId);
             }
 
             return new IntegradorJiraCommandResult(true, "Integração efetuada com sucesso", boardResult);
@@ -68,7 +72,7 @@ namespace DashAgil.Integrador.Handlers
 
         private async Task<List<Sprint>> InserirSprints(IntegracaoInicialJiraCommand command, int boardId, long projetoId)
         {
-            _sprintRepositorio.PreencherAcesso(command.Token, command.Url);
+             _sprintRepositorio.PreencherAcesso(command.Token, command.Url);
             var sprintsJira = await _sprintRepositorio.ObterSprintsJira(boardId);
 
             var sprints =  Sprint.PreencherSprints(sprintsJira, projetoId);
@@ -85,17 +89,17 @@ namespace DashAgil.Integrador.Handlers
         }
 
 
-        private async Task InserirDemandas(IntegracaoInicialJiraCommand command, List<Sprint> sprints, int boardId)
+        private async Task InserirDemandas(IntegracaoInicialJiraCommand command, List<Sprint> sprints, int boardId, long squadId)
         {
             _issueRepositorio.PreencherAcesso(command.Token, command.Url);
 
             var issues = await _issueRepositorio.Obter(boardId);
 
-            var demandas = Demandas.PreencherDemandasJira(issues, sprints, sprints.First().ProjetoId);
+            var demandas = Demandas.PreencherDemandasJira(issues, sprints, sprints.First().ProjetoId, squadId);
 
             foreach (var item in demandas)
             {
-                _demandasRepostory.Insert(item);
+                await _demandasRepostory.Inserir(item);
             }
 
         }
