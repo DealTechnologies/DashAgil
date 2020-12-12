@@ -1,21 +1,29 @@
 .counter-box {
-    width: 215px;
     min-height: 80px;
     margin: 0px 0px 10px 0px;
     padding: 8px 0 5px 0;
     color: #cfd7e4;
 }
 
-.widgets {
-   margin-right: 20px; 
-   padding-left: 0px;
+.chart-squad {
+    height: 320px;
 }
 
-.card {
-    box-shadow: none;
+.chart-execution {
+    height: 50px;
+}
 
-    .radar {
-        height: 500px;
+.radar {
+    height: 500px;
+}
+
+.sl-primary {
+    ::before {
+        background-color: #186db1;
+    }
+
+    :last-child::after {
+        background-color: #186db1;
     }
 }
 
@@ -38,5 +46,13 @@
         left: 24%;
         width: 52%;
         height: 3px;
+    }
+}
+
+::ng-deep .mat-form-field-flex {
+    padding: .2em .75em 0.60em .75em !important;
+
+    .mat-select-arrow-wrapper {
+        padding-top: 10px;
     }
 }

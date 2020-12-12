@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+.dark .card {
+  box-shadow: none;
+
+  .header {
+    padding: 15px 15px 5px 15px;
+    color: #f1f1f1;
+  }
+
+  .body {
+    color: #f1f1f1;
+  }
+}
+
+.graphic {
+  height: 45vh;
+}

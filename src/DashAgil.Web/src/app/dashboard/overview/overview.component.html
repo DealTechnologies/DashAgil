@@ -8,9 +8,10 @@
               <h4 class="page-title">Visão Geral</h4>
             </li>
             <li class="breadcrumb-item bcrumb-1">
-              <a routerLink="/dashboard/overview">
-                <i class="fas fa-home"></i> Visão Geral</a>
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Dashboard</a>
             </li>
+            <li class="breadcrumb-item active">Visão Geral </li>
           </ul>
         </div>
       </div>
@@ -18,175 +19,173 @@
 
     <div class="row">
       <div class="widgets col-xl-2 col-lg-2 col-md-12 col-sm-12">
-        <div class="col-lg-3 col-sm-6">
-          <div class="counter-box text-center">
-            <div class="text font-15 m-b-5">Demandas Total</div>
-            <h3 class="m-b-10">2342 </h3>
-          </div>
-          <div class="counter-box text-center">
-            <div class="text font-15 m-b-5">Em Backlog</div>
-            <h3 class="m-b-10">324 </h3>
-          </div>
-          <div class="counter-box text-center">
-            <div class="text font-15 m-b-5">Em Desenvolvimento </div>
-            <h3 class="m-b-10">511
-            </h3>
-          </div>
-          <div class="counter-box text-center">
-            <div class="text font-15 m-b-5">Desenv. concluído </div>
-            <h3 class="m-b-10">135
-            </h3>
-          </div>
-          <div class="counter-box text-center">
-            <div class="text font-15 m-b-5">Em Homologação </div>
-            <h3 class="m-b-10">78
-            </h3>
-          </div>
-          <div class="counter-box text-center">
-            <div class="text font-15 m-b-5">Homologado </div>
-            <h3 class="m-b-10">258
-            </h3>
-          </div>
-          <div class="counter-box text-center">
-            <div class="text font-15 m-b-5">Concluídas no Período </div>
-            <h3 class="m-b-10">1231
-            </h3>
-          </div>
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-select [formControl]="project" ngClass="project">
+            <mat-option value="1">DevOps</mat-option>
+            <mat-option value="2">Jira</mat-option>
+          </mat-select>
+          <span matPrefix>
+            <mat-icon class="m-r-10" [svgIcon]="project.value == '1' ? 'devops' : 'jira'"></mat-icon>
+          </span>
+        </mat-form-field>
+
+        <div class="counter-box text-center">
+          <div class="text font-15 m-b-5">Demandas Total</div>
+          <h3 class="m-b-10">2342 </h3>
+        </div>
+        <div class="counter-box text-center">
+          <div class="text font-15 m-b-5">Em Backlog</div>
+          <h3 class="m-b-10">324 </h3>
+        </div>
+        <div class="counter-box text-center">
+          <div class="text font-15 m-b-5">Em Desenvolvimento </div>
+          <h3 class="m-b-10">511
+          </h3>
+        </div>
+        <div class="counter-box text-center">
+          <div class="text font-15 m-b-5">Desenv. concluído </div>
+          <h3 class="m-b-10">135
+          </h3>
+        </div>
+        <div class="counter-box text-center">
+          <div class="text font-15 m-b-5">Em Homologação </div>
+          <h3 class="m-b-10">78
+          </h3>
+        </div>
+        <div class="counter-box text-center">
+          <div class="text font-15 m-b-5">Homologado </div>
+          <h3 class="m-b-10">258
+          </h3>
+        </div>
+        <div class="counter-box text-center">
+          <div class="text font-15 m-b-5">Concluídas no Período </div>
+          <h3 class="m-b-10">1231
+          </h3>
         </div>
       </div>
 
-      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
         <div class="card">
-          <div class="header text-center">
+          <div class="header">
             <h2>Demandas X Squad</h2>
-            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>Action</button>
-              <button mat-menu-item>Another action</button>
-              <button mat-menu-item>Something else here</button>
-            </mat-menu>
           </div>
           <div class="body">
-            <div class="card">
-              <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options1"></div>
-            </div>
+            <div class="chart-squad" echarts (chartClick)="onChartEvent($event, 'chartClick')"
+              [options]="optionsDemandsVsSquad"></div>
           </div>
         </div>
-      </div>
-
-      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
         <div class="card">
-          <div class="header text-center">
-            <h2>Sprint 5</h2>
-            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>Action</button>
-              <button mat-menu-item>Another action</button>
-              <button mat-menu-item>Something else here</button>
-            </mat-menu>
+          <div class="header">
+            <h2>Destaques</h2>
           </div>
-          <div class="body">
-            <div class="card">
-              <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options2"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
-        <div class="card">
-          <div class="header text-center">
-            <h2>Radar Agil</h2>
-            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>Action</button>
-              <button mat-menu-item>Another action</button>
-              <button mat-menu-item>Something else here</button>
-            </mat-menu>
-          </div>
-          <div class="body">
-            <div class="card div-radar">
-              <div id="cross">
-                <div id="cross-vertical">
-                </div>
-                <div id="cross-horizontal">
-                </div>
+          <div class="body m-l-10">
+            <div class="sl-item sl-primary">
+              <div class="sl-content">
+                <span class="h5">Squad Terror By Night </span>
+                <p>Apresentação e Entrega Sprint 2</p>
               </div>
-              <div class="radar" echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options3"></div>
+            </div>
+            <div class="sl-item sl-primary">
+              <div class="sl-content">
+                <span class="h5">Squad 1 </span>
+                <p>Primeira parte do PIX entrou em produção 03/11</p>
+              </div>
+            </div>
+            <div class="sl-item sl-primary">
+              <div class="sl-content">
+                <span class="h5">Squad 2 </span>
+                <p>Homologação em andamento</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
         <div class="card">
-          <div class="header text-center">
-            <h2>Velocidade</h2>
-            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>Action</button>
-              <button mat-menu-item>Another action</button>
-              <button mat-menu-item>Something else here</button>
-            </mat-menu>
+          <div class="header">
+            <h2>Demandas em execução</h2>
           </div>
           <div class="body">
-            <div class="card">
-              <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options4"></div>
-            </div>
+            <div class="chart-execution" echarts (chartClick)="onChartEvent($event, 'chartClick')"
+              [options]="optionsInExecution"></div>
           </div>
         </div>
-      </div>
-
-      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
         <div class="card">
-          <div class="header text-center">
-            <h2>SQUAD</h2>
-            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>Action</button>
-              <button mat-menu-item>Another action</button>
-              <button mat-menu-item>Something else here</button>
-            </mat-menu>
+          <div class="header">
+            <h2>Evolução</h2>
           </div>
           <div class="body">
-            <div class="card">
-              <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options5"></div>
+            <div class="media-list position-relative">
+              <div class="table-responsive">
+                <table id="new-orders-table" class="table table-hover table-xl mb-0">
+                  <thead>
+                    <tr>
+                      <th class="border-top-0">Squad</th>
+                      <th class="border-top-0">Anterior</th>
+                      <th class="border-top-0">Atual</th>
+                      <th class="border-top-0">Evolução</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-truncate">Terror By Night</td>
+                      <td class="text-right">87</td>
+                      <td class="text-right">87</td>
+                      <td class="text-right">0</td>
+                    </tr>
+                    <tr>
+                      <td class="text-truncate">Squad 2</td>
+                      <td class="text-right">378</td>
+                      <td class="text-right">367</td>
+                      <td class="text-right">-11</td>
+                    </tr>
+                    <tr>
+                      <td class="text-truncate">Squad 3</td>
+                      <td class="text-right">191</td>
+                      <td class="text-right">192</td>
+                      <td class="text-right">1</td>
+                    </tr>
+                    <tr>
+                      <td class="text-truncate">Squad 4</td>
+                      <td class="text-right">664</td>
+                      <td class="text-right">679</td>
+                      <td class="text-right">15</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
-        <div class="card">
-          <div class="header text-center">
-            <h2>DIAGRAMA DE FLUXO CUMULATIVO</h2>
-            <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>Action</button>
-              <button mat-menu-item>Another action</button>
-              <button mat-menu-item>Something else here</button>
-            </mat-menu>
-          </div>
-          <div class="body">
-            <div class="card">
-              <div echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options6"></div>
+    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="header text-center">
+          <h2>Radar Agil</h2>
+          <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>Action</button>
+            <button mat-menu-item>Another action</button>
+            <button mat-menu-item>Something else here</button>
+          </mat-menu>
+        </div>
+        <div class="body">
+          <div class="card div-radar">
+            <div id="cross">
+              <div id="cross-vertical">
+              </div>
+              <div id="cross-horizontal">
+              </div>
             </div>
+            <div class="radar" echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options3"></div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
