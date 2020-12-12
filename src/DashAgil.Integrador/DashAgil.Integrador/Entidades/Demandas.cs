@@ -41,7 +41,7 @@ namespace DashAgil.Integrador.Entidades
                     ExternalId = item.Id,
                     SprintId = 1,
                     ProjetoId = projetoId,
-                    Tipo = 1,
+                    Tipo = PreencherTipo(Convert.ToInt64(item.Fields.Issuetype.Id)),
                     SquadId = 1, //JIRA NÃO TRAZ
                     DemandaPaiId = "",
                     Responsavel = item?.Fields?.Assignee?.DisplayName,
@@ -50,7 +50,7 @@ namespace DashAgil.Integrador.Entidades
                     HorasEstimadas = null, //JIRA TRABALHA COM STRING QUE PODE SER CONVERTIDO EM MINUTOS
                     HorasUtilizadas = null, //JIRA TRABALHA COM STRING QUE PODE SER CONVERTIDO EM MINUTOS
                     Comentario = item?.Fields?.Description,
-                    Status = 1 // INSERIR STATUS CORRETO
+                    Status = PreencherStatus(Convert.ToInt64(item.Fields.Status.Id),1) // INSERIR STATUS CORRETO
                 };
 
                 PreencherDataJira(item, demanda);
@@ -92,6 +92,42 @@ namespace DashAgil.Integrador.Entidades
                     return 5;
                 default:
                     return null;
+            }
+        }
+
+        private static long? PreencherTipo(long tipo)
+        {
+            switch (tipo)
+            {
+                case 10009:
+                    return 3;
+                case 10015:
+                    return 7;
+                case 10000:
+                    return 1;
+                case 10013:
+                    return 4;
+                case 10014:
+                    return 4;
+                default:
+                    return 0;
+            }
+        }
+
+        private static int? PreencherStatus(long statusId, long sprintId)
+        {
+            switch (statusId)
+            {
+                case 3:
+                    return 6;// "Em andamento"
+                case 10006:
+                    if(sprintId == 0) // Backlog Desenvolvimento
+                        return 1; // Backlog 
+                    return 5; // Backlog Desenvolvimento
+                case 10007:
+                    return 11; // Concluído
+                default:
+                    return 0;
             }
         }
 
