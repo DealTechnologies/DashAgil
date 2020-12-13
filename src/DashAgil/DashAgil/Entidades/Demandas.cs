@@ -7,10 +7,10 @@ using DashAgil.Entidades.DashAgil;
 
 namespace DashAgil.Entidades
 {
-    public class Demanda
+    public class Demandas
     {
-        public Demanda() { }
-        public Demanda(Guid id, string externalId, int clienteId, Squad squad, int tipo, Guid demandaPaiId, string responsavel, DateTime dataInicio, DateTime dataModificacao, 
+        public Demandas() { }
+        public Demandas(Guid id, string externalId, int clienteId, Squads squad, int tipo, Guid demandaPaiId, string responsavel, DateTime dataInicio, DateTime dataModificacao, 
             DateTime dataFim, int pontos, string tags, int prioridade, int horasEstimadas, int horasRestantes, int horasUtilizadas, int risco, string comentario, int status)
         {
             Id = id;
@@ -41,7 +41,7 @@ namespace DashAgil.Entidades
                 .Select(group => new DemandaEstagioResult
                 {
                     StatusDeXPara = ((EDemandaStatusDexPara)group.Key.StatusDeXPara).GetDisplayName(),
-                    Quantidade = group.Count()
+                    Quantidade = group.Count(x => x.Status > 0)
                 });
 
             return estoriasGroup.ToList();
@@ -102,7 +102,14 @@ namespace DashAgil.Entidades
 
             var totalEstoriasAux = Convert.ToDouble(totalEstorias);
             var totalEstoriasHomologacaoAux = Convert.ToDouble(totalEstoriasHomologacao);
-            return Math.Round((totalEstoriasHomologacaoAux / totalEstoriasAux * 100.0), 2);
+            if (totalEstoriasAux > 0)
+            {
+                return Math.Round((totalEstoriasHomologacaoAux / totalEstoriasAux * 100.0), 2);
+            }
+            else
+            {
+                return 0;
+            }    
         }
 
         public List<DemandasResult> TratamentoListaEstorias(IEnumerable<dynamic> estorias)
@@ -132,6 +139,19 @@ namespace DashAgil.Entidades
 
             return estoriasGroup.ToList();
         }
+
+        //public List<dynamic> GerarCFD(IEnumerable<Demanda> demandas)
+        //{
+        //    var estoriasGroup = demandas
+        //        .GroupBy(x => new { x.DataModificacao.Month, x.DataModificacao.Year })
+        //        .Select(group => new 
+        //        {
+        //            Data = Convert.ToDateTime("01/" + group.Key.Month + 1 + "/" + group.Key.Year).AddDays(-1),
+        //            Quantidade = group.Count()
+        //        });
+
+        //    return estoriasGroup.ToList();
+        //}
 
         public EDemandaStatusDexPara ConverterEstoriasStatus(EDemandaStatus status)
         {
@@ -176,7 +196,7 @@ namespace DashAgil.Entidades
         public string Descricao { get; set; }
         public string ExternalId { get; set; }
         public int ClienteId { get; set; }
-        public Squad Squad { get; set; }
+        public Squads Squad { get; set; }
         public EDemandaTipo Tipo { get; set; }
         public Guid DemandaPaiId { get; set; }
         public string Responsavel { get; set; }

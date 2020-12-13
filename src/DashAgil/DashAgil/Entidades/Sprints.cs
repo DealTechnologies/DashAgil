@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace DashAgil.Entidades
 {
-    public class Sprint
+    public class Sprints
     {
-        public Sprint() { }
+        public Sprints() { }
         
         public int Id { get; set; }
         public string Nome { get; set; }

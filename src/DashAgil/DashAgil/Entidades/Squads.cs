@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace DashAgil.Entidades
 {
-    public class Squad
+    public class Squads
     {
-        public Squad() { }
+        public Squads() { }
         public long Id { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
@@ -25,7 +25,8 @@ namespace DashAgil.Entidades
                 {
                     SquadNome = group.Key,
                     EvolucaoAnterior = group.Where(x => x.DataInicio <= DateTime.Today.AddDays(-7)).Count(),
-                    EvolucaoAtual = group.Count()
+                    EvolucaoAtual = group.Count(),
+                    Evolucao = (group.Count() - group.Where(x => x.DataInicio <= DateTime.Today.AddDays(-7)).Count())
                 });
 
             return estoriasGroup.ToList();
