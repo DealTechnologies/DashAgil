@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Dynamic;
 using DashAgil.Entidades.DashAgil;
+using System.Collections.Specialized;
 
 namespace DashAgil.Entidades
 {
@@ -34,7 +35,7 @@ namespace DashAgil.Entidades
             Status = (EDemandaStatus)status;
         }
 
-        public List<DemandaEstagioResult> TotalEstoriasPorEstagio(IEnumerable<dynamic> demandas)
+        public dynamic TotalEstoriasPorEstagio(IEnumerable<dynamic> demandas)
         {
             var estoriasGroup = demandas
                 .GroupBy(x => new { x.StatusDeXPara })
@@ -44,7 +45,13 @@ namespace DashAgil.Entidades
                     Quantidade = group.Count(x => x.Status > 0)
                 });
 
-            return estoriasGroup.ToList();
+            var retorno = new ListDictionary();
+            foreach(var estoria in estoriasGroup)
+            {
+                retorno.Add(estoria.StatusDeXPara, estoria.Quantidade);
+            }
+
+            return retorno;
         }
 
         public List<DemandaSquadResult> TotalEstoriasPorSquad(IEnumerable<dynamic> demandas)
