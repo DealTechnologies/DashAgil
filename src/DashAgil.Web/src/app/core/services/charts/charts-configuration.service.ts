@@ -722,4 +722,153 @@ export class ChartsConfigurationService {
 
     return chartOptions;
   }
+
+  radar(): EChartOption {
+    const chartOptions: EChartOption = {
+      angleAxis: {
+        type: 'category',
+        data: [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5,
+          // { value: '1. Entrega de valor ao cliente', },
+          // { value: '2. Satisfação do cliente', },
+          // { value: '3. Cycle Time de histórias', },
+          // { value: '4. Product Backlog', },
+          // { value: '5. Sprint Backlog', },
+          // { value: '1. Práticas DevOps', },
+          // { value: '2. A execução de testes automatizados faz cobertura dos principais cenários?', },
+          // { value: '3. Clean Code', },
+          // { value: '4. Código Sustentável (Refactoring)', },
+          // { value: '5. Volume de defeitos dentro das Sprints', },
+          // { value: '1. Producção de Baclogs (SLA >= 2.0)', },
+          // { value: '2. Velocidade da Equipe (SLA >= 1.0)', },
+          // { value: '3. Qualidade da Entrega (SLA <= 5%)', },
+          // { value: '4. Eficácia dos Testes (SLA <= 10%)', },
+          // { value: '5. Índice dos Testes (SLA <= 20%)', },
+          // { value: '1. Ferramentas e Documentação', },
+          // { value: '2. Cerimônias', },
+          // { value: '3. Scrum Master', },
+          // { value: '4. Product Owner', },
+          // { value: '5. Líder Técnico', }
+        ],
+        min: 0,
+        max: 19,
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: 'rgba(255, 255, 255, 1)'
+          }
+        },
+        axisTick: {
+          show: true,
+          length: 20
+        },
+        axisLabel: {
+          //show: false
+        },
+
+      },
+      grid: {
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+      },
+      xAxis: {
+        min: -1,
+        max: 1,
+        zlevel: 20,
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: "rgba(6, 6, 6, 1)",
+            width: 3
+          }
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          show: false
+        },
+        splitLine: {
+          show: false
+        }
+      },
+      yAxis: {
+        min: -1,
+        max: 1,
+        zlevel: 20,
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: "rgba(6, 6, 6, 1)",
+            width: 3
+          }
+        },
+        axisLabel: {
+          show: false
+        },
+        axisTick: {
+          show: false
+        },
+        splitLine: {
+          show: false
+        }
+      },
+      radiusAxis: {
+        min: 0,
+        max: 5,
+        axisLine: {
+          lineStyle: {
+            color: 'transparent'
+          },
+        }
+      },
+      polar: {
+      },
+      tooltip: {
+      },
+      itemStyle: {
+        borderWidth: 0.5,
+        borderColor: 'black'
+      },
+      series: [
+        {
+          type: 'bar',
+          showBackground: true,
+          //@ts-ignore
+          barWidth: '100%',
+          backgroundStyle: {
+            color: 'transparent',
+            borderWidth: 0.5,
+            borderColor: 'rgba(255, 255, 255, 1)'
+          },
+          coordinateSystem: 'polar',
+          data: [
+            { value: 1, name: 'rose1', itemStyle: { color: 'rgb(254, 0, 0)' } },
+            { value: 2, name: 'rose2', itemStyle: { color: 'rgb(254, 0, 0)' } },
+            { value: 3, name: 'rose3', itemStyle: { color: 'rgb(255, 255, 0)' } },
+            { value: 4, name: 'rose4', itemStyle: { color: 'rgb(0, 255, 1)' } },
+            { value: 5, name: 'rose5', itemStyle: { color: 'rgb(0, 255, 1)' } },
+            { value: 4, name: 'rose6', itemStyle: { color: 'rgb(0, 255, 1)' } },
+            { value: 2, name: 'rose7', itemStyle: { color: 'rgb(254, 0, 0)' } },
+            { value: 1, name: 'rose8', itemStyle: { color: 'rgb(254, 0, 0)' } },
+            { value: 5, name: 'rose9', itemStyle: { color: 'rgb(0, 255, 1)' } },
+            { value: 2, name: 'rose10', itemStyle: { color: 'rgb(254, 0, 0)' } },
+            { value: 3, name: 'rose11', itemStyle: { color: 'rgb(255, 255, 0)' } },
+            { value: 4, name: 'rose12', itemStyle: { color: 'rgb(0, 255, 1)' } },
+            { value: 5, name: 'rose13', itemStyle: { color: 'rgb(0, 255, 1)' } },
+            { value: 4, name: 'rose14', itemStyle: { color: 'rgb(0, 255, 1)' } },
+            { value: 3, name: 'rose15', itemStyle: { color: 'rgb(255, 255, 0)' } },
+            { value: 4, name: 'rose16', itemStyle: { color: 'rgb(0, 255, 1)' } },
+            { value: 5, name: 'rose17', itemStyle: { color: 'rgb(0, 255, 1)' } },
+            { value: 2, name: 'rose18', itemStyle: { color: 'rgb(254, 0, 0)' } },
+            { value: 3, name: 'rose19', itemStyle: { color: 'rgb(255, 255, 0)' } },
+            { value: 4, name: 'rose20', itemStyle: { color: 'rgb(0, 255, 1)' } },
+          ]
+        },
+      ],
+    };
+
+    return chartOptions;
+  }
 }

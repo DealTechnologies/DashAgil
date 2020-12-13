@@ -111,7 +111,7 @@
               [options]="optionsInExecution"></div>
           </div>
         </div>
-        <div class="card">
+        <div class="card evolution">
           <div class="header">
             <h2>Evolução</h2>
           </div>
@@ -163,26 +163,13 @@
 
     <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
       <div class="card">
-        <div class="header text-center">
+        <div class="header">
           <h2>Radar Agil</h2>
-          <button mat-button [matMenuTriggerFor]="menu" class="header-dropdown">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Action</button>
-            <button mat-menu-item>Another action</button>
-            <button mat-menu-item>Something else here</button>
-          </mat-menu>
         </div>
         <div class="body">
-          <div class="card div-radar">
-            <div id="cross">
-              <div id="cross-vertical">
-              </div>
-              <div id="cross-horizontal">
-              </div>
-            </div>
-            <div class="radar" echarts (chartClick)="onChartEvent($event, 'chartClick')" [options]="options3"></div>
+          <div class="card radar-container">
+            <div echarts #radar class="radar" [ngStyle]="{'height.px': radar?.offsetWidth }"
+              (chartClick)="onChartEvent($event, 'chartClick')" [options]="optionsRadar"></div>
           </div>
         </div>
       </div>
