@@ -2,6 +2,8 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Dynamic;
+using DashAgil.Entidades.DashAgil;
 
 namespace DashAgil.Entidades
 {
@@ -32,35 +34,35 @@ namespace DashAgil.Entidades
             Status = (EDemandaStatus)status;
         }
 
-        public dynamic TotalEstoriasPorEstagio(IEnumerable<dynamic> demandas)
+        public List<DemandaEstagioResult> TotalEstoriasPorEstagio(IEnumerable<dynamic> demandas)
         {
             var estoriasGroup = demandas
                 .GroupBy(x => new { x.StatusDeXPara })
-                .Select(group => new
+                .Select(group => new DemandaEstagioResult
                 {
-                    StatusDeXPara = group.Key.StatusDeXPara,
+                    StatusDeXPara = ((EDemandaStatusDexPara)group.Key.StatusDeXPara).GetDisplayName(),
                     Quantidade = group.Count()
                 });
 
-            return estoriasGroup;
+            return estoriasGroup.ToList();
         }
 
-        public dynamic TotalEstoriasPorSquad(IEnumerable<dynamic> demandas)
+        public List<DemandaSquadResult> TotalEstoriasPorSquad(IEnumerable<dynamic> demandas)
         {
             var estoriasGroup = demandas
                 .GroupBy(x => x.Squad.Nome)
-                .Select(group => new
+                .Select(group => new DemandaSquadResult
                 {
-                    NomeSquad = group.Key,
+                    SquadNome = group.Key,
                     Quantidade = group.Count()
                 });
 
-            return estoriasGroup;
+            return estoriasGroup.ToList();
         }
 
         public long TotalGeralEstorias(IEnumerable<dynamic> demandas) => demandas.Count();
 
-        public dynamic TotalEstoriasPorFeature(IEnumerable<dynamic> demandasFeatues)
+        public List<FeaturesEstagioResult> TotalEstoriasPorFeature(IEnumerable<dynamic> demandasFeatues)
         {
             var totalPorFeature = demandasFeatues
                 .GroupBy(x => x.FeatureId)
@@ -72,16 +74,16 @@ namespace DashAgil.Entidades
 
             var featuresGroup = demandasFeatues
                 .GroupBy(x => new { x.FeatureId, x.FeatureDescricao, x.StatusDeXPara })
-                .Select(group => new
+                .Select(group => new FeaturesEstagioResult
                 {
                     FeatureId = group.Key.FeatureId,
                     FeatureDescricao = group.Key.FeatureDescricao,
-                    StatusDeXPara = group.Key.StatusDeXPara,
+                    StatusDeXPara = ((EDemandaStatusDexPara)group.Key.StatusDeXPara).GetDisplayName(),
                     Quantidade = group.Count(),
                     Percentual = Math.Round(Convert.ToDouble(group.Count()) / Convert.ToDouble(totalPorFeature.Where(x => x.FeatureId == group.Key.FeatureId).Select(x => x.Quantidade).FirstOrDefault()) * 100.0, 2)
                 });
 
-            return featuresGroup;
+            return featuresGroup.ToList();
         }
 
         public double PercentualFeaturesHomologacao(IEnumerable<dynamic> demandasFeatues)
@@ -103,18 +105,32 @@ namespace DashAgil.Entidades
             return Math.Round((totalEstoriasHomologacaoAux / totalEstoriasAux * 100.0), 2);
         }
 
-        public dynamic EvolucaoSquad(IEnumerable<dynamic> demandas)
+        public List<DemandasResult> TratamentoListaEstorias(IEnumerable<dynamic> estorias)
         {
-            var estoriasGroup = demandas
-                .GroupBy(x => x.Squad.Nome)
-                .Select(group => new
+            var listaEstorias = estorias
+                .Select(x => new DemandasResult
                 {
-                    NomeSquad = group.Key,
-                    EvolucaoAnterior = group.Where(x => x.DataInicio <= DateTime.Today.AddDays(-7)).Count(),
-                    EvolucaoAtual = group.Count()
+                    Id = x.ExternalId,
+                    Tipo = ((EDemandaTipo)x.Tipo).GetDisplayName(),
+                    Descricao = x.Descricao,
+                    Status = ((EDemandaStatusDexPara)x.StatusDeXPara).GetDisplayName()
                 });
 
-            return estoriasGroup;
+            return listaEstorias.ToList();
+        }
+
+        public List<DemandaSquadEstagioResult> TotalEstoriasPorEstagioSquad(IEnumerable<dynamic> demandas)
+        {
+            var estoriasGroup = demandas
+                .GroupBy(x => new { x.Squad.Nome, x.StatusDeXPara })
+                .Select(group => new DemandaSquadEstagioResult
+                {
+                    SquadNome = group.Key.Nome,
+                    StatusDeXPara = ((EDemandaStatusDexPara)group.Key.StatusDeXPara).GetDisplayName(),
+                    Quantidade = group.Count()
+                });
+
+            return estoriasGroup.ToList();
         }
 
         public EDemandaStatusDexPara ConverterEstoriasStatus(EDemandaStatus status)
@@ -157,6 +173,7 @@ namespace DashAgil.Entidades
         }
 
         public Guid Id { get; set; }
+        public string Descricao { get; set; }
         public string ExternalId { get; set; }
         public int ClienteId { get; set; }
         public Squad Squad { get; set; }

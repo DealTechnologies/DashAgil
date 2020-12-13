@@ -4,7 +4,6 @@ using DashAgil.Entidades;
 using DashAgil.Enums;
 using DashAgil.Infra.Comum;
 using DashAgil.Repositorio;
-using System.Collections.Generic;
 using System.Dynamic;
 using System.Threading.Tasks;
 
@@ -12,7 +11,9 @@ namespace DashAgil.Handlers
 {
     public class VisaoGeralHandler : ICommandHandler<SalvarEstoriaCommand>,
         ICommandHandler<ObterVisaoGeralDemandasCommand>,
-        ICommandHandler<ObterVisaoGeralFeaturesCommand>
+        ICommandHandler<ObterVisaoGeralFeaturesCommand>,
+        ICommandHandler<ObterListaEstoriasPorSquadCommand>,
+        ICommandHandler<ObterVisaoEstoriasPorSquadCommand>
     {
         protected readonly IDemandaRepository _repository;
         public VisaoGeralHandler(IDemandaRepository repository)
@@ -21,43 +22,68 @@ namespace DashAgil.Handlers
         }
         public async Task<ICommandResult> Handle(ObterVisaoGeralDemandasCommand command)
         {
-            //var demandasEstagio = await _repository.GetTotalDemandasPorEstagio(command.IdCliente);
-            //var demandasSquad = await _repository.GetTotalDemandasPorSquad(command.IdCliente);            
             var demandas = await _repository.GetDemandas(command.IdProjeto, (int)EDemandaTipo.UserStory);
-
             var demanda = new Demanda();
+            var squad = new Squad();
 
-            //foreach (var demandaAux in demandas)
-            //{
-            //    demanda.StatusDeXPara = demanda.ConverterEstoriasStatus(demandaAux.Status);
-            //}
-
-            dynamic objectResult = new ExpandoObject();
-            objectResult.demandasPorEstagio = demanda.TotalEstoriasPorEstagio(demandas);
-            objectResult.demandasPorSquad = demanda.TotalEstoriasPorSquad(demandas);
-            objectResult.totalDemandas = demanda.TotalGeralEstorias(demandas);
-            objectResult.evolucaoSquad = demanda.EvolucaoSquad(demandas);
+            var visaoCommandResult = new ObterVisaoGeralDemandasCommandResult
+            {
+                ListaEstoriasPorEstagio = demanda.TotalEstoriasPorEstagio(demandas),
+                ListaEstoriasPorSquad = demanda.TotalEstoriasPorSquad(demandas),
+                TotalGeralEstorias = demanda.TotalGeralEstorias(demandas),
+                ListaEvolucaoSquad = squad.EvolucaoSquad(demandas)
+            };
 
             await Task.CompletedTask;
 
-            return new DemandaCommandResult(true, "sucess", objectResult);
+            return new DemandaCommandResult(true, "sucess", visaoCommandResult);
         }
 
         public async Task<ICommandResult> Handle(ObterVisaoGeralFeaturesCommand command)
         {
-            //var demandasEstagio = await _repository.GetTotalDemandasPorEstagio(command.IdCliente);
-            //var demandasSquad = await _repository.GetTotalDemandasPorSquad(command.IdCliente);            
             var featuresEstorias = await _repository.GetFeaturesEstorias(command.IdProjeto, command.IdSquad);
-
             var demanda = new Demanda();
-            
-            dynamic objectResult = new ExpandoObject();
-            objectResult.featuresEstoriasPorEstagio = demanda.TotalEstoriasPorFeature(featuresEstorias);
-            objectResult.featuresHomologacaoPercentual = demanda.PercentualFeaturesHomologacao(featuresEstorias);
+            var sprint = new Sprint();
+
+            var historicoEstorias = await _repository.GetEstoriasHistorico(command.IdProjeto, command.IdSquad, command.IdSprint);
+            var visaoFeaturesResult = new ObterVisaoGeralFeaturesCommandResult
+            {
+                ListaFeaturesEstagio = demanda.TotalEstoriasPorFeature(featuresEstorias),
+                PercentualFeaturesHomologacao = demanda.PercentualFeaturesHomologacao(featuresEstorias),
+                SprintBurndown = sprint.Burndown(historicoEstorias, command.IdSprint)
+            };
 
             await Task.CompletedTask;
 
-            return new DemandaCommandResult(true, "sucess", objectResult);
+            return new DemandaCommandResult(true, "sucess", visaoFeaturesResult);
+        }
+
+        public async Task<ICommandResult> Handle(ObterListaEstoriasPorSquadCommand command)
+        {
+            var estorias = await _repository.GetAll(command.IdProjeto, (int)EDemandaTipo.UserStory, int.Parse(command.IdSquad));
+            var demanda = new Demanda();
+            
+            var listaDemandasResult = new ObterListaEstoriasPorSquadCommandResult {
+                ListaDemandas = demanda.TratamentoListaEstorias(estorias)
+            };
+
+            await Task.CompletedTask;
+
+            return new DemandaCommandResult(true, "sucess", listaDemandasResult);
+        }
+
+        public async Task<ICommandResult> Handle(ObterVisaoEstoriasPorSquadCommand command)
+        {
+            var estorias = await _repository.GetDemandas(command.IdProjeto, (int)EDemandaTipo.UserStory);
+            var demanda = new Demanda();
+            var listaEstoriasCommandResult = new ObterVisaoEstoriasPorSquadCommandResult
+            {
+                ListaEstoriasSquadEstagio = demanda.TotalEstoriasPorEstagioSquad(estorias)
+            };
+
+            await Task.CompletedTask;
+
+            return new DemandaCommandResult(true, "sucess", listaEstoriasCommandResult);
         }
 
         public async Task<ICommandResult> Handle(SalvarEstoriaCommand command)

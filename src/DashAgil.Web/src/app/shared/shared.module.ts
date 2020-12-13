@@ -4,9 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
-
 import { MaterialModule } from './material.module';
-import { NotifierModule, NotifierOptions } from 'angular-notifier';
 
 @NgModule({
   declarations: [],
@@ -16,6 +14,7 @@ import { NotifierModule, NotifierOptions } from 'angular-notifier';
     ReactiveFormsModule,
     RouterModule,
     NgbModule,
+    MaterialModule,
     NgxSpinnerModule
   ],
   exports: [
@@ -24,8 +23,8 @@ import { NotifierModule, NotifierOptions } from 'angular-notifier';
     ReactiveFormsModule,
     RouterModule,
     NgbModule,
-    NgxSpinnerModule,
-    MaterialModule
+    MaterialModule,
+    NgxSpinnerModule
   ]
 })
 export class SharedModule { }

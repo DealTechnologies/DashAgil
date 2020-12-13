@@ -1,8 +1,6 @@
 export class Overview {
-  id: number;
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  token: string;
+  demandasPorEstagio: { statusDeXPara: string, quantidade: number }[];
+  demandasPorSquad: { nomeSquad: string, quantidade: number }[];
+  evolucaoSquad: { nomeSquad: string, evolucaoAnterior: number, evolucaoAtual: number }[];
+  totalDemandas: number;
 }

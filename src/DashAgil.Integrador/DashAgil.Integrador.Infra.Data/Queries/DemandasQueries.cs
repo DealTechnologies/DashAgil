@@ -13,7 +13,7 @@ namespace DashAgil.Integrador.Infra.Data.Queries
 								VALUES(@Id, @ExternalId , @SprintId , @ProjetoId , @SquadId , @Tipo ,
 																  @DemandaPaiId , @Responsavel , @DataInicio, @DataModificacao , @DataFim ,
 																  @Pontos , @Tags , @Prioridade, @HorasEstimadas , @HorasRestantes, @HorasUtilizadas ,
-																  @Risco , @Comentario , @Status , @Descricao )                             ";
+																  @Risco , @Comentario , @Status , @Descricao ); SELECT SCOPE_IDENTITY()                            ";
 
 		public const string Update = @"UPDATE DashAgil.dbo.Demandas SET ExternalId = @ExternalId , 
 															     SprintId = @SprintId ,

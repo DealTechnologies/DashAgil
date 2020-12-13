@@ -23,7 +23,7 @@ namespace DashAgil.Api.Controllers.Dominio
 
         [HttpGet]
         [Route("ObterVisaoGeralDemandas")]
-        public async Task<IActionResult> ObterVisaoGeralDemandas(ObterVisaoGeralDemandasCommand command)
+        public async Task<IActionResult> ObterVisaoGeralDemandas([FromQuery]ObterVisaoGeralDemandasCommand command)
         {
             var response = await handler.Handle(command);
             return Ok(response);
@@ -31,7 +31,24 @@ namespace DashAgil.Api.Controllers.Dominio
 
         [HttpGet]
         [Route("ObterVisaoGeralFeatures")]
-        public async Task<IActionResult> ObterVisaoGeralFeatures(ObterVisaoGeralFeaturesCommand command)
+        public async Task<IActionResult> ObterVisaoGeralFeatures([FromQuery] ObterVisaoGeralFeaturesCommand command)
+        {
+            var response = await handler.Handle(command);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("ObterListaEstoriasSquad")]
+        public async Task<IActionResult> ObterListaEstoriasSquad([FromQuery] ObterListaEstoriasPorSquadCommand command)
+        {
+            var response = await handler.Handle(command);
+            return Ok(response);
+        }
+
+        
+        [HttpGet]
+        [Route("ObterVisaoEstoriasPorSquad")]
+        public async Task<IActionResult> ObterVisaoEstoriasPorSquad([FromQuery] ObterVisaoEstoriasPorSquadCommand command)
         {
             var response = await handler.Handle(command);
             return Ok(response);

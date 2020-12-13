@@ -26,6 +26,8 @@ namespace DashAgil.Api
 
             services.AddRepositories();
 
+            services.AddCors();
+
             services.AddSToSwagger();
 
             services.AddControllers();
@@ -38,6 +40,11 @@ namespace DashAgil.Api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(builder => builder
+             .AllowAnyOrigin()
+             .AllowAnyMethod()
+             .AllowAnyHeader());
 
             app.UseHttpsRedirection();
 
