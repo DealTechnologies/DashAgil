@@ -47,22 +47,22 @@ jobs:
         run: dotnet test --no-restore --verbosity normal
         working-directory: src/DashAgil/DashAgil.Api
 
-      - name: Publish
-        run: dotnet publish -c Release -o '${{ github.workspace }}/out'
-        working-directory: src/DashAgil/DashAgil.Api
-
-      - name: Zip Package
-        run: |
-          cd ${{ github.workspace }}/out 
-          zip -r ${{ github.workspace }}/out.zip *
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v13
-        with:
-          aws_access_key: AKIA2K345HPHLCQRQI7X
-          aws_secret_key: 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
-          application_name: DashAgil
-          environment_name: Dashagil-env-1
-          region: sa-east-1
-          version_label: ${{ github.run_id }}
-          version_description: ${{ github.sha }}
-          deployment_package: ${{ github.workspace }}/out.zip
+#      - name: Publish
+#        run: dotnet publish -c Release -o '${{ github.workspace }}/out'
+#        working-directory: src/DashAgil/DashAgil.Api
+#
+#      - name: Zip Package
+#        run: |
+#          cd ${{ github.workspace }}/out 
+#          zip -r ${{ github.workspace }}/out.zip *
+#      - name: Deploy to EB
+#        uses: einaregilsson/beanstalk-deploy@v13
+#        with:
+#          aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
+#          aws_secret_key:  ${{secrets.AWS_SECRET_KEY}}
+#          application_name: DashAgil
+#          environment_name: Dashagil-env-1
+#          region: sa-east-1
+#          version_label: ${{ github.run_id }}
+#          version_description: ${{ github.sha }}
+#          deployment_package: ${{ github.workspace }}/out.zip
