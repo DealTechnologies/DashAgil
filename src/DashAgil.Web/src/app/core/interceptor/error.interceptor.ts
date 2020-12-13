@@ -5,6 +5,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -12,12 +13,9 @@ import { NotifierService } from 'angular-notifier';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthService, private notifier: NotifierService) {}
+  constructor(private authenticationService: AuthService, private notifier: NotifierService) { }
 
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((err) => {
         if (err.status === 401) {
@@ -26,13 +24,25 @@ export class ErrorInterceptor implements HttpInterceptor {
           location.reload();
         }
 
-        const error = err.error.message || err.statusText;
+        const errorMessage = this.getErrorMessage(err);
 
         this.notifier.notify('error', 'Ops, algo de errado');
-        this.notifier.notify('error', `Error: ${error}`);
+        this.notifier.notify('error', `${errorMessage}`);
 
-        return throwError(error);
+        return throwError(errorMessage);
       })
     );
+  }
+
+  private getErrorMessage(error: any) {
+    if (error instanceof HttpErrorResponse) {
+      return error.message || error.statusText;
+    }
+
+    if (typeof (error.error) == 'string') {
+      return error.error;
+    }
+
+    return error.error.message || error.error.title;
   }
 }

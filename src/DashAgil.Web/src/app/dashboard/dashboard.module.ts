@@ -14,9 +14,11 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartsConfigurationService, OverviewService } from '../core/services';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../shared/material.module';
+import { SquadComponent } from './squad/squad.component';
+import { LeadTimeComponent } from './lead-time/lead-time.component';
 
 @NgModule({
-  declarations: [OverviewComponent],
+  declarations: [OverviewComponent, SquadComponent, LeadTimeComponent],
   imports: [
     CommonModule,
     SharedModule,

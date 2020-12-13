@@ -1,11 +1,13 @@
 ﻿using DashAgil.Integrador.Entidades;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DashAgil.Integrador.Repositorio
 {
-    public interface IDemandasRepostorio : ICRUD<Demandas>
+    public interface ISquadRepositorio
     {
-        Task<long> Inserir(Demandas entity);
+        Task<long> Inserir(Squad squad);
     }
 }

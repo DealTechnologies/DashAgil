@@ -1,0 +1,276 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Squad - Lead Time</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Lead Time </li>
+            <li class="breadcrumb-item active">Terror By Night </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header text-center">
+            <h2>Velocidade</h2>
+          </div>
+          <div class="body">
+            <div class="row">
+              <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12">
+                <div class="graphic" echarts [options]="velocity"></div>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 p-t-10">
+                <p>
+                  <strong>Sprint 19 (16/11 a 27/11)</strong>
+                  <br>
+                  <span>Em andamento.</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header text-center">
+            <h2>Diagrama de Fluxo Cumulativo</h2>
+          </div>
+          <div class="body">
+            <div class="card">
+              <div class="row">
+                <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                  <div class="graphic" echarts [options]="cumulativeFlow"></div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 p-t-10">
+                  <p>
+                    <strong>Feature em produção:</strong>
+                    <br>
+                    <span>Convênios/Bancoob (10/09)</span>
+                    <br>
+                    <span>PIX (30/09)</span>
+                  </p>
+                  <p>
+                    <strong>Em andamento, homologação da demanda:</strong>
+                    <br>
+                    <span>Recarga de celular</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+              <div class="header">
+                <h2>Deslizamento de escopo</h2>
+              </div>
+              <div class="body">
+                <div class="media-list position-relative">
+                  <div class="table-responsive">
+                    <table id="new-orders-table" class="table table-hover table-xl text-center mb-0">
+                      <thead>
+                        <tr>
+                          <th class="border-top-0">Qtd. Histórias (solicitando mudança de escopo)</th>
+                          <th class="border-top-0" width="60%">Motivo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>0</td>
+                          <td>-</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+              <div class="header">
+                <h2>Histórias não aprovadas</h2>
+              </div>
+              <div class="body">
+                <div class="media-list position-relative">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-xl text-center mb-0">
+                      <thead>
+                        <tr>
+                          <th class="border-top-0">Qtd. Histórias não aprovadas</th>
+                          <th class="border-top-0" width="60%">Motivo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>13</td>
+                          <td>Demanda Convênios / Itaú paralisada</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+        <div class="card lead-time">
+          <div class="header">
+            <h2>Lead Time</h2>
+          </div>
+          <div class="body">
+            <p>
+              <strong>Lead Time Desenvolvimento:</strong><br>
+              <span>Em levantamento</span>
+            </p>
+            <p>
+              <strong>Lead Time Produção:</strong>
+              <span> Em levantamento</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Defeitos</h2>
+          </div>
+          <div class="body">
+            <div class="position-relative">
+              <div class="table-responsive defects">
+                <table id="new-orders-table" class="table table-hover table-xl text-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="border-top-0">Demanda</th>
+                      <th class="border-top-0" width="150px">Status</th>
+                      <th class="border-top-0">Bug Técnico</th>
+                      <th class="border-top-0">Bug de Negócio</th>
+                      <th class="border-top-0">Problemas de ambiente</th>
+                      <th class="border-top-0">Em classificação</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Convênios/Bancoob</td>
+                      <td><span class="badge col-green">Produção</span></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>PIX</td>
+                      <td><span class="badge col-green">Produção</span></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Recarga de celular</td>
+                      <td><span class="badge col-green">Produção</span></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="body">
+            <div class="responsive_table">
+              <div class="materialTableHeader">
+                <div class="row">
+                  <div class="col-8">
+                    <ul class="header-buttons-left ml-0">
+                      <li class="dropdown">
+                        <h2>
+                          <strong>Histórias</strong></h2>
+                      </li>
+                      <li class="dropdown m-l-20">
+                        <label for="search-input"><i class="material-icons search-icon">search</i></label>
+                        <input placeholder="Search" type="text" #filter class="browser-default search-field"
+                          aria-label="Search box">
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                  <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="workItemType">
+                  <mat-header-cell mat-header-cell *matHeaderCellDef>
+                    Work Item Type
+                  </mat-header-cell>
+                  <mat-cell mat-cell *matCellDef="let row" class="table-img tbl-col-width-per-6"> <img
+                      [src]="row.workItemType" />
+                  </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="description">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Descrição
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    {{row.description}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="status">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Status
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    {{row.status}}
+                  </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
+                </mat-row>
+              </mat-table>
+              <mat-paginator #paginator [length]="dataSource.length" [pageIndex]="0" [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]">
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
