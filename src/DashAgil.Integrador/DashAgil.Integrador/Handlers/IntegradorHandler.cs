@@ -20,14 +20,15 @@ namespace DashAgil.Integrador.Handlers
     {
         private readonly IAzureDevopsRepository repository;
         private readonly IAzureDevopsQueries _query;
-        private readonly IProjetoRepositorio _projeoRepo;
+        private readonly IProjetoRepositorio _projetoRepo;
         private readonly IOrganizacoesRepositorio _orgRepo;
         private readonly IDemandasRepostorio _demandasRepo;
         private readonly ISquadRepositorio _squadRepo;
         private readonly ISprintRepositorio _sprintRepo;
 
         public IntegradorHandler(IAzureDevopsRepository repository, IAzureDevopsQueries query, IOrganizacoesRepositorio orgRepo,
-                                 IDemandasRepostorio demandasRepo, ISquadRepositorio squadRepo, ISprintRepositorio sprintRepo)
+                                 IDemandasRepostorio demandasRepo, ISquadRepositorio squadRepo, ISprintRepositorio sprintRepo,
+                                 IProjetoRepositorio projetoRepo)
         {
             this.repository = repository;
             _query = query;
@@ -35,6 +36,7 @@ namespace DashAgil.Integrador.Handlers
             _demandasRepo = demandasRepo;
             _squadRepo = squadRepo;
             _sprintRepo = sprintRepo;
+            _projetoRepo = projetoRepo;
         }
 
         public async Task<ICommandResult> Handle(SalvarEstoriaCommand command)
@@ -70,7 +72,7 @@ namespace DashAgil.Integrador.Handlers
                 Nome = command.Organizacao
             });
 
-            projetosDevops.Value.ForEach(async x => await _projeoRepo.Inserir(new Projeto
+            projetosDevops.Value.ForEach(async x => await _projetoRepo.Inserir(new Projeto
             {
                 Descricao = x.Description,
                 DataModificacao = Convert.ToDateTime(x.LastUpdateTime),
@@ -177,12 +179,12 @@ namespace DashAgil.Integrador.Handlers
         private async Task<Projeto> GerenciarProjeto(WorkItemResult workIten, long organizacaoId)
         {
             var nomeProjeto = workIten.Fields.SystemTeamProject.Trim();
-            var projeto = await _projeoRepo.ObterPorNome(nomeProjeto);
+            var projeto = await _projetoRepo.ObterPorNome(nomeProjeto);
 
             if (projeto is null)
             {
                 projeto = Projeto.PreencherProjeto(organizacaoId, nomeProjeto);
-                await _projeoRepo.Inserir(projeto);
+                await _projetoRepo.Inserir(projeto);
             }
 
             return projeto;

@@ -1,9 +1,9 @@
 ﻿using System;
-<<<<<<< HEAD
-=======
+
+
 using System.Collections.Generic;
 using System.Text;
->>>>>>> dev
+
 
 namespace DashAgil.Integrador.Entidades
 {
@@ -30,10 +30,10 @@ namespace DashAgil.Integrador.Entidades
             };
 
         }
-<<<<<<< HEAD
-=======
 
 
->>>>>>> dev
+
+
+
     }
 }

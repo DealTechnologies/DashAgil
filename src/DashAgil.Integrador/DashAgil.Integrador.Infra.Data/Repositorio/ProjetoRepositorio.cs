@@ -40,10 +40,10 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
 
         }
 
-<<<<<<< HEAD
+
         public Task<Projeto> ObterPorNome(string nome)
             => _context.Connection.QueryFirstOrDefaultAsync<Projeto>("SELECT * FROM  DashAgil.dbo.Projetos WHERE Nome like LIKE '%' + @nome + '%' ", new { nome });
-=======
+
         public async Task<List<Projeto>> ObterPorOrganizaçãoId(long organizacaoId)
         {
             _param.Add("@OrganizacaoId", organizacaoId);
@@ -56,7 +56,7 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
         }
 
 
->>>>>>> dev
+
     }
 }
 

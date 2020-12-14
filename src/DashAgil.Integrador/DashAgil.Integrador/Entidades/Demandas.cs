@@ -32,7 +32,7 @@ namespace DashAgil.Integrador.Entidades
         public string Descricao { get; set; }
         public DemandaHistorico DemandaHistorico { get; set; }
 
-<<<<<<< HEAD
+
         public static Demandas PreencherDemandaDevops(WorkItemResult workItens, long projetoId, long squadId, long sprintId)
         {
             return   new Demandas
@@ -82,11 +82,10 @@ namespace DashAgil.Integrador.Entidades
                 "Task" => 4,
                 "Bug" => 5,
                 _ => 0,
-            };
-        public static List<Demandas> PreencherDemandasJira(IssuesPaginateQueryResult issue, List<Sprint> sprints, long projetoId)
-=======
+            }; 
+
         public static List<Demandas> PreencherDemandasJira(IssuesPaginateQueryResult issue, List<Sprint> sprints, long projetoId, long squadId)
->>>>>>> dev
+
         {
             var demandas = new List<Demandas>();
 

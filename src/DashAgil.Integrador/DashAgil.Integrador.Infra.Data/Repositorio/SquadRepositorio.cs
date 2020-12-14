@@ -2,12 +2,6 @@
 using DashAgil.Integrador.Entidades;
 using DashAgil.Integrador.Infra.Data.Context;
 using DashAgil.Integrador.Repositorio;
-<<<<<<< HEAD
-=======
-using System;
-using System.Collections.Generic;
-using System.Text;
->>>>>>> dev
 using System.Threading.Tasks;
 
 namespace DashAgil.Integrador.Infra.Data.Repositorio
@@ -39,12 +33,10 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
 
             return result;
 
-        }
-<<<<<<< HEAD
+        } 
 
         public async Task<Squad> ObterPorNome(string nome)
         => await _context.Connection.QueryFirstOrDefaultAsync<Squad>("SELECT * FROM  DashAgil.dbo.Squads WHERE Nome =  LIKE '%' + @nome + '%' ", new { nome });
-=======
->>>>>>> dev
+ 
     }
 }
