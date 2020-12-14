@@ -1,4 +1,3 @@
----
 #---------------------------------------------------------------------
 # GitHub Action Workflow to Deploy Flask App to AWS ElasticBeanstalk
 #
@@ -13,37 +12,46 @@ name: CI-CD Pipelines
 on:
   push:
     branches:
+      - dev
       - hml
       - release
       - main
   pull_request:
     branches:
+      - dev
       - hml
       - release
       - main
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
+        
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.301
+          
       - name: Install dependencies
         run: dotnet restore
-        working-directory: src/DashAgil
+        working-directory: src/DashAgil/DashAgil.Api
 
       - name: Build
         run: dotnet build --configuration Release --no-restore
-        working-directory: src/DashAgil
+        working-directory: src/DashAgil/DashAgil.Api
 
       - name: Test
         run: dotnet test --no-restore --verbosity normal
+<<<<<<< HEAD
         working-directory: src/DashAgil
         
+=======
+        working-directory: src/DashAgil/DashAgil.Api
+
+>>>>>>> dev
 #      - name: Publish
 #        run: dotnet publish -c Release -o '${{ github.workspace }}/out'
 #        working-directory: src/DashAgil/DashAgil.Api

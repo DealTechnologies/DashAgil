@@ -73,11 +73,19 @@ namespace DashAgil.Integrador.Api.Extensions
             services.AddSingleton<IProjetoRepositorio, ProjetoRepositorio>();
             services.AddSingleton<IProjetoIntegracaoRepositorio, ProjetoIntegracaoRepositorio>();
             services.AddSingleton<ISprintRepositorio, SprintRepositorio>();
+<<<<<<< HEAD
             services.AddSingleton<ISquadRepositorio, SquadRepositorio>();
             services.AddSingleton<IDemandasRepostorio, DemandasRepostorio>();
             services.AddSingleton<IOrganizacoesRepositorio, OrganizacoesRepositorio>();
 
+=======
+            services.AddSingleton<IDemandasRepostorio, DemandasRepostorio>();     
+>>>>>>> dev
             services.AddSingleton<ISprintsRepositorio, SprintsRepositorio>();
+            services.AddSingleton<ISquadRepositorio, SquadRepositorio>();
+            services.AddSingleton<IDemandaHistoricoRepositorio, DemandaHistoricoRepositorio>();
+            
+
 
         }
 

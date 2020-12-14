@@ -4,6 +4,7 @@ using DashAgil.Integrador.Infra.Data.Context;
 using DashAgil.Integrador.Repositorio;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,8 +40,23 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
 
         }
 
+<<<<<<< HEAD
         public Task<Projeto> ObterPorNome(string nome)
             => _context.Connection.QueryFirstOrDefaultAsync<Projeto>("SELECT * FROM  DashAgil.dbo.Projetos WHERE Nome like LIKE '%' + @nome + '%' ", new { nome });
+=======
+        public async Task<List<Projeto>> ObterPorOrganizaçãoId(long organizacaoId)
+        {
+            _param.Add("@OrganizacaoId", organizacaoId);
+
+            var result = await _context.Connection.QueryAsync<Projeto>(
+               @" SELECT * FROM DashAgil.dbo.Projetos WHERE OrganizacaoId = @OrganizacaoId ", _param);
+
+            return result.ToList();
+
+        }
+
+
+>>>>>>> dev
     }
 }
 

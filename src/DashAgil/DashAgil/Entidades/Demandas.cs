@@ -3,13 +3,15 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Dynamic;
+using DashAgil.Entidades.DashAgil;
+using System.Collections.Specialized;
 
 namespace DashAgil.Entidades
 {
-    public class Demanda
+    public class Demandas
     {
-        public Demanda() { }
-        public Demanda(Guid id, string externalId, int clienteId, Squad squad, int tipo, Guid demandaPaiId, string responsavel, DateTime dataInicio, DateTime dataModificacao, 
+        public Demandas() { }
+        public Demandas(Guid id, string externalId, int clienteId, Squads squad, int tipo, Guid demandaPaiId, string responsavel, DateTime dataInicio, DateTime dataModificacao, 
             DateTime dataFim, int pontos, string tags, int prioridade, int horasEstimadas, int horasRestantes, int horasUtilizadas, int risco, string comentario, int status)
         {
             Id = id;
@@ -37,31 +39,37 @@ namespace DashAgil.Entidades
         {
             var estoriasGroup = demandas
                 .GroupBy(x => new { x.StatusDeXPara })
-                .Select(group => new
+                .Select(group => new DemandaEstagioResult
                 {
-                    StatusDeXPara = group.Key.StatusDeXPara,
-                    Quantidade = group.Count()
+                    StatusDeXPara = ((EDemandaStatusDexPara)group.Key.StatusDeXPara).ToString(),
+                    Quantidade = group.Count(x => x.Status > 0)
                 });
 
-            return estoriasGroup;
+            var retorno = new ListDictionary();
+            foreach(var estoria in estoriasGroup)
+            {
+                retorno.Add(estoria.StatusDeXPara, estoria.Quantidade);
+            }
+
+            return retorno;
         }
 
-        public dynamic TotalEstoriasPorSquad(IEnumerable<dynamic> demandas)
+        public List<DemandaSquadResult> TotalEstoriasPorSquad(IEnumerable<dynamic> demandas)
         {
             var estoriasGroup = demandas
                 .GroupBy(x => x.Squad.Nome)
-                .Select(group => new
+                .Select(group => new DemandaSquadResult
                 {
-                    NomeSquad = group.Key,
+                    SquadNome = group.Key,
                     Quantidade = group.Count()
                 });
 
-            return estoriasGroup;
+            return estoriasGroup.ToList();
         }
 
         public long TotalGeralEstorias(IEnumerable<dynamic> demandas) => demandas.Count();
 
-        public dynamic TotalEstoriasPorFeature(IEnumerable<dynamic> demandasFeatues)
+        public List<FeaturesEstagioResult> TotalEstoriasPorFeature(IEnumerable<dynamic> demandasFeatues)
         {
             var totalPorFeature = demandasFeatues
                 .GroupBy(x => x.FeatureId)
@@ -73,16 +81,16 @@ namespace DashAgil.Entidades
 
             var featuresGroup = demandasFeatues
                 .GroupBy(x => new { x.FeatureId, x.FeatureDescricao, x.StatusDeXPara })
-                .Select(group => new
+                .Select(group => new FeaturesEstagioResult
                 {
                     FeatureId = group.Key.FeatureId,
                     FeatureDescricao = group.Key.FeatureDescricao,
-                    StatusDeXPara = group.Key.StatusDeXPara,
+                    StatusDeXPara = ((EDemandaStatusDexPara)group.Key.StatusDeXPara).GetDisplayName(),
                     Quantidade = group.Count(),
                     Percentual = Math.Round(Convert.ToDouble(group.Count()) / Convert.ToDouble(totalPorFeature.Where(x => x.FeatureId == group.Key.FeatureId).Select(x => x.Quantidade).FirstOrDefault()) * 100.0, 2)
                 });
 
-            return featuresGroup;
+            return featuresGroup.ToList();
         }
 
         public double PercentualFeaturesHomologacao(IEnumerable<dynamic> demandasFeatues)
@@ -96,62 +104,60 @@ namespace DashAgil.Entidades
                     StatusDeXPara = group.Key.StatusDeXPara,
                     Quantidade = group.Count()
                 })
-                .Where(c => c.StatusDeXPara == ((int)EDemandaStatusDexPara.Homologacao).ToString())
+                .Where(c => c.StatusDeXPara == (int)EDemandaStatusDexPara.Homologacao)
                 .Count();
 
             var totalEstoriasAux = Convert.ToDouble(totalEstorias);
             var totalEstoriasHomologacaoAux = Convert.ToDouble(totalEstoriasHomologacao);
-            return Math.Round((totalEstoriasHomologacaoAux / totalEstoriasAux * 100.0), 2);
+            if (totalEstoriasAux > 0)
+            {
+                return Math.Round((totalEstoriasHomologacaoAux / totalEstoriasAux * 100.0), 2);
+            }
+            else
+            {
+                return 0;
+            }    
         }
 
-        public dynamic EvolucaoSquad(IEnumerable<dynamic> demandas)
+        public List<DemandasResult> TratamentoListaEstorias(IEnumerable<dynamic> estorias)
         {
-            var estoriasGroup = demandas
-                .GroupBy(x => x.Squad.Nome)
-                .Select(group => new
+            var listaEstorias = estorias
+                .Select(x => new DemandasResult
                 {
-                    NomeSquad = group.Key,
-                    EvolucaoAnterior = group.Where(x => x.DataInicio <= DateTime.Today.AddDays(-7)).Count(),
-                    EvolucaoAtual = group.Count()
+                    Id = x.ExternalId,
+                    Tipo = ((EDemandaTipo)x.Tipo).GetDisplayName(),
+                    Descricao = x.Descricao,
+                    Status = ((EDemandaStatusDexPara)x.StatusDeXPara).GetDisplayName()
                 });
 
-            return estoriasGroup;
+            return listaEstorias.ToList();
         }
 
-        //public dynamic Burndown(IEnumerable<dynamic> demandas, string sprintId)
-        //{
-        //    var sprint = demandas
-        //        .Where(x => x.SprintId == sprintId)
-        //        .Select(group => new
-        //        {
-        //            SprintNome = group.SprintNome,
-        //            SprintDataInicio = group.SprintDataInicio,
-        //            SprintDataFim = group.SprintDataFim
-        //        }).FirstOrDefault();
+        public List<DemandaSquadEstagioResult> TotalEstoriasPorEstagioSquad(IEnumerable<dynamic> demandas)
+        {
+            var estoriasGroup = demandas
+                .GroupBy(x => new { x.Squad.Nome, x.StatusDeXPara })
+                .Select(group => new DemandaSquadEstagioResult
+                {
+                    SquadNome = group.Key.Nome,
+                    StatusDeXPara = ((EDemandaStatusDexPara)group.Key.StatusDeXPara).GetDisplayName(),
+                    Quantidade = group.Count()
+                });
 
-        //    DateTime dataInicioSprint = sprint.SprintDataInicio.Date();
-        //    DateTime dataFimSprint = sprint.SprintDataFim.Date();
-        //    dynamic retorno = new ExpandoObject();
-        //    retorno.SprintNome = sprint.SprintNome;
-        //    retorno.SprintDataInicio = dataInicioSprint;
-        //    retorno.SprintDataFim = dataFimSprint;
-                        
-        //    while (dataInicioSprint <= dataFimSprint)
-        //    {
-        //        var estoriasSprint = demandas
-        //        .Where(x => x.SprintId == sprintId)
-        //        .GroupBy(x => new { x.SprintNome, x.SprintDataInicio, x.SprintDataFim })
-        //        .Select(group => new
+            return estoriasGroup.ToList();
+        }
+
+        //public List<dynamic> GerarCFD(IEnumerable<Demanda> demandas)
+        //{
+        //    var estoriasGroup = demandas
+        //        .GroupBy(x => new { x.DataModificacao.Month, x.DataModificacao.Year })
+        //        .Select(group => new 
         //        {
-        //            Data = dataInicioSprint,
-        //            PontosTotalDia = group.Count(),//total pontos sprint
-        //            PontosConcluidosDia = group.Where(x => x.StatusDeXPara == (int)EDemandaStatusDexPara.DesenvolvimentoConcluido).Sum(x => x.Pontos) //pontos baixados nesse dia
+        //            Data = Convert.ToDateTime("01/" + group.Key.Month + 1 + "/" + group.Key.Year).AddDays(-1),
+        //            Quantidade = group.Count()
         //        });
-                
-        //        dataInicioSprint.AddDays(1);
-        //    }
-            
-        //    return estoriasSprint;
+
+        //    return estoriasGroup.ToList();
         //}
 
         public EDemandaStatusDexPara ConverterEstoriasStatus(EDemandaStatus status)
@@ -194,9 +200,10 @@ namespace DashAgil.Entidades
         }
 
         public Guid Id { get; set; }
+        public string Descricao { get; set; }
         public string ExternalId { get; set; }
         public int ClienteId { get; set; }
-        public Squad Squad { get; set; }
+        public Squads Squad { get; set; }
         public EDemandaTipo Tipo { get; set; }
         public Guid DemandaPaiId { get; set; }
         public string Responsavel { get; set; }

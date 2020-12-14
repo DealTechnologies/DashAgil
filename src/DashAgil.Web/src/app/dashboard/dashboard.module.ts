@@ -11,12 +11,18 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { OverviewService } from '../core/services';
+import { ChartsConfigurationService, ClientService, OverviewService, ProviderService } from '../core/services';
+import { SharedModule } from '../shared/shared.module';
+import { MaterialModule } from '../shared/material.module';
+import { SquadComponent } from './squad/squad.component';
+import { LeadTimeComponent } from './lead-time/lead-time.component';
 
 @NgModule({
-  declarations: [OverviewComponent],
+  declarations: [OverviewComponent, SquadComponent, LeadTimeComponent],
   imports: [
     CommonModule,
+    SharedModule,
+    MaterialModule,
     DashboardRoutingModule,
     chartjsModule,
     MatMenuModule,
@@ -30,7 +36,10 @@ import { OverviewService } from '../core/services';
     GaugeModule.forRoot()
   ],
   providers: [
-    OverviewService
+    ClientService,
+    OverviewService,
+    ProviderService,
+    ChartsConfigurationService,
   ]
 })
 export class DashboardModule {}

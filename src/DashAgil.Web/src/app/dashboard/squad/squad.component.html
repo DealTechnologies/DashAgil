@@ -1,0 +1,139 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Squad</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Dashboard</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="#" onClick="return false;">Squad</a>
+            </li>
+            <li class="breadcrumb-item active">{{squadName}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>SQUAD <strong>{{squadName}}</strong></h2>
+          </div>
+          <div class="body">
+            <div class="graphic" echarts [options]="optionsSquad"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Sprint 5</h2>
+          </div>
+          <div class="body">
+            <div class="graphic" echarts [options]="optionsSprint"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+              <div class="body text-center percent-homolog">
+                <h1>56%</h1>
+                <span>Em homologação – Features da Squad</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card risks">
+              <div class="header">
+                <h2>Riscos</h2>
+              </div>
+              <div class="body">
+                <div class="media-list position-relative">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-xl mb-0">
+                      <tbody>
+                        <tr>
+                          <td>
+                            1. Aberto chamado para liberação Sensedia no ambiente de homologação
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            2. Aguardando liberação do chamado do Hangfire
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Entregas no período</h2>
+          </div>
+          <div class="body delivery">
+            <ul class="timeline">
+              <li>
+                <div class="date">
+                  <span>12/12/2020</span>
+                </div>
+                <div class="timeline-panel">
+                  <div class="timeline-body">
+                    <p>Criar Método para Consultar o Status de Workflow do Documento de Acordo com o Fornecedor
+                      Escolhido - Qualisign</p>
+                    <p>Criar Método para Obter o Pacote P7 de Documentos de Acordo com o Fornecedor Escolhido -
+                      Qualisign</p>
+                    <p>Criar Método para Cancelar Documentos que Foram Incluídos no Fornecedor Escolhido - Qualisign
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="date">
+                  <span>11/12/2020</span>
+                </div>
+                <div class="timeline-panel">
+                  <div class="timeline-body">
+                    <p>Alterar Tela de Contrato de Câmbio no Sistema de Varejo</p>
+                    <p>Obter o Pacote P7S de Documentos da Assinatura Eletrônica no Sistema de Varejo</p>
+                    <p>Obter o Pacote P7S de Documentos da Assinatura Eletrônica no Sistema de Varejo</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="date">
+                  <span>08/12/2020</span>
+                </div>
+                <div class="timeline-panel">
+                  <div class="timeline-body">
+                    <p>Atualizar Status de Workflow da Assinatura Eletrônica no Sistema de Varejo</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -2,9 +2,9 @@
 
 namespace DashAgil.Commands.Output
 {
-    public class DemandaCommandResult : ICommandResult
+    public class GenericCommandResult : ICommandResult
     {
-        public DemandaCommandResult(bool sucess, string message, object data)
+        public GenericCommandResult(bool sucess, string message, object data)
         {
             Success = sucess;
             Message = message;
