@@ -22,8 +22,10 @@ namespace DashAgil.Integrador.Handlers
         private readonly ISprintRepositorio _sprintRepositorio;
         private readonly IDemandasRepostorio _demandasRepostory;
         private readonly ISquadRepositorio _squadRepositorio;
+        private readonly IDemandaHistoricoRepositorio _demandaHistoricoRepositorio;
 
-        public IntegradorJiraHandler(IBoardRepositorio boardRepositorio, IIssuegRepositorio issueRepositorio, IProjetoRepositorio projetoRepositorio, IProjetoIntegracaoRepositorio projetoIntegracaoRepositorio, ISprintRepositorio sprintRepositorio, IDemandasRepostorio demandasRepostory, ISquadRepositorio squadRepositorio)
+        public IntegradorJiraHandler(IBoardRepositorio boardRepositorio, IIssuegRepositorio issueRepositorio, IProjetoRepositorio projetoRepositorio, IProjetoIntegracaoRepositorio projetoIntegracaoRepositorio,
+            ISprintRepositorio sprintRepositorio, IDemandasRepostorio demandasRepostory, ISquadRepositorio squadRepositorio, IDemandaHistoricoRepositorio demandaHistoricoRepositorio)
         {
             _boardRepositorio = boardRepositorio;
             _issueRepositorio = issueRepositorio;
@@ -32,6 +34,7 @@ namespace DashAgil.Integrador.Handlers
             _sprintRepositorio = sprintRepositorio;
             _demandasRepostory = demandasRepostory;
             _squadRepositorio = squadRepositorio;
+            _demandaHistoricoRepositorio = demandaHistoricoRepositorio;
         }
 
         public async Task<ICommandResult> Handle(IntegracaoInicialJiraCommand command)
@@ -44,7 +47,12 @@ namespace DashAgil.Integrador.Handlers
 
             if (boardResult == null || !boardResult.Boards.Any())
                 return new IntegradorJiraCommandResult(false, "Não foram encontrados projetos para o endereço informado", null);
-            
+
+            var projetoIntegracao = await _projetoIntegracaoRepositorio.ObterPorUrl(command.Url);
+
+            if(projetoIntegracao.Any())
+                return new IntegradorJiraCommandResult(false, "Todos os projetos desta organização já estão integrados. Acesse seu painel para visualiza-los", null);
+
             foreach (var item in boardResult.Boards)
             {
                 var projetoId = await InserirProjeto(item, command.OrganizacaoId);
@@ -56,7 +64,9 @@ namespace DashAgil.Integrador.Handlers
                 await InserirDemandas(command, sprints, item.Id, squadId);
             }
 
-            return new IntegradorJiraCommandResult(true, "Integração efetuada com sucesso", boardResult);
+            var result = await _projetoRepositorio.ObterPorOrganizaçãoId(command.OrganizacaoId);
+
+            return new IntegradorJiraCommandResult(true, "Integração efetuada com sucesso", result);
         }
 
         private async Task<long> InserirProjeto(BoardQueryResult board, long organizacaoId)
@@ -88,7 +98,6 @@ namespace DashAgil.Integrador.Handlers
 
         }
 
-
         private async Task InserirDemandas(IntegracaoInicialJiraCommand command, List<Sprint> sprints, int boardId, long squadId)
         {
             _issueRepositorio.PreencherAcesso(command.Token, command.Url);
@@ -100,6 +109,7 @@ namespace DashAgil.Integrador.Handlers
             foreach (var item in demandas)
             {
                 await _demandasRepostory.Inserir(item);
+                await _demandaHistoricoRepositorio.Inserir(item.DemandaHistorico);
             }
 
         }

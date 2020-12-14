@@ -29,6 +29,7 @@ namespace DashAgil.Integrador.Entidades
         public string Comentario { get; set; }
         public int? Status { get; set; }
         public string Descricao { get; set; }
+        public DemandaHistorico DemandaHistorico { get; set; }
 
         public static List<Demandas> PreencherDemandasJira(IssuesPaginateQueryResult issue, List<Sprint> sprints, long projetoId, long squadId)
         {
@@ -56,9 +57,13 @@ namespace DashAgil.Integrador.Entidades
                 };
 
                 PreencherDataJira(item, demanda);
-
+                demanda.DemandaHistorico = PreencherDemandaHistoricoJira(demanda);
                 if (demanda.Tipo == 4)
                    demanda.DemandaPaiIntegracaoId = PreencherPai(item);
+
+
+
+
 
                 demandas.Add(demanda);
             }
@@ -66,6 +71,34 @@ namespace DashAgil.Integrador.Entidades
             PreencherIdsPai(demandas);
 
             return demandas;
+
+        }
+
+        private static DemandaHistorico PreencherDemandaHistoricoJira(Demandas demanda)
+        {
+            return new DemandaHistorico()
+            {
+                Id = demanda.Id,
+                ExternalId = demanda.ExternalId,
+                SprintId = demanda.SprintId,
+                ProjetoId = demanda.ProjetoId,
+                SquadId = demanda.SquadId,
+                Tipo = demanda.Tipo,
+                DemandaPaiId = demanda.DemandaPaiId,
+                Responsavel = demanda.Responsavel,
+                DataInicio = demanda.DataInicio,
+                DataModificacao = demanda.DataModificacao,
+                DataFim = demanda.DataFim,
+                Pontos = demanda.Pontos,
+                Tags = demanda.Tags,
+                Prioridade = demanda.Prioridade,
+                HorasEstimadas = demanda.HorasEstimadas,
+                HorasRestantes = demanda.HorasRestantes,
+                HorasUtilizadas = demanda.HorasUtilizadas,
+                Risco = demanda.Risco,
+                Comentario = demanda.Comentario,
+                Status = demanda.Status
+            };
 
         }
 

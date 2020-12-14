@@ -9,5 +9,7 @@ namespace DashAgil.Integrador.Repositorio
     public interface IProjetoRepositorio
     {
         Task<long> Inserir(Projeto projeto);
+
+        Task<List<Projeto>> ObterPorOrganizaçãoId(long organizacaoId);
     }
 }
