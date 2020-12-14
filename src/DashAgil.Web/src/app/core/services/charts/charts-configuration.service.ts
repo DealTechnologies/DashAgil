@@ -1,34 +1,27 @@
 import { Injectable } from '@angular/core';
 import { EChartOption } from 'echarts';
-import { Overview } from '../../models';
+import * as moment from 'moment';
+import { OverviewDemand, OverviewFeature } from '../../models';
+
+interface ChartData {
+  name?: string;
+  value: number | string;
+}
 
 @Injectable()
 export class ChartsConfigurationService {
 
   constructor() { }
 
-  demandsVsSquad(overview: Overview): EChartOption {
+  demandsVsSquad(overview: OverviewDemand): EChartOption {
 
-    const legends =
-      ['Squad 1', 'Squad 2', 'Squad 3', 'Squad 4', 'Squad 5', 'Squad 6', 'Squad 7', 'Squad 8', 'Squad 9', 'Squad 10'];
-
-    const seriesData = [
-      { value: 335, name: 'Squad 1' },
-      { value: 310, name: 'Squad 2' },
-      { value: 234, name: 'Squad 3' },
-      { value: 135, name: 'Squad 4' },
-      { value: 1200, name: 'Squad 5' },
-      { value: 548, name: 'Squad 6' },
-      { value: 25, name: 'Squad 7' },
-      { value: 85, name: 'Squad 8' },
-      { value: 200, name: 'Squad 9' },
-      { value: 12, name: 'Squad 10' },
-    ];
+    const legends: string[] = overview.listaEstoriasPorSquad.map(item => item.squadNome);
+    const series: ChartData[] = overview.listaEstoriasPorSquad.map(item => ({ name: item.squadNome, value: item.quantidade }));
 
     const chartOptions: EChartOption = {
       tooltip: {
         trigger: 'item',
-        formatter: '{b}: {c}'
+        formatter: '{b}: {c} demandas'
       },
       grid: {
       },
@@ -68,7 +61,7 @@ export class ChartsConfigurationService {
               fontWeight: 'bold',
             }
           },
-          data: seriesData
+          data: series
         }
       ]
     };
@@ -76,32 +69,11 @@ export class ChartsConfigurationService {
     return chartOptions;
   }
 
-  inExecution(): EChartOption {
+  inExecution(overview: OverviewDemand): EChartOption {
 
-    const legends =
-      ['Squad 1', 'Squad 2', 'Squad 3', 'Squad 4', 'Squad 5', 'Squad 6', 'Squad 7', 'Squad 8', 'Squad 9', 'Squad 10'];
-
-    const seriesData = [
-      { value: 335, name: 'Squad 1' },
-      { value: 310, name: 'Squad 2' },
-      { value: 234, name: 'Squad 3' },
-      { value: 135, name: 'Squad 4' },
-      { value: 1200, name: 'Squad 5' },
-      { value: 548, name: 'Squad 6' },
-      { value: 25, name: 'Squad 7' },
-      { value: 85, name: 'Squad 8' },
-      { value: 200, name: 'Squad 9' },
-      { value: 12, name: 'Squad 10' },
-    ];
+    const series: ChartData[] = [{ value: overview.totalGeralEstorias }];
 
     const chartOptions: EChartOption = {
-      // title: {
-      //   text: 'Demandas',
-      //   textStyle: {
-      //     color: 'white'
-      //   },
-      //   textAlign: 'left'
-      // },
       tooltip: {
       },
       grid: {
@@ -134,7 +106,7 @@ export class ChartsConfigurationService {
             color: 'rgb(91, 155, 213)'
           },
           barWidth: 20,
-          data: [2342]
+          data: series
         }
       ]
     };
@@ -142,7 +114,11 @@ export class ChartsConfigurationService {
     return chartOptions;
   }
 
-  squad(): EChartOption {
+  squad(overview: OverviewFeature): EChartOption {
+
+    const legends: string[] = []// overview.listaEstoriasPorSquad.map(item => item.squadNome);
+    const series: ChartData[] = [] //overview.listaEstoriasPorSquad.map(item => ({ name: item.squadNome, value: item.quantidade }));
+
     const chartOptions: EChartOption = {
       tooltip: {
         trigger: 'axis',
@@ -279,42 +255,48 @@ export class ChartsConfigurationService {
     return chartOptions;
   }
 
-  sprint(): EChartOption {
+  sprint(overview: OverviewFeature): EChartOption {
+
+    let title: string;
+    let categories: string[];
+    let seriesTotal: ChartData[];
+    let seriesComplete: ChartData[];
+
+    if (overview.sprintBurndown) {
+      const start = moment(overview.sprintBurndown.dataInicio).format('DD/MMM');
+      const end = moment(overview.sprintBurndown.dataFim).format('DD/MMM');
+      title = `${start} - ${end}`;
+
+      categories = overview.sprintBurndown.demandasHistoricos.map(item => moment(item.dia).format('DD/MM/YYYY'));
+      seriesTotal = overview.sprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.pontosTotalDia }));
+      seriesComplete = overview.sprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.pontosConcluidosDia }));
+    }
+
     const chartOptions: EChartOption = {
+      title: {
+        text: title,
+        // textAlign: 'center',
+        textStyle: {
+          color: 'rgba(255, 255, 255, 1)',
+          fontSize: 15,
+          align: 'center'
+        }
+      },
       legend: {
         icon: 'roundRect',
-        data: [
-          { name: 'Velocidade Ideal' },
-          { name: 'Velocidade da Sprint' },
-        ],
+        data: ['Velocidade Ideal', 'Velocidade da Sprint'],
         textStyle: {
           color: 'rgba(255, 255, 255, 1)'
         },
         bottom: 0
       },
       grid: {
-        top: '3%',
-        height: '70%'
+        top: 45,
+        bottom: 80,
       },
       xAxis: {
         type: 'category',
-        data: [
-          '29/09/2020',
-          '30/09/2020',
-          '01/10/2020',
-          '02/10/2020',
-          '03/10/2020',
-          '04/10/2020',
-          '05/10/2020',
-          '06/10/2020',
-          '07/10/2020',
-          '08/10/2020',
-          '09/10/2020',
-          '10/10/2020',
-          '11/10/2020',
-          '12/10/2020',
-          '13/10/2020',
-        ],
+        data: categories,
         axisLabel: {
           color: 'rgba(255, 255, 255, 1)',
           rotate: 55,
@@ -345,7 +327,7 @@ export class ChartsConfigurationService {
       },
       series: [{
         name: 'Velocidade Ideal',
-        data: [95, 95, 82, 70, 60, 58, 55, 40, 38, 35, 28, 22, 18, 10, 0],
+        data: seriesTotal,
         type: 'line',
         symbol: 'none',
         lineStyle: {
@@ -355,7 +337,7 @@ export class ChartsConfigurationService {
       },
       {
         name: 'Velocidade da Sprint',
-        data: [95, 95, 95, 80, 75, 70, 52, 35, 28, 42, 30, 20, 15, 15, 0],
+        data: seriesComplete,
         type: 'line',
         symbol: 'none',
         lineStyle: {

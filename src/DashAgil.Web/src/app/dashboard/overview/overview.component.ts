@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { EChartOption } from 'echarts';
-import { ChartsConfigurationService, OverviewService } from 'src/app/core/services';
+import { Client, OverviewDemand, Provider } from 'src/app/core/models';
+import { ChartsConfigurationService, ClientService, OverviewService, ProviderService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-overview',
@@ -12,27 +13,78 @@ export class OverviewComponent implements OnInit {
 
   optionsDemandsVsSquad: EChartOption;
   optionsInExecution: EChartOption;
-  project: FormControl;
+  overview: OverviewDemand;
+  provider: FormControl;
+  client: FormControl;
+  providers: Provider[];
+  clients: Client[];
 
   optionsRadar: EChartOption;
 
-  constructor(private _overviewService: OverviewService, private chartsConfiguration: ChartsConfigurationService) { }
+  constructor(
+    private overviewService: OverviewService,
+    private chartsConfiguration: ChartsConfigurationService,
+    private clientService: ClientService,
+    private providerService: ProviderService) { }
 
   ngOnInit() {
-    this.project = new FormControl('1');
+    this.overview = new OverviewDemand();
+    this.provider = new FormControl();
+    this.client = new FormControl();
 
-    this.project.valueChanges.subscribe(projectId => {
-      console.log(projectId);
+    this.provider.valueChanges.subscribe(providerId => {
+      this.loadClients(providerId);
     });
 
-    this._overviewService.getDemandsOverview(1).subscribe(demands => {
-      console.log(demands);
+    this.client.valueChanges.subscribe(clientId => {
+      this.loadDemands(clientId);
     });
 
-    this.optionsDemandsVsSquad = this.chartsConfiguration.demandsVsSquad(null);
-    this.optionsInExecution = this.chartsConfiguration.inExecution();
+    this.loadProviders();
 
     this.optionsRadar = this.chartsConfiguration.radar();
+  }
+
+  loadProviders() {
+    this.providerService.getProviders().subscribe(providers => {
+      this.providers = providers;
+
+      if (providers.length) {
+        this.provider.setValue(providers[0].id);
+      }
+    });
+  }
+
+  loadClients(providerId: number) {
+    this.clientService.getClientByProvider(providerId).subscribe(clients => {
+      this.clients = clients;
+
+      if (clients.length) {
+        this.client.setValue(clients[0].id);
+      }
+    });
+  }
+
+  loadDemands(clientId: number) {
+    this.overviewService.getOverviewDemands(clientId).subscribe(overview => {
+      this.overview = overview;
+      this.optionsDemandsVsSquad = this.chartsConfiguration.demandsVsSquad(overview);
+      this.optionsInExecution = this.chartsConfiguration.inExecution(overview);
+    });
+  }
+
+  getIcon(providerId: number) {
+    switch (providerId) {
+      case 1:
+        return 'devops';
+        break;
+      case 2:
+        return 'jira';
+        break;
+      case 3:
+        return 'trello';
+        break;
+    }
   }
 
   onChartEvent(event: any, type: string) {

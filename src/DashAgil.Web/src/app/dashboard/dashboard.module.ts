@@ -11,7 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { ChartsConfigurationService, OverviewService } from '../core/services';
+import { ChartsConfigurationService, ClientService, OverviewService, ProviderService } from '../core/services';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../shared/material.module';
 import { SquadComponent } from './squad/squad.component';
@@ -36,8 +36,10 @@ import { LeadTimeComponent } from './lead-time/lead-time.component';
     GaugeModule.forRoot()
   ],
   providers: [
+    ClientService,
     OverviewService,
-    ChartsConfigurationService
+    ProviderService,
+    ChartsConfigurationService,
   ]
 })
 export class DashboardModule {}
