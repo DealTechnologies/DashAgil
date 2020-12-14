@@ -20,6 +20,18 @@ namespace DashAgil.Integrador.Entidades
         public StatusSprint Status { get; set; }
 
 
+        public static Sprint PreencherSprints(string nome, long projetoId)
+        {
+            return new Sprint()
+            {
+                ExternalId = Guid.NewGuid().ToString(),
+                ProjetoId = projetoId,
+                Nome = nome,
+                Descricao = nome
+            };
+        }
+
+
         public static List<Sprint> PreencherSprints(SprintPaginateQueryResult sprintJira, long projetoId)
         {
             var sprints = new List<Sprint>();

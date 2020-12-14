@@ -1,4 +1,5 @@
 ﻿
+using DashAgil.Integrador.Entidades.Devops;
 using DashAgil.Integrador.Jira.Queries.Issues;
 using System;
 using System.Collections.Generic;
@@ -31,10 +32,63 @@ namespace DashAgil.Integrador.Entidades
         public string Descricao { get; set; }
         public DemandaHistorico DemandaHistorico { get; set; }
 
+
+        public static Demandas PreencherDemandaDevops(WorkItemResult workItens, long projetoId, long squadId, long sprintId)
+        {
+            return   new Demandas
+            {
+                ProjetoId = projetoId,
+                ExternalId = workItens.Id.ToString(),
+                DataInicio = Convert.ToDateTime(workItens.Fields.ActivatedDate),
+                Descricao = workItens.Fields.SystemTitle,
+                Comentario = workItens.Fields.SystemHistory,
+                DataModificacao = Convert.ToDateTime(workItens.Fields.SystemChangedDate),
+                DataCadastro = Convert.ToDateTime(workItens.Fields.SystemCreatedDate), 
+                HorasEstimadas = workItens.Fields.OriginalEstimate,
+                HorasUtilizadas = workItens.Fields.RemainingWork,
+                Tipo = ObterTipoWorkItemDevops(workItens.Fields.SystemWorkItemType),
+                HorasRestantes = workItens.Fields.RemainingWork,
+                Prioridade = (int)workItens.Fields.MicrosoftVstsCommonPriority,
+                Status = ObterStatusDemanda(workItens.Fields.SystemState),
+                Responsavel = workItens.Fields.SystemAssignedTo.DisplayName,
+                SquadId = squadId,
+                SprintId = sprintId
+            }; 
+        }
+
+        public static int? ObterStatusDemanda(string state)
+            => state switch
+            {
+                "Backlog" => 1,
+                "Priorizado" => 2,
+                "AnaliseViabilidade" => 3,
+                "Especificacao" => 4,
+                "BacklogDesenvolvimento" => 5,
+                "Desenvolvimento" => 6,
+                "GC" => 7,
+                "PacoteLiberado" => 8,
+                "Homologacao" => 9,
+                "FilaProducao" => 10,
+                "Concluido" => 11,
+                "PromoverMain" => 12,
+                _ => null
+            };
+        public static int ObterTipoWorkItemDevops(string tipo)
+            => tipo switch
+            {
+                "Epic" => 1,
+                "Feature" => 2,
+                "User Story" => 3,
+                "Task" => 4,
+                "Bug" => 5,
+                _ => 0,
+            }; 
+
         public static List<Demandas> PreencherDemandasJira(IssuesPaginateQueryResult issue, List<Sprint> sprints, long projetoId, long squadId)
+
         {
             var demandas = new List<Demandas>();
-            
+
             foreach (var item in issue.Issues)
             {
                 var demanda = new Demandas()
@@ -106,10 +160,10 @@ namespace DashAgil.Integrador.Entidades
         {
             demanda.DataInicio = Convert.ToDateTime(issue.Fields.Created);
 
-            if(issue?.Fields?.Updated != null)
+            if (issue?.Fields?.Updated != null)
                 demanda.DataModificacao = Convert.ToDateTime(issue.Fields.Updated);
 
-            if(issue?.Fields?.Status?.Name != null && issue?.Fields?.Status?.Name == "Concluído")
+            if (issue?.Fields?.Status?.Name != null && issue?.Fields?.Status?.Name == "Concluído")
                 demanda.DataFim = Convert.ToDateTime(issue.Fields.Updated);
         }
 

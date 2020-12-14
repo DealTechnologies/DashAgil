@@ -88,7 +88,7 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
             _param.Add("@Tipo", entity.Tipo);
             _param.Add("@Id", entity.Id);
             
-             _context.Connection.Execute(Queries.DemandasQueries.Insert, _param);
+             await _context.Connection.ExecuteAsync(Queries.DemandasQueries.Insert, _param);
         }
 
         public async Task<long> Inserir(Demandas entity)

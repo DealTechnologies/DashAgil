@@ -37,7 +37,7 @@ namespace DashAgil.Integrador.Api.Extensions
         /// <param name="services"></param>
         public static void AddHandlers(this IServiceCollection services)
         {
-            services.AddSingleton<IntegradorHandler, IntegradorHandler>();
+            services.AddSingleton<IntegradorHandler, IntegradorHandler>(); 
             services.AddSingleton<IntegradorJiraHandler, IntegradorJiraHandler>();
 
             //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
@@ -73,8 +73,15 @@ namespace DashAgil.Integrador.Api.Extensions
             services.AddSingleton<IProjetoRepositorio, ProjetoRepositorio>();
             services.AddSingleton<IProjetoIntegracaoRepositorio, ProjetoIntegracaoRepositorio>();
             services.AddSingleton<ISprintRepositorio, SprintRepositorio>();
+
+            services.AddSingleton<ISquadRepositorio, SquadRepositorio>();
+            services.AddSingleton<IDemandasRepostorio, DemandasRepostorio>();
+            services.AddSingleton<IOrganizacoesRepositorio, OrganizacoesRepositorio>();
+
+
             services.AddSingleton<IDemandasRepostorio, DemandasRepostorio>();     
-            services.AddSingleton<ISprintsRepositorio, SprintsRepositorio>();
+
+            services.AddSingleton<ISprintsRepositorio, SprintsRepositorio>(); 
             services.AddSingleton<ISquadRepositorio, SquadRepositorio>();
             services.AddSingleton<IDemandaHistoricoRepositorio, DemandaHistoricoRepositorio>();
             

@@ -21,7 +21,7 @@ namespace DashAgil.Infra.Data.Repositorio
 
         public async Task<IEnumerable<Demandas>> GetDemandas(string clienteId, int tipo)
         {
-            return _context.Connection.Query<Demandas, Squads, Demandas>(Queries.DemandaQueries.GetDemandas,
+            return await _context.Connection.QueryAsync<Demandas, Squads, Demandas>(Queries.DemandaQueries.GetDemandas,
                 (demanda, squad) =>
                 {
                     demanda.Squad = squad;

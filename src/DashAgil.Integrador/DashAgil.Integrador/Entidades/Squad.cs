@@ -1,6 +1,9 @@
 ﻿using System;
+
+
 using System.Collections.Generic;
 using System.Text;
+
 
 namespace DashAgil.Integrador.Entidades
 {
@@ -27,6 +30,9 @@ namespace DashAgil.Integrador.Entidades
             };
 
         }
+
+
+
 
 
     }
