@@ -23,17 +23,17 @@ namespace DashAgil.Handlers
 
             if (Invalid)
             {
-                new DashAgilCommandResult(false, "auth failed.", Notifications);
+                new DashAgilCommandResult(false, "auth failed", Notifications);
             }
 
-            var usuario = await usuarioSquadsRepository.ObterAsync(command.Email, command.Password);
+            var usuario = await usuarioSquadsRepository.ObterAsync(command.Username, command.Password);
             if (usuario == null)
             {
-                return new DashAgilCommandResult(false, "auth failed.", usuario);
+                return new DashAgilCommandResult(false, "auth failed", usuario);
             }
 
             var acessos = await usuarioSquadsRepository.ObterAcessosAsync(usuario.Id);
-            return new DashAgilCommandResult(true, "success.", acessos);
+            return new DashAgilCommandResult(true, "success", acessos);
         }
     }
 }

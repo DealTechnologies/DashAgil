@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 namespace DashAgil.Api.Controllers.Dominio
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
-    public class AuthController : ApiController
+    [Route("[controller]")]
+    public class AuthenticateController : ApiController
     {
         private readonly AuthHandler authHandler;
-        public AuthController(AuthHandler authHandler)
+        public AuthenticateController(AuthHandler authHandler)
         {
             this.authHandler = authHandler;
         }
 
-        [HttpPost("Login")]
+        [HttpPost]
         public async Task<IActionResult> Login([FromBody] AuthCommand command)
         {
             var response = await authHandler.Handle(command);
@@ -25,7 +25,7 @@ namespace DashAgil.Api.Controllers.Dominio
                 return Ok(response);
             }
 
-            return BadRequest(response);
+            return Unauthorized(response);
         }
     }
 }
