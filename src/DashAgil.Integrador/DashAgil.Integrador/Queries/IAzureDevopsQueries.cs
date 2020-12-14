@@ -7,7 +7,7 @@ namespace DashAgil.Integrador.Queries
     {
         Task<DevopsResult<ProjectsResult>> ObterProjetos(string organizacao, string token);
         Task<DevopsResult<WorkItensTypeResult>> ObterWorkItensTypes(string organizacao, string time, string projeto, string token);
-        Task<DevopsResult<QueryResult>> ConsultarPorQuery(string organizacao, string token);
-        Task<DevopsResult<WorkItemResult>> GetWorkItemByURL(string url, string organizacao, string token);
+        Task<QueryResult> ConsultarPorQuery(string organizacao, string token);
+        Task<string> GetWorkItemByURL(string url, string organizacao, string token);
     }
 }

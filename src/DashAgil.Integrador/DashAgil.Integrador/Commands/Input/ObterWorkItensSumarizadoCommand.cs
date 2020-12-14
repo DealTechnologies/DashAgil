@@ -4,9 +4,9 @@ using Flunt.Validations;
 
 namespace DashAgil.Integrador.Commands.Input
 {
-    public class AtualizarProjetosCommand : Notifiable, ICommandPadrao
+    public class ObterWorkItensSumarizadoCommand : Notifiable, ICommandPadrao
     {
-        public string Organizacao { get; set; }
+        public string Organizacao { get; set; } 
         public string Token { get; set; }
 
         public bool EhValido()

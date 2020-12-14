@@ -22,10 +22,10 @@ namespace DashAgil.Integrador.DevOps.Query
             return await HTTPServices.DevopsRequest<DevopsResult<ProjectsResult>>(uri, token, organizacao);
         }
 
-        public async Task<DevopsResult<QueryResult>> ConsultarPorQuery(string organizacao, string token)
+        public async Task<QueryResult> ConsultarPorQuery(string organizacao, string token)
         {
             string uri = string.Format(_settings.EndPoints.URI + _settings.EndPoints.WorkItemByQuery, organizacao);
-            return await HTTPServices.DevopsRequest<DevopsResult<QueryResult>>(uri, token, organizacao,
+            return await HTTPServices.DevopsRequest<QueryResult>(uri, token, organizacao,
                                                                                new { query = _settings.Queries.AllWorkItens }, Method.POST);
         }
 
@@ -35,9 +35,9 @@ namespace DashAgil.Integrador.DevOps.Query
             return await HTTPServices.DevopsRequest<DevopsResult<WorkItensTypeResult>>(uri, token, organizacao);
         }
 
-        public async Task<DevopsResult<WorkItemResult>> GetWorkItemByURL(string url, string organizacao, string token)
+        public async Task<string> GetWorkItemByURL(string url, string organizacao, string token)
         { 
-            return await HTTPServices.DevopsRequest<DevopsResult<WorkItemResult>>(url, token, organizacao);
+            return await HTTPServices.DevopsRequestContent(url, token, organizacao);
         }
 
         private string ObterTokenAutenticacao(string organizacao)

@@ -32,7 +32,7 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
 
         public async Task<SprintPaginateQueryResult> ObterSprintsJira(int boardId)
         {
-            return await _httpService.GetAsync<SprintPaginateQueryResult>(_dadosAcesso.BaseUrl, "board/"+boardId+"/sprint", _dadosAcesso.Token);
+            return await _httpService.GetAsync<SprintPaginateQueryResult>(_dadosAcesso.BaseUrl, "board/" + boardId + "/sprint", _dadosAcesso.Token);
         }
 
         public async Task<long> Inserir(Sprint sprint)
@@ -68,5 +68,8 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
 
             return result.ToList();
         }
+
+        public Task<Sprint> Obter(string nome)
+            => _context.Connection.QueryFirstOrDefaultAsync<Sprint>("SELECT * FROM DashAgil.dbo.Sprints WHERE Nome  LIKE '%' + @nome + '%'  ", new { nome });
     }
 }

@@ -1,4 +1,5 @@
 ﻿
+using DashAgil.Integrador.Entidades.Devops;
 using DashAgil.Integrador.Jira.Queries.Issues;
 using System;
 using System.Collections.Generic;
@@ -29,18 +30,56 @@ namespace DashAgil.Integrador.Entidades
         public int? Status { get; set; }
         public string Descricao { get; set; }
 
-        public static List<Demandas> PreencherDemandaDevops(List<Devops.WorkItemResult> workItens, long projetoId)
+        public static Demandas PreencherDemandaDevops(WorkItemResult workItens, long projetoId, long squadId, long sprintId)
         {
-            return (List<Demandas>)workItens.Select(x => new Demandas
+            return   new Demandas
             {
                 ProjetoId = projetoId,
-                ExternalId = x.Id.ToString(),
-                DataInicio = Convert.ToDateTime(x.Fields.MicrosoftVstsCommonActivatedDate),
-                Descricao = x.Fields.SystemAreaPath, 
-            });
+                ExternalId = workItens.Id.ToString(),
+                DataInicio = Convert.ToDateTime(workItens.Fields.ActivatedDate),
+                Descricao = workItens.Fields.SystemTitle,
+                Comentario = workItens.Fields.SystemHistory,
+                DataModificacao = Convert.ToDateTime(workItens.Fields.SystemChangedDate),
+                DataCadastro = Convert.ToDateTime(workItens.Fields.SystemCreatedDate), 
+                HorasEstimadas = workItens.Fields.OriginalEstimate,
+                HorasUtilizadas = workItens.Fields.RemainingWork,
+                Tipo = ObterTipoWorkItemDevops(workItens.Fields.SystemWorkItemType),
+                HorasRestantes = workItens.Fields.RemainingWork,
+                Prioridade = (int)workItens.Fields.MicrosoftVstsCommonPriority,
+                Status = ObterStatusDemanda(workItens.Fields.SystemState),
+                Responsavel = workItens.Fields.SystemAssignedTo.DisplayName,
+                SquadId = squadId,
+                SprintId = sprintId
+            }; 
         }
 
-
+        public static int? ObterStatusDemanda(string state)
+            => state switch
+            {
+                "Backlog" => 1,
+                "Priorizado" => 2,
+                "AnaliseViabilidade" => 3,
+                "Especificacao" => 4,
+                "BacklogDesenvolvimento" => 5,
+                "Desenvolvimento" => 6,
+                "GC" => 7,
+                "PacoteLiberado" => 8,
+                "Homologacao" => 9,
+                "FilaProducao" => 10,
+                "Concluido" => 11,
+                "PromoverMain" => 12,
+                _ => null
+            };
+        public static int ObterTipoWorkItemDevops(string tipo)
+            => tipo switch
+            {
+                "Epic" => 1,
+                "Feature" => 2,
+                "User Story" => 3,
+                "Task" => 4,
+                "Bug" => 5,
+                _ => 0,
+            };
         public static List<Demandas> PreencherDemandasJira(IssuesPaginateQueryResult issue, List<Sprint> sprints, long projetoId)
         {
             var demandas = new List<Demandas>();

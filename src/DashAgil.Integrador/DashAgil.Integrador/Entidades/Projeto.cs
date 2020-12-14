@@ -16,6 +16,18 @@ namespace DashAgil.Integrador.Entidades
         public DateTime? DataModificacao { get; set; }
         public DateTime? DataExclusao { get; set; }
 
+        public static Projeto PreencherProjeto(long orgId, string nomeProjeto)
+        {
+            return new Projeto()
+            {
+                ExternalId = Guid.NewGuid().ToString(),
+                OrganizacaoId = orgId,
+                Nome = nomeProjeto,
+                Descricao = nomeProjeto,
+                DataCriacao = DateTime.Now
+            };
+        }
+
         public static Projeto PreencherInsercao(BoardQueryResult board, long organizacaoId)
         {
             return new Projeto()
