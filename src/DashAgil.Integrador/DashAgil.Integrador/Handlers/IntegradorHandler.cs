@@ -55,8 +55,6 @@ namespace DashAgil.Integrador.Handlers
         {
             var organizacao = await _orgRepo.ObterPorNome(command.Organizacao);
 
-            if (organizacao != null)
-                return new IntegradorCommandResult(false, "Essa organização ja foi integrada!", null);
 
             var projetosDevops = await _query.ObterProjetos(command.Organizacao, command.Token);
 
@@ -64,21 +62,26 @@ namespace DashAgil.Integrador.Handlers
                 return new IntegradorCommandResult(false, "falha ao tentar atualizar a base de projetos", null);
 
 
-            var organizcaoId = await _orgRepo.Inserir(new Organizacoes
+            if (organizacao is null)
             {
-                ClienteId = command.ClienteId,
-                DataCadastro = DateTime.Now,
-                DataModificacao = DateTime.Now,
-                Nome = command.Organizacao
-            });
+                organizacao.Id = await _orgRepo.Inserir(new Organizacoes
+                {
+                    ClienteId = command.ClienteId,
+                    DataCriacao = DateTime.Now,
+                    DataModificacao = DateTime.Now,
+                    Nome = command.Organizacao,
+                    Descricao = command.Organizacao
+                });
+            }
 
-            projetosDevops.Value.ForEach(async x => await _projetoRepo.Inserir(new Projeto
+            projetosDevops.Value.ForEach(x => _projetoRepo.Inserir(new Projeto
             {
                 Descricao = x.Description,
                 DataModificacao = Convert.ToDateTime(x.LastUpdateTime),
                 ExternalId = x.Id,
                 Nome = x.Name,
-                OrganizacaoId = organizcaoId
+                OrganizacaoId = organizacao.Id,
+                DataCriacao = DateTime.Now
             }));
 
             var handleItens = await Handle(new ObterWorkItensSumarizadoCommand { Organizacao = command.Organizacao, Token = command.Token });
@@ -112,36 +115,36 @@ namespace DashAgil.Integrador.Handlers
 
         public async Task<ICommandResult> Handle(ObterWorkItensSumarizadoCommand command)
         {
-            var organizacao = _orgRepo.ObterPorNome(command.Organizacao);
+            var organizacao = await _orgRepo.ObterPorNome(command.Organizacao);
 
             if (organizacao == null)
                 return new IntegradorCommandResult(false, "Organização não localizada", command);
 
             var workItensQuery = await _query.ConsultarPorQuery(command.Organizacao, command.Token);
 
-            workItensQuery.WorkItems.ForEach(async res =>
+            foreach (var res in workItensQuery.WorkItems)
             {
                 var stringResult = await _query.GetWorkItemByURL(res.Url, command.Organizacao, command.Token);
 
                 if (stringResult != null)
                 {
-                    stringResult.Replace("System.", string.Empty);
-                    stringResult.Replace("Microsoft.VSTS.Common.", string.Empty);
-                    stringResult.Replace("Microsoft.VSTS.Scheduling.", string.Empty);
+                    stringResult = stringResult.Replace("System.", string.Empty)
+                                               .Replace("Microsoft.VSTS.Common.", string.Empty)
+                                               .Replace("Microsoft.VSTS.Scheduling.", string.Empty);
 
 
                     var workIten = JsonConvert.DeserializeObject<WorkItemResult>(stringResult);
                     var projeto = await GerenciarProjeto(workIten, organizacao.Id);
                     var squad = await GerenciarSquad(workIten, projeto.Id);
-                    var sprint = await GerenciarSprint(workIten , projeto.Id);
+                    var sprint = await GerenciarSprint(workIten, projeto.Id);
 
                     var demanda = Demandas.PreencherDemandaDevops(workIten, projeto.Id, squad.Id, sprint.Id);
 
                     _demandasRepo.Insert(demanda);
                 }
 
-            });
-             
+            };
+
 
             return new IntegradorCommandResult(true, "Tipos de work itens atualizados com sucesso", null);
         }
@@ -154,7 +157,7 @@ namespace DashAgil.Integrador.Handlers
             if (sprint is null)
             {
                 sprint = Sprint.PreencherSprints(nomesprint, projetoId);
-                await _sprintRepo.Inserir(sprint); 
+                sprint.Id = (int)await _sprintRepo.Inserir(sprint);
             }
 
             return sprint;
@@ -169,7 +172,7 @@ namespace DashAgil.Integrador.Handlers
             if (squad is null)
             {
                 squad = Squad.PreencherInsercao(nomesquad, projetoId);
-                await _squadRepo.Inserir(squad);
+                squad.Id = (int)await _squadRepo.Inserir(squad);
             }
 
             return squad;
@@ -184,7 +187,7 @@ namespace DashAgil.Integrador.Handlers
             if (projeto is null)
             {
                 projeto = Projeto.PreencherProjeto(organizacaoId, nomeProjeto);
-                await _projetoRepo.Inserir(projeto);
+                projeto.Id = (int)await _projetoRepo.Inserir(projeto);
             }
 
             return projeto;

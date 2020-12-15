@@ -36,7 +36,7 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
         } 
 
         public async Task<Squad> ObterPorNome(string nome)
-        => await _context.Connection.QueryFirstOrDefaultAsync<Squad>("SELECT * FROM  DashAgil.dbo.Squads WHERE Nome =  LIKE '%' + @nome + '%' ", new { nome });
+        => await _context.Connection.QueryFirstOrDefaultAsync<Squad>("SELECT * FROM  DashAgil.dbo.Squads WHERE Nome =  @nome ", new { nome });
  
     }
 }

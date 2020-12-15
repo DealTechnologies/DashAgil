@@ -70,6 +70,6 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
         }
 
         public Task<Sprint> Obter(string nome)
-            => _context.Connection.QueryFirstOrDefaultAsync<Sprint>("SELECT * FROM DashAgil.dbo.Sprints WHERE Nome  LIKE '%' + @nome + '%'  ", new { nome });
+            => _context.Connection.QueryFirstOrDefaultAsync<Sprint>("SELECT * FROM DashAgil.dbo.Sprints WHERE Nome =  @nome ", new { nome });
     }
 }
