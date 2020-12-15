@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { EChartOption } from 'echarts';
 import { Client, OverviewDemand, Provider } from 'src/app/core/models';
-import { ChartsConfigurationService, ClientService, OverviewService, ProviderService } from 'src/app/core/services';
+import { AuthService, ChartsConfigurationService, ClientService, OverviewService, ProviderService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-overview',
@@ -25,7 +25,8 @@ export class OverviewComponent implements OnInit {
     private overviewService: OverviewService,
     private chartsConfiguration: ChartsConfigurationService,
     private clientService: ClientService,
-    private providerService: ProviderService) { }
+    private providerService: ProviderService,
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.overview = new OverviewDemand();
@@ -46,23 +47,23 @@ export class OverviewComponent implements OnInit {
   }
 
   loadProviders() {
-    this.providerService.getProviders().subscribe(providers => {
-      this.providers = providers;
+    this.providers = this.authService.currentUserValue.provedores;
 
-      if (providers.length) {
-        this.provider.setValue(providers[0].id);
-      }
-    });
+    if (this.providers.length) {
+      const provider = this.providers[0];
+      this.provider.setValue(provider.id);
+
+      this.clients = this.clients = provider.clientes;
+    }
   }
 
   loadClients(providerId: number) {
-    this.clientService.getClientByProvider(providerId).subscribe(clients => {
-      this.clients = clients;
+    const provider = this.providers.find(item => item.id == providerId);
+    this.clients = provider.clientes;
 
-      if (clients.length) {
-        this.client.setValue(clients[0].id);
-      }
-    });
+    if (this.clients.length) {
+      this.client.setValue(this.clients[0].id);
+    }
   }
 
   loadDemands(clientId: number) {
