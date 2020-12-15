@@ -22,8 +22,8 @@ namespace DashAgil.Api.Controllers.Dominio
         }
 
         [HttpGet]
-        [Route("ObterClientesPorCliente")]
-        public async Task<IActionResult> ObterClientesPorCliente([FromQuery] ObterClientesPorProvedorCommand command)
+        [Route("ObterClientesPorProvedor")]
+        public async Task<IActionResult> ObterClientesPorProvedor([FromQuery] ObterClientesPorProvedorCommand command)
         {
             var response = await handler.Handle(command);
             return Ok(response);
