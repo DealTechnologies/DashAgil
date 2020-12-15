@@ -20,47 +20,54 @@
     <div class="row">
       <div class="widgets col-xl-2 col-lg-2 col-md-12 col-sm-12">
         <mat-form-field appearance="fill" class="w-100">
-          <mat-select [formControl]="project" ngClass="project">
-            <mat-option value="1">DevOps</mat-option>
-            <mat-option value="2">Jira</mat-option>
+          <mat-select [formControl]="provider">
+            <mat-option *ngFor="let provider of providers" [value]="provider.id">
+              {{provider.descricao}}
+            </mat-option>
           </mat-select>
           <span matPrefix>
-            <mat-icon class="m-r-10" [svgIcon]="project.value == '1' ? 'devops' : 'jira'"></mat-icon>
+            <mat-icon class="m-r-10" [svgIcon]="getIcon(provider.value)"></mat-icon>
+          </span>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-100 client">
+          <mat-select [formControl]="client">
+            <mat-option *ngFor="let client of clients" [value]="client.id">
+              {{client.nome}}
+            </mat-option>
+          </mat-select>
+          <span matPrefix>
+            <mat-icon class="m-r-10">account_circle</mat-icon>
           </span>
         </mat-form-field>
 
         <div class="counter-box text-center">
           <div class="text font-15 m-b-5">Demandas Total</div>
-          <h3 class="m-b-10">2342 </h3>
+          <h3 class="m-b-10">{{overview.totalGeralEstorias}}</h3>
         </div>
         <div class="counter-box text-center">
           <div class="text font-15 m-b-5">Em Backlog</div>
-          <h3 class="m-b-10">324 </h3>
+          <h3 class="m-b-10">{{overview.listaEstoriasPorEstagio.Remanescente}}</h3>
         </div>
         <div class="counter-box text-center">
           <div class="text font-15 m-b-5">Em Desenvolvimento </div>
-          <h3 class="m-b-10">511
-          </h3>
+          <h3 class="m-b-10">{{overview.listaEstoriasPorEstagio.EmAndamento}}</h3>
         </div>
         <div class="counter-box text-center">
           <div class="text font-15 m-b-5">Desenv. concluído </div>
-          <h3 class="m-b-10">135
-          </h3>
+          <h3 class="m-b-10">{{overview.listaEstoriasPorEstagio.DesenvolvimentoConcluido}}</h3>
         </div>
         <div class="counter-box text-center">
           <div class="text font-15 m-b-5">Em Homologação </div>
-          <h3 class="m-b-10">78
-          </h3>
+          <h3 class="m-b-10">{{overview.listaEstoriasPorEstagio.Homologacao}}</h3>
         </div>
         <div class="counter-box text-center">
           <div class="text font-15 m-b-5">Homologado </div>
-          <h3 class="m-b-10">258
-          </h3>
+          <h3 class="m-b-10">{{overview.listaEstoriasPorEstagio.Homologado}}</h3>
         </div>
         <div class="counter-box text-center">
           <div class="text font-15 m-b-5">Concluídas no Período </div>
-          <h3 class="m-b-10">1231
-          </h3>
+          <h3 class="m-b-10">{{overview.listaEstoriasPorEstagio.Concluido}}</h3>
         </div>
       </div>
 
@@ -128,29 +135,11 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td class="text-truncate">Terror By Night</td>
-                      <td class="text-right">87</td>
-                      <td class="text-right">87</td>
-                      <td class="text-right">0</td>
-                    </tr>
-                    <tr>
-                      <td class="text-truncate">Squad 2</td>
-                      <td class="text-right">378</td>
-                      <td class="text-right">367</td>
-                      <td class="text-right">-11</td>
-                    </tr>
-                    <tr>
-                      <td class="text-truncate">Squad 3</td>
-                      <td class="text-right">191</td>
-                      <td class="text-right">192</td>
-                      <td class="text-right">1</td>
-                    </tr>
-                    <tr>
-                      <td class="text-truncate">Squad 4</td>
-                      <td class="text-right">664</td>
-                      <td class="text-right">679</td>
-                      <td class="text-right">15</td>
+                    <tr *ngFor="let item of overview.listaEvolucaoSquad">
+                      <td class="text-truncate">{{item.squadNome}}</td>
+                      <td class="text-right">{{item.evolucaoAnterior}}</td>
+                      <td class="text-right">{{item.evolucaoAtual}}</td>
+                      <td class="text-right">{{item.evolucao}}</td>
                     </tr>
                   </tbody>
                 </table>

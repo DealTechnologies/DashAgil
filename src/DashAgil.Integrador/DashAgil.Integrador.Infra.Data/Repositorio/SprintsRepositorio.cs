@@ -21,17 +21,17 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
             throw new System.NotImplementedException();
         }
 
-        public async Task<IEnumerable<Sprints>> Get()
+        public async Task<IEnumerable<Sprint>> Get()
         {
-            return await _context.Connection.QueryAsync<Sprints>(Queries.SprintsQueries.Select);
+            return await _context.Connection.QueryAsync<Sprint>(Queries.SprintsQueries.Select);
         }
 
-        public async Task<Sprints> GetByID(string id)
+        public async Task<Sprint> GetByID(string id)
         {
             return await _context.Connection.QueryFirstAsync(Queries.SprintsQueries.SelectById, new { Id = id });
         }
 
-        public async void Insert(Sprints entity)
+        public async void Insert(Sprint entity)
         {
             await _context.Connection.ExecuteAsync(Queries.SprintsQueries.Insert, new
             {
@@ -40,13 +40,12 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
                 entity.DataFim,
                 entity.DataInicio,
                 entity.Descricao,
-                entity.Nome,
-                entity.ProjetId,
+                entity.Nome, 
                 entity.Status
             });
         }
 
-        public async void Update(Sprints entity)
+        public async void Update(Sprint entity)
         {
             await _context.Connection.ExecuteAsync(Queries.SprintsQueries.Update, new
             {
@@ -56,8 +55,7 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
                 entity.DataFim,
                 entity.DataInicio,
                 entity.Descricao,
-                entity.Nome,
-                entity.ProjetId,
+                entity.Nome,  
                 entity.Status
             });
         }

@@ -41,7 +41,7 @@ namespace DashAgil.Entidades
                 .GroupBy(x => new { x.StatusDeXPara })
                 .Select(group => new DemandaEstagioResult
                 {
-                    StatusDeXPara = ((EDemandaStatusDexPara)group.Key.StatusDeXPara).GetDisplayName(),
+                    StatusDeXPara = ((EDemandaStatusDexPara)group.Key.StatusDeXPara).ToString(),
                     Quantidade = group.Count(x => x.Status > 0)
                 });
 

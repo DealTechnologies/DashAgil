@@ -2,7 +2,7 @@
 
 namespace DashAgil.Integrador.Repositorio
 {
-    public interface ISprintsRepositorio : ICRUD<Sprints>
+    public interface ISprintsRepositorio : ICRUD<Sprint>
     {
     }
 }

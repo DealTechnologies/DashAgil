@@ -19,14 +19,13 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((err) => {
         if (err.status === 401) {
-          // auto logout if 401 response returned from api
           this.authenticationService.logout();
-          location.reload();
+          return throwError(err);
         }
 
         const errorMessage = this.getErrorMessage(err);
 
-        this.notifier.notify('error', 'Ops, algo de errado');
+        this.notifier.notify('error', 'Ops, algo deu errado');
         this.notifier.notify('error', `${errorMessage}`);
 
         return throwError(errorMessage);

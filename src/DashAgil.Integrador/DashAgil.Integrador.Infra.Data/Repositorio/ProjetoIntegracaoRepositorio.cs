@@ -4,6 +4,7 @@ using DashAgil.Integrador.Infra.Data.Context;
 using DashAgil.Integrador.Repositorio;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,6 +31,18 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
                 (ProjetoId, ProjetoOrigemId, ProvedorId, UrlOrigem)
                 VALUES(@ProjetoId, @ProjetoOrigemId, @ProvedorId, @UrlOrigem) ", _param
                 );
+        }
+
+
+        public async Task<List<ProjetoIntegracao>> ObterPorUrl(string url)
+        {
+            _param.Add("@Url", url);
+
+            var result = await _context.Connection.QueryAsync<ProjetoIntegracao>(
+              @"select * from DashAgil.dbo.ProjetoIntegracao where UrlOrigem like '%'+@Url+'%'  ", _param);
+
+            return result.ToList();
+
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using DashAgil.Integrador.Entidades;
 using DashAgil.Integrador.Jira.Queries.Sprints;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DashAgil.Integrador.Repositorio
@@ -16,5 +14,7 @@ namespace DashAgil.Integrador.Repositorio
         Task<long> Inserir(Sprint sprint);
 
         Task<List<Sprint>> Obter(long projetoId);
+
+        Task<Sprint> Obter(string nome);
     }
 }

@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DashAgil.Integrador.Entidades.Devops
 {
@@ -25,71 +23,79 @@ namespace DashAgil.Integrador.Entidades.Devops
 
     public partial class WorkItemResultFields
     {
-        [JsonProperty("System.AreaPath")]
+        [JsonProperty("AreaPath")]
         public string SystemAreaPath { get; set; }
 
-        [JsonProperty("System.TeamProject")]
+        [JsonProperty("TeamProject")]
         public string SystemTeamProject { get; set; }
 
-        [JsonProperty("System.IterationPath")]
+        [JsonProperty("IterationPath")]
         public string SystemIterationPath { get; set; }
 
-        [JsonProperty("System.WorkItemType")]
+        [JsonProperty("WorkItemType")]
         public string SystemWorkItemType { get; set; }
 
-        [JsonProperty("System.State")]
+        [JsonProperty("State")]
         public string SystemState { get; set; }
 
-        [JsonProperty("System.Reason")]
+        [JsonProperty("Reason")]
         public string SystemReason { get; set; }
 
-        [JsonProperty("System.AssignedTo")]
-        public SystemAssignedToClass SystemAssignedTo { get; set; }
+        [JsonProperty("AssignedTo")]
+        public MicrosoftVstsCommonClosedBy SystemAssignedTo { get; set; }
 
-        [JsonProperty("System.CreatedDate")]
+        [JsonProperty("CreatedDate")]
         public string SystemCreatedDate { get; set; }
 
-        [JsonProperty("System.CreatedBy")]
-        public SystemAssignedToClass SystemCreatedBy { get; set; }
+        [JsonProperty("CreatedBy")]
+        public MicrosoftVstsCommonClosedBy SystemCreatedBy { get; set; }
 
-        [JsonProperty("System.ChangedDate")]
+        [JsonProperty("ChangedDate")]
         public string SystemChangedDate { get; set; }
+        [JsonProperty("History")]
+        public string SystemHistory { get; set; }
 
-        [JsonProperty("System.ChangedBy")]
-        public SystemAssignedToClass SystemChangedBy { get; set; }
+        [JsonProperty("ChangedBy")]
+        public MicrosoftVstsCommonClosedBy SystemChangedBy { get; set; }
 
-        [JsonProperty("System.Title")]
+        [JsonProperty("CommentCount")]
+        public long SystemCommentCount { get; set; }
+
+        [JsonProperty("Title")]
         public string SystemTitle { get; set; }
 
-        [JsonProperty("Microsoft.VSTS.Common.StateChangeDate")]
+        [JsonProperty("StateChangeDate")]
         public string MicrosoftVstsCommonStateChangeDate { get; set; }
 
-        [JsonProperty("Microsoft.VSTS.Common.ActivatedDate")]
-        public string MicrosoftVstsCommonActivatedDate { get; set; }
+        [JsonProperty("ClosedDate")]
+        public string MicrosoftVstsCommonClosedDate { get; set; }
 
-        [JsonProperty("Microsoft.VSTS.Common.ActivatedBy")]
-        public string MicrosoftVstsCommonActivatedBy { get; set; }
+        [JsonProperty("ClosedBy")]
+        public MicrosoftVstsCommonClosedBy MicrosoftVstsCommonClosedBy { get; set; }
 
-        [JsonProperty("Microsoft.VSTS.Common.Priority")]
+        [JsonProperty("ActivatedDate")]
+        public string ActivatedDate { get; set; }
+
+        [JsonProperty("OriginalEstimate")]
+        public int OriginalEstimate { get; set; }
+
+        [JsonProperty("RemainingWork")]
+        public int RemainingWork { get; set; }
+
+        [JsonProperty("Priority")]
         public long MicrosoftVstsCommonPriority { get; set; }
-
-        [JsonProperty("Microsoft.VSTS.Common.ValueArea")]
-        public string MicrosoftVstsCommonValueArea { get; set; }
-
-        [JsonProperty("System.Tags")]
-        public string SystemTags { get; set; }
     }
 
-    public partial class SystemAssignedToClass
+    public partial class MicrosoftVstsCommonClosedBy
     {
         [JsonProperty("displayName")]
         public string DisplayName { get; set; }
 
         [JsonProperty("url")]
-        public string Url { get; set; }
+        public Uri Url { get; set; }
 
         [JsonProperty("_links")]
-        public SystemAssignedToLinks Links { get; set; }
+        public MicrosoftVstsCommonClosedByLinks Links { get; set; }
 
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -98,13 +104,13 @@ namespace DashAgil.Integrador.Entidades.Devops
         public string UniqueName { get; set; }
 
         [JsonProperty("imageUrl")]
-        public string ImageUrl { get; set; }
+        public Uri ImageUrl { get; set; }
 
         [JsonProperty("descriptor")]
         public string Descriptor { get; set; }
     }
 
-    public partial class SystemAssignedToLinks
+    public partial class MicrosoftVstsCommonClosedByLinks
     {
         [JsonProperty("avatar")]
         public HtmlClass Avatar { get; set; }
@@ -113,7 +119,7 @@ namespace DashAgil.Integrador.Entidades.Devops
     public partial class HtmlClass
     {
         [JsonProperty("href")]
-        public string Href { get; set; }
+        public Uri Href { get; set; }
     }
 
     public partial class WorkItemResultLinks
@@ -127,8 +133,8 @@ namespace DashAgil.Integrador.Entidades.Devops
         [JsonProperty("workItemRevisions")]
         public HtmlClass WorkItemRevisions { get; set; }
 
-        [JsonProperty("workItemHistory")]
-        public HtmlClass WorkItemHistory { get; set; }
+        [JsonProperty("workItemComments")]
+        public HtmlClass WorkItemComments { get; set; }
 
         [JsonProperty("html")]
         public HtmlClass Html { get; set; }

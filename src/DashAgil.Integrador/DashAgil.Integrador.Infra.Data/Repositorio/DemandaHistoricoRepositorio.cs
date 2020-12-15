@@ -27,6 +27,7 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
             _param.Add("@SquadId", demandaHistorico.SquadId);
             _param.Add("@Tipo", demandaHistorico.Tipo);
             _param.Add("@DemandaPaiId", demandaHistorico.DemandaPaiId);
+            _param.Add("@Responsavel", demandaHistorico.Responsavel);
             _param.Add("@DataInicio", demandaHistorico.DataInicio);
             _param.Add("@DataModificacao", demandaHistorico.DataModificacao);
             _param.Add("@DataFim", demandaHistorico.DataFim);
@@ -36,11 +37,9 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
             _param.Add("@HorasEstimadas", demandaHistorico.HorasEstimadas);
             _param.Add("@HorasRestantes", demandaHistorico.HorasRestantes);
             _param.Add("@HorasUtilizadas", demandaHistorico.HorasUtilizadas);
-            _param.Add("@HorasUtilizadas", demandaHistorico.HorasUtilizadas);
             _param.Add("@Risco", demandaHistorico.Risco);
             _param.Add("@Comentario", demandaHistorico.Comentario);
-            _param.Add("@Statusx", demandaHistorico.Status);
-
+            _param.Add("@Status", demandaHistorico.Status);
 
             await _context.Connection.ExecuteAsync(
                 @" 
@@ -48,7 +47,6 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
                 (Id, ExternalId, SprintId, ProjetoId, SquadId, Tipo, DemandaPaiId, Responsavel, DataInicio, DataModificacao, DataFim, Pontos, Tags, Prioridade, HorasEstimadas, HorasRestantes, HorasUtilizadas, Risco, Comentario, Status)
                 VALUES(@Id, @ExternalId, @SprintId, @ProjetoId, @SquadId, @Tipo, @DemandaPaiId, @Responsavel, @DataInicio, @DataModificacao, @DataFim, @Pontos, @Tags, @Prioridade, @HorasEstimadas, @HorasRestantes, @HorasUtilizadas, @Risco, @Comentario, @Status)
                 ", _param);
-
         }
     }
 }
