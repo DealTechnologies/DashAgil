@@ -13,26 +13,6 @@
   height: 50px;
 }
 
-.radar-container {
-  align-items: center;
-
-  .radar {
-    width: 400px;
-  }
-}
-
-@media (max-width: 500px) {
-  .radar {
-    max-width: 270px;
-  }
-}
-
-@media (max-width: 300px) {
-  .radar {
-    max-width: 200px;
-  }
-}
-
 .sl-primary {
   ::before {
     background-color: #186db1;

@@ -1,5 +1,26 @@
+import { RadarAgilComponent } from './radar-agil/radar-agil.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card';
+import { MatSortModule } from '@angular/material/sort';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { OverviewComponent } from './overview/overview.component';
@@ -17,8 +38,11 @@ import { MaterialModule } from '../shared/material.module';
 import { SquadComponent } from './squad/squad.component';
 import { LeadTimeComponent } from './lead-time/lead-time.component';
 
+
+
+
 @NgModule({
-  declarations: [OverviewComponent, SquadComponent, LeadTimeComponent],
+  declarations: [OverviewComponent, SquadComponent, LeadTimeComponent, RadarAgilComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -33,7 +57,27 @@ import { LeadTimeComponent } from './lead-time/lead-time.component';
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     }),
-    GaugeModule.forRoot()
+    GaugeModule.forRoot(),
+
+    FormsModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatRadioModule,
+    MatMenuModule,
+    MatSnackBarModule,
+    MatSidenavModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatCardModule,
+    MatSortModule,
+    MatToolbarModule,
+    DragDropModule,
+    MaterialFileInputModule
   ],
   providers: [
     ClientService,
