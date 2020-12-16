@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EChartOption } from 'echarts';
-import { ChartsConfigurationService } from 'src/app/core/services';
+import { OverviewFeature } from 'src/app/core/models';
+import { ChartsConfigurationService, OverviewService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-squad',
@@ -9,14 +10,25 @@ import { ChartsConfigurationService } from 'src/app/core/services';
 })
 export class SquadComponent implements OnInit {
 
+  squadName: string;
+  overviewFeature: OverviewFeature;
+
   optionsSquad: EChartOption;
   optionsSprint: EChartOption;
 
-  constructor(private chartsConfiguration: ChartsConfigurationService) { }
+  constructor(private overviewService: OverviewService, private chartsConfiguration: ChartsConfigurationService) { }
 
   ngOnInit(): void {
-    this.optionsSquad = this.chartsConfiguration.squad();
-    this.optionsSprint = this.chartsConfiguration.sprint();
+    this.squadName = 'Terror By Night';
+    this.loadData();
+  }
+
+  loadData() {
+    this.overviewService.getOverviewFeatures(1, 1, 1).subscribe(response => {
+      this.overviewFeature = response;
+      this.optionsSquad = this.chartsConfiguration.squad(response);
+      this.optionsSprint = this.chartsConfiguration.sprint(response);
+    });
   }
 
 }

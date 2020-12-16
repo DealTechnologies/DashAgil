@@ -27,10 +27,23 @@
   height: 78%;
 }
 
-::ng-deep .mat-form-field-flex {
-  padding: 0.2em 0.75em 0.6em 0.75em !important;
+::ng-deep .mat-form-field {
+  .mat-form-field-flex {
+    padding: 0.2em 0.75em 0.6em 0.75em !important;
 
-  .mat-select-arrow-wrapper {
-    padding-top: 10px;
+    .mat-select-arrow-wrapper {
+      padding-top: 10px;
+    }
+  }
+
+  &.client {
+    mat-icon {
+      font-size: 25px;
+      color: #2b82ce;
+    }
+
+    .mat-form-field-prefix {
+      top: 8px;
+    }
   }
 }

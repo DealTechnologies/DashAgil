@@ -33,7 +33,7 @@ export class AppComponent {
   }
 
   registerIcons() {
-    const icons = ['devops', 'jira'];
+    const icons = ['devops', 'jira', 'trello'];
 
     icons.forEach(icon => {
       const path = this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/' + icon + '.svg');

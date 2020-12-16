@@ -1,8 +1,25 @@
 .risks {
-  height: 94%;
+  height: 100%;
+
+  td {
+    color: #e7e7e7;
+  }
 
   td {
     font-size: 12px;
+  }
+}
+
+.percent-homolog {
+  margin-bottom: 10px;
+
+  h1 {
+    font-size: 60px;
+    color: rgb(0, 176, 80);
+  }
+
+  span {
+    font-size: 15px;
   }
 }
 

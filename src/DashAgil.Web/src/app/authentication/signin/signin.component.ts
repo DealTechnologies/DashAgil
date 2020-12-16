@@ -16,38 +16,29 @@ export class SigninComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService
-  ) {}
+  ) { }
+
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ['admin', Validators.required],
-      password: ['admin', Validators.required]
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
-  get f() {
-    return this.loginForm.controls;
-  }
+
   onSubmit() {
     this.submitted = true;
     this.error = '';
     if (this.loginForm.invalid) {
-      this.error = 'Username and Password not valid !';
+      this.error = 'Usuário ou senha inválidos';
       return;
     } else {
       this.authService
-        .login(this.f.username.value, this.f.password.value)
-        .subscribe(
-          (res) => {
-            if (res) {
-              const token = this.authService.currentUserValue.token;
-              if (token) {
-                this.router.navigate(['/dashboard/overview']);
-              }
-            } else {
-              this.error = 'Invalid Login';
-            }
-          },
-          (error) => {
-            this.error = error;
+        .login(this.loginForm.controls.username.value, this.loginForm.controls.password.value)
+        .subscribe((res) => {
+          this.router.navigate(['/dashboard/overview']);
+        },
+          () => {
+            this.error = 'Usuário ou senha inválidos';
             this.submitted = false;
           }
         );

@@ -30,11 +30,11 @@ namespace DashAgil.Api.Extensions
         {
             services.AddTransient<DashAgilHandler, DashAgilHandler>();
             services.AddTransient<VisaoGeralHandler, VisaoGeralHandler>();
-
-
-
-            //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
-            //services.AddSingleton<MonitorLoop>();
+            services.AddTransient<ProvedorHandler, ProvedorHandler>();
+            services.AddTransient<ClienteHandler, ClienteHandler>();
+            services.AddTransient<SprintHandler, SprintHandler>();
+            services.AddTransient<SquadHandler, SquadHandler>();
+            services.AddTransient<AuthHandler, AuthHandler>();
         }
 
         /// <summary>
@@ -44,8 +44,11 @@ namespace DashAgil.Api.Extensions
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IDemandaRepository, DemandaRepository>();
-            //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
-            //services.AddSingleton<MonitorLoop>();
+            services.AddTransient<IProvedorRepository, ProvedorRepository>();
+            services.AddTransient<IClienteRepository, ClienteRepository>();
+            services.AddTransient<ISquadRepository, SquadRepository>();
+            services.AddTransient<ISprintRepository, SprintRepository>();
+            services.AddTransient<IUsuarioRepository, UsuarioRepository>();
         }
 
         #endregion

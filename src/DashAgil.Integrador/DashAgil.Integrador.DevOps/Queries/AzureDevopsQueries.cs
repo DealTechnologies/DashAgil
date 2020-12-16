@@ -16,24 +16,28 @@ namespace DashAgil.Integrador.DevOps.Query
             _settings = settings;
         }
 
-        public async Task<DevopsResult<ProjectsResult>> ObterProjetos(string organizacao)
+        public async Task<DevopsResult<ProjectsResult>> ObterProjetos(string organizacao, string token)
         {
             string uri = string.Format(_settings.EndPoints.URI + _settings.EndPoints.Projetos, organizacao);
-            return await HTTPServices.DevopsRequest<DevopsResult<ProjectsResult>>(uri, ObterTokenAutenticacao(organizacao), organizacao);
+            return await HTTPServices.DevopsRequest<DevopsResult<ProjectsResult>>(uri, token, organizacao);
         }
 
-        public async Task<DevopsResult<QueryResult>> ConsultarPorQuery(string organizacao)
+        public async Task<QueryResult> ConsultarPorQuery(string organizacao, string token)
         {
             string uri = string.Format(_settings.EndPoints.URI + _settings.EndPoints.WorkItemByQuery, organizacao);
-            return await HTTPServices.DevopsRequest<DevopsResult<QueryResult>>(uri, ObterTokenAutenticacao(organizacao), organizacao,
+            return await HTTPServices.DevopsRequest<QueryResult>(uri, token, organizacao,
                                                                                new { query = _settings.Queries.AllWorkItens }, Method.POST);
-
         }
 
-        public async Task<DevopsResult<WorkItensTypeResult>> ObterWorkItensTypes(string organizacao, string time, string projeto)
+        public async Task<DevopsResult<WorkItensTypeResult>> ObterWorkItensTypes(string organizacao, string time, string projeto, string token)
         {
             string uri = string.Format(_settings.EndPoints.URI + _settings.EndPoints.WorkItemTypes, organizacao, projeto, time);
-            return await HTTPServices.DevopsRequest<DevopsResult<WorkItensTypeResult>>(uri, ObterTokenAutenticacao(organizacao), organizacao);
+            return await HTTPServices.DevopsRequest<DevopsResult<WorkItensTypeResult>>(uri, token, organizacao);
+        }
+
+        public async Task<string> GetWorkItemByURL(string url, string organizacao, string token)
+        { 
+            return await HTTPServices.DevopsRequestContent(url, token, organizacao);
         }
 
         private string ObterTokenAutenticacao(string organizacao)
@@ -42,5 +46,6 @@ namespace DashAgil.Integrador.DevOps.Query
                 "Corporativo" => _settings.CorporativoIds,
                 _ => _settings.RendimentoId,
             };
+
     }
 }

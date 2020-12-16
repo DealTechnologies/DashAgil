@@ -1,5 +1,5 @@
 ﻿using DashAgil.Api.Controllers.Comum;
-using DashAgil.Commands.Input;
+using DashAgil.Commands.Input.VisaoGeral;
 using DashAgil.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -52,13 +52,6 @@ namespace DashAgil.Api.Controllers.Dominio
         {
             var response = await handler.Handle(command);
             return Ok(response);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Post(SalvarEstoriaCommand command)
-        {
-            var response = await handler.Handle(command);
-            return Ok(response);
-        }
+        }        
     }
 }
