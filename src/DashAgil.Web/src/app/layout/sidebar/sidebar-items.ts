@@ -28,6 +28,15 @@ export const ROUTES: RouteInfo[] = [
         submenu: []
       },
       {
+        path: 'dashboard/radar',
+        title: 'Radar Ágil',
+        moduleName: 'radar',
+        icon: '',
+        class: '',
+        groupTitle: false,
+        submenu: []
+      },
+      {
         path: 'dashboard/squad',
         title: 'Squad',
         moduleName: 'squad',
