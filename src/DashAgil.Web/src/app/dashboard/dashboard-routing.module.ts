@@ -1,3 +1,4 @@
+import { RadarAgilComponent } from './radar-agil/radar-agil.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LeadTimeComponent } from './lead-time/lead-time.component';
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'overview',
     component: OverviewComponent
+  },
+  {
+    path: 'radar',
+    component: RadarAgilComponent
   },
   {
     path: 'squad',
