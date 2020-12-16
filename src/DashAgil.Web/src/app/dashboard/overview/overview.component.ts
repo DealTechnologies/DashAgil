@@ -52,8 +52,6 @@ export class OverviewComponent implements OnInit {
     if (this.providers.length) {
       const provider = this.providers[0];
       this.provider.setValue(provider.id);
-
-      this.clients = this.clients = provider.clientes;
     }
   }
 
@@ -78,13 +76,10 @@ export class OverviewComponent implements OnInit {
     switch (providerId) {
       case 1:
         return 'devops';
-        break;
       case 2:
         return 'jira';
-        break;
       case 3:
         return 'trello';
-        break;
     }
   }
 
