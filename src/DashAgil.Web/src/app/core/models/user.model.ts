@@ -1,8 +1,8 @@
+import { Provider } from "./provider.model";
+
 export class User {
   id: number;
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
+  nome: string;
+  provedores: Provider[];
   token: string;
 }

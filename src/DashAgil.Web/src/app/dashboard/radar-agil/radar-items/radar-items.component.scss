@@ -1,0 +1,14 @@
+table {
+  border: solid 1px #10141d;
+  background: #131825;
+
+  tr td:first-child {
+    width: 1%;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 15px;
+    color: #bbb;
+  }
+}

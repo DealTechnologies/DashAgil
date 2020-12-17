@@ -71,7 +71,7 @@ namespace DashAgil.Integrador.Entidades
                 "FilaProducao" => 10,
                 "Concluido" => 11,
                 "PromoverMain" => 12,
-                _ => null
+                _ => 1
             };
         public static int ObterTipoWorkItemDevops(string tipo)
             => tipo switch

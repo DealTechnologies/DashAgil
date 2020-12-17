@@ -9,7 +9,7 @@ namespace DashAgil.Integrador.Entidades
         public long ClienteId { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
-        public DateTime? DataCadastro { get; set; }
+        public DateTime? DataCriacao { get; set; }
         public DateTime? DataModificacao { get; set; }
     }
 }
