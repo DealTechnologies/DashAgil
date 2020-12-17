@@ -52,6 +52,14 @@ namespace DashAgil.Api.Controllers.Dominio
         {
             var response = await handler.Handle(command);
             return Ok(response);
-        }        
+        }
+
+        [HttpGet]
+        [Route("ObterVelocidadePorSquad")]
+        public async Task<IActionResult> ObterVelocidadePorSquad([FromQuery] ObterVelocidadePorSquadCommand command)
+        {
+            var response = await handler.Handle(command);
+            return Ok(response);
+        }
     }
 }

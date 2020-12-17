@@ -85,7 +85,7 @@ namespace DashAgil.Entidades
                 {
                     FeatureId = group.Key.FeatureId,
                     FeatureDescricao = group.Key.FeatureDescricao,
-                    StatusDeXPara = ((EDemandaStatusDexPara)group.Key.StatusDeXPara).GetDisplayName(),
+                    StatusDeXPara = ((EDemandaStatusDexPara)int.Parse(group.Key.StatusDeXPara)).GetDisplayName(),
                     Quantidade = group.Count(),
                     Percentual = Math.Round(Convert.ToDouble(group.Count()) / Convert.ToDouble(totalPorFeature.Where(x => x.FeatureId == group.Key.FeatureId).Select(x => x.Quantidade).FirstOrDefault()) * 100.0, 2)
                 });
@@ -104,7 +104,7 @@ namespace DashAgil.Entidades
                     StatusDeXPara = group.Key.StatusDeXPara,
                     Quantidade = group.Count()
                 })
-                .Where(c => c.StatusDeXPara == (int)EDemandaStatusDexPara.Homologacao)
+                .Where(c => int.Parse(c.StatusDeXPara) == (int)EDemandaStatusDexPara.Homologacao)
                 .Count();
 
             var totalEstoriasAux = Convert.ToDouble(totalEstorias);
@@ -117,6 +117,32 @@ namespace DashAgil.Entidades
             {
                 return 0;
             }    
+        }
+
+        public double PercentualFeaturesConcluisao(IEnumerable<dynamic> demandasFeatues)
+        {
+            var totalEstorias = demandasFeatues.Count();
+
+            var totalEstoriasConclusao = demandasFeatues
+                .GroupBy(x => new { x.StatusDeXPara })
+                .Select(group => new
+                {
+                    StatusDeXPara = group.Key.StatusDeXPara,
+                    Quantidade = group.Count()
+                })
+                .Where(c => int.Parse(c.StatusDeXPara) == (int)EDemandaStatusDexPara.Concluido)
+                .Count();
+
+            var totalEstoriasAux = Convert.ToDouble(totalEstorias);
+            var totalEstoriasConclusaoAux = Convert.ToDouble(totalEstoriasConclusao);
+            if (totalEstoriasAux > 0)
+            {
+                return Math.Round((totalEstoriasConclusaoAux / totalEstoriasAux * 100.0), 2);
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public List<DemandasResult> TratamentoListaEstorias(IEnumerable<dynamic> estorias)
@@ -145,6 +171,26 @@ namespace DashAgil.Entidades
                 });
 
             return estoriasGroup.ToList();
+        }
+
+        public dynamic VelocidadePorSquad(IEnumerable<dynamic> demandas)
+        {
+            var estoriasSprint = demandas
+                .GroupBy(x => new { x.Sprint.Nome })
+                .Select(group => new
+                {
+                    Sprint = group.Key.Nome,
+                    TotalPontos = group.Where(x => (int)x.StatusDeXPara >= (int)EDemandaStatusDexPara.DesenvolvimentoConcluido)
+                    .Select(x => new { x.Id, x.Pontos }).Distinct().Sum(x => x.Pontos)
+                });
+
+            var retorno = new ListDictionary();
+            foreach (var estoria in estoriasSprint)
+            {
+                retorno.Add(estoria.Sprint, estoria.TotalPontos);
+            }
+
+            return retorno;
         }
 
         //public List<dynamic> GerarCFD(IEnumerable<Demanda> demandas)
@@ -220,5 +266,6 @@ namespace DashAgil.Entidades
         public string Comentario { get; set; }
         public EDemandaStatus Status { get; set; }
         public EDemandaStatusDexPara StatusDeXPara { get; set; }
+        public Sprints Sprint { get; set; }
     }
 }

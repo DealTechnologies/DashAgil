@@ -14,7 +14,7 @@ namespace DashAgil.Infra.Data.Repositorio
         {
         }
 
-        public async Task<IEnumerable<Demandas>> GetAll(string clienteId, int tipo, int squadId = 0)
+        public async Task<IEnumerable<Demandas>> GetAll(string clienteId, int tipo, string squadId = "")
         {
             return await _context.Connection.QueryAsync<Demandas>(Queries.DemandaQueries.GetAll, new { ClienteId = clienteId, Tipo = tipo, SquadId = squadId });
         }
@@ -44,6 +44,18 @@ namespace DashAgil.Infra.Data.Repositorio
                     SquadId = squadId, 
                     SprintId = sprintId,
                     TipoDemanda = EDemandaTipo.UserStory });
+        }
+
+        public async Task<IEnumerable<Demandas>> GetDemandasSprint(string clienteId, int tipo, string squadId)
+        {
+            return await _context.Connection.QueryAsync<Demandas, Sprints, Demandas>(Queries.DemandaQueries.GetDemandasSprint,
+                (demanda, sprint) =>
+                {
+                    demanda.Sprint = sprint;
+                    return demanda;
+                },
+                new { ClienteId = clienteId, Tipo = tipo, SquadId = squadId },
+                splitOn: "SprintId, IdSprint");
         }
 
         //public async Task<IEnumerable<DemandasEstagio>> GetTotalDemandasPorEstagio(string ProjetoId)

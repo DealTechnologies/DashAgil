@@ -5,6 +5,8 @@ using DashAgil.Entidades;
 using DashAgil.Enums;
 using DashAgil.Infra.Comum;
 using DashAgil.Repositorio;
+using System.Collections.Specialized;
+using System.Dynamic;
 using System.Threading.Tasks;
 
 namespace DashAgil.Handlers
@@ -12,7 +14,8 @@ namespace DashAgil.Handlers
     public class VisaoGeralHandler : ICommandHandler<ObterVisaoGeralDemandasCommand>,
         ICommandHandler<ObterVisaoGeralFeaturesCommand>,
         ICommandHandler<ObterListaEstoriasPorSquadCommand>,
-        ICommandHandler<ObterVisaoEstoriasPorSquadCommand>
+        ICommandHandler<ObterVisaoEstoriasPorSquadCommand>,
+        ICommandHandler<ObterVelocidadePorSquadCommand>
     {
         protected readonly IDemandaRepository _repository;
         public VisaoGeralHandler(IDemandaRepository repository)
@@ -45,21 +48,29 @@ namespace DashAgil.Handlers
             var sprint = new Sprints();
 
             var historicoEstorias = await _repository.GetEstoriasHistorico(command.IdCliente, command.IdSquad, command.IdSprint);
-            var visaoFeaturesResult = new ObterVisaoGeralFeaturesCommandResult
-            {
-                ListaFeaturesEstagio = demanda.TotalEstoriasPorFeature(featuresEstorias),
-                PercentualFeaturesHomologacao = demanda.PercentualFeaturesHomologacao(featuresEstorias),
-                SprintBurndown = sprint.Burndown(historicoEstorias, command.IdSprint)
-            };
+            //var visaoFeaturesResult = new ObterVisaoGeralFeaturesCommandResult
+            //{
+            //    ListaFeaturesEstagio = demanda.TotalEstoriasPorFeature(featuresEstorias),                
+            //    SprintBurndown = sprint.Burndown(historicoEstorias, command.IdSprint)
+            //};
+
+            var listaPercentual = new ListDictionary();
+            listaPercentual.Add("PercentualFeaturesHomologacao", demanda.PercentualFeaturesHomologacao(featuresEstorias));
+            listaPercentual.Add("PercentualFeaturesConclusao", demanda.PercentualFeaturesConcluisao(featuresEstorias));
+
+            dynamic retorno = new ExpandoObject();
+            retorno.ListaFeaturesEstagio = demanda.TotalEstoriasPorFeature(featuresEstorias);
+            retorno.SprintBurndown = sprint.Burndown(historicoEstorias, command.IdSprint);
+            retorno.ListaPercentual = listaPercentual;
 
             await Task.CompletedTask;
 
-            return new GenericCommandResult(true, "sucess", visaoFeaturesResult);
+            return new GenericCommandResult(true, "sucess", retorno);
         }
 
         public async Task<ICommandResult> Handle(ObterListaEstoriasPorSquadCommand command)
         {
-            var estorias = await _repository.GetAll(command.IdCliente, (int)EDemandaTipo.UserStory, int.Parse(command.IdSquad));
+            var estorias = await _repository.GetAll(command.IdCliente, (int)EDemandaTipo.UserStory, command.IdSquad);
             var demanda = new Demandas();
             
             var listaDemandasResult = new ObterListaEstoriasPorSquadCommandResult {
@@ -83,6 +94,17 @@ namespace DashAgil.Handlers
             await Task.CompletedTask;
 
             return new GenericCommandResult(true, "sucess", listaEstoriasCommandResult);
+        }
+
+        public async Task<ICommandResult> Handle(ObterVelocidadePorSquadCommand command)
+        {
+            var estorias = await _repository.GetDemandasSprint(command.IdCliente, (int)EDemandaTipo.UserStory, command.IdSquad);
+            var demanda = new Demandas();
+            var result = demanda.VelocidadePorSquad(estorias);
+
+            await Task.CompletedTask;
+
+            return new GenericCommandResult(true, "sucess", result);
         }
     }
 }

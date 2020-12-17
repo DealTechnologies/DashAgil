@@ -54,7 +54,7 @@ namespace DashAgil.Infra.Data.Queries
         public const string GetFeaturesEstorias =
             @"SELECT features.id as FeatureId, features.descricao as FeatureDescricao, 
                                  estorias.Id, estorias.SquadId, estorias.Tipo, estorias.DataInicio, estorias.DataModificacao, estorias.DataFim, 
-                                 estorias.Pontos, estorias.Status, v.status_novo_num as StatusDeXPara, estorias.Descricao
+                                 isnull(estorias.Pontos,0) as Pontos, estorias.Status, v.status_novo_num as StatusDeXPara, estorias.Descricao
                           FROM Demandas features
                                INNER JOIN Demandas estorias on features.Id = estorias.DemandaPaiId and estorias.Tipo = @TipoEstoria
                                INNER JOIN v_estoria_status_dexpara v on estorias.status = v.status_num
@@ -65,18 +65,30 @@ namespace DashAgil.Infra.Data.Queries
                                 and features.SquadId = @SquadId";
 
         public const string GetEstoriasHistorico =
-            @"SELECT d.Id, d.SquadId, d.Tipo, d.Status, d.Descricao, d.Pontos,
+            @"SELECT d.Id, d.SquadId, d.Tipo, d.Status, d.Descricao, isnull(d.Pontos,0) as Pontos,
                                  s.Nome as SprintNome, s.DataInicio as SprintDataInicio, s.DataFim as SprintDataFim,
-                                 dh.Id as IdHistorico, dh.DataModificacao, v.status_novo_num as StatusDeXPara
+                                 dh.Id as IdHistorico, dh.DataModificacao, isnull(v.status_novo_num,1) as StatusDeXPara
                           FROM Demandas d
                                INNER JOIN Sprints s on d.SprintId = s.Id
                                INNER JOIN Projetos p on d.ProjetoId = p.Id
                                INNER JOIN Organizacoes o on p.OrganizacaoId = o.Id 
-                               LEFT JOIN DemandaHistorico dh on d.Id = dh.Id
+                               LEFT JOIN DemandaHistorico dh on d.Id = dh.DemandaPaiId
                                LEFT JOIN v_estoria_status_dexpara v on dH.status = v.status_num
                           WHERE o.ClienteId = @ClienteId
                                 and d.Tipo = @TipoDemanda
                                 and d.SquadId = @SquadId
                                 and d.SprintId = @SprintId";
+
+        public const string GetDemandasSprint =
+            @"SELECT d.Id, d.SprintId, d.Tipo, d.DataInicio, d.DataModificacao, d.DataFim, isnull(d.Pontos,0) as Pontos, d.Status, d.Descricao, v.status_novo_num as StatusDeXPara,
+                                s.Id as IdSprint, s.Nome
+            FROM Demandas d 
+                INNER JOIN Sprints s on d.SprintId = s.Id
+                INNER JOIN v_estoria_status_dexpara v on d.status = v.status_num
+                INNER JOIN Projetos p on d.ProjetoId = p.Id
+                INNER JOIN Organizacoes o on p.OrganizacaoId = o.Id
+            WHERE o.ClienteId = @ClienteId 
+                and d.Tipo = @Tipo
+                and d.SquadId = @SquadId";
     }
 }
