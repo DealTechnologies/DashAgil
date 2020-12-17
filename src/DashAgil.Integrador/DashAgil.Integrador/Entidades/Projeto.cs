@@ -7,7 +7,7 @@ namespace DashAgil.Integrador.Entidades
 {
     public class Projeto
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string ExternalId { get; set; }
         public long OrganizacaoId { get; set; }
         public string Nome { get; set; }
