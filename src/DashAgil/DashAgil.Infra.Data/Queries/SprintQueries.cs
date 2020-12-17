@@ -8,6 +8,7 @@
                                 INNER JOIN Projetos p on s.ProjetoId = p.Id
                                 INNER JOIN Organizacoes o on p.OrganizacaoId = o.Id
                             WHERE o.ClienteId = @ClienteId
+                                  --and EXISTS(SELECT TOP 1 1 FROM UsuarioSquads us WHERE o.ClienteId = us.ClienteId AND us.UsuarioId = @UsuarioId)
                             ORDER BY s.Nome";
     }
 }

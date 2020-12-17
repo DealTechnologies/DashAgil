@@ -14,12 +14,12 @@ namespace DashAgil.Infra.Data.Repositorio
         {
         }
 
-        public async Task<IEnumerable<Demandas>> GetAll(string clienteId, int tipo, string squadId = "")
+        public async Task<IEnumerable<Demandas>> GetAll(string clienteId, int tipo, string usuarioId, string squadId = "")
         {
-            return await _context.Connection.QueryAsync<Demandas>(Queries.DemandaQueries.GetAll, new { ClienteId = clienteId, Tipo = tipo, SquadId = squadId });
+            return await _context.Connection.QueryAsync<Demandas>(Queries.DemandaQueries.GetAll, new { ClienteId = clienteId, Tipo = tipo, SquadId = squadId, UsuarioId = usuarioId });
         }
 
-        public async Task<IEnumerable<Demandas>> GetDemandas(string clienteId, int tipo)
+        public async Task<IEnumerable<Demandas>> GetDemandas(string clienteId, int tipo, string usuarioId)
         {
             return await _context.Connection.QueryAsync<Demandas, Squads, Demandas>(Queries.DemandaQueries.GetDemandas,
                 (demanda, squad) =>
@@ -27,26 +27,27 @@ namespace DashAgil.Infra.Data.Repositorio
                     demanda.Squad = squad;
                     return demanda;
                 },
-                new { ClienteId = clienteId, Tipo = tipo },
+                new { ClienteId = clienteId, Tipo = tipo, UsuarioId = usuarioId },
                 splitOn: "SquadId, IdSquad");
         }
 
-        public async Task<IEnumerable<dynamic>> GetFeaturesEstorias(string clienteId, string squadId)
+        public async Task<IEnumerable<dynamic>> GetFeaturesEstorias(string clienteId, string squadId, string usuarioId)
         {
-            return await _context.Connection.QueryAsync<dynamic>(Queries.DemandaQueries.GetFeaturesEstorias, new { ClienteId = clienteId, SquadId = squadId, @TipoEstoria = EDemandaTipo.UserStory, @TipoFeature = EDemandaTipo.Feature });
+            return await _context.Connection.QueryAsync<dynamic>(Queries.DemandaQueries.GetFeaturesEstorias, new { ClienteId = clienteId, SquadId = squadId, @TipoEstoria = EDemandaTipo.UserStory, @TipoFeature = EDemandaTipo.Feature, UsuarioId = usuarioId });
         }
 
-        public async Task<IEnumerable<dynamic>> GetEstoriasHistorico(string clienteId, string squadId, string sprintId)
+        public async Task<IEnumerable<dynamic>> GetEstoriasHistorico(string clienteId, string squadId, string sprintId, string usuarioId)
         {
             return await _context.Connection.QueryAsync<dynamic>(Queries.DemandaQueries.GetEstoriasHistorico, 
                 new { 
                     ClienteId = clienteId, 
                     SquadId = squadId, 
                     SprintId = sprintId,
-                    TipoDemanda = EDemandaTipo.UserStory });
+                    TipoDemanda = EDemandaTipo.UserStory,
+                    UsuarioId = usuarioId });
         }
 
-        public async Task<IEnumerable<Demandas>> GetDemandasSprint(string clienteId, int tipo, string squadId)
+        public async Task<IEnumerable<Demandas>> GetDemandasSprint(string clienteId, int tipo, string squadId, string usuarioId)
         {
             return await _context.Connection.QueryAsync<Demandas, Sprints, Demandas>(Queries.DemandaQueries.GetDemandasSprint,
                 (demanda, sprint) =>
@@ -54,7 +55,7 @@ namespace DashAgil.Infra.Data.Repositorio
                     demanda.Sprint = sprint;
                     return demanda;
                 },
-                new { ClienteId = clienteId, Tipo = tipo, SquadId = squadId },
+                new { ClienteId = clienteId, Tipo = tipo, SquadId = squadId, UsuarioId = usuarioId },
                 splitOn: "SprintId, IdSprint");
         }
 

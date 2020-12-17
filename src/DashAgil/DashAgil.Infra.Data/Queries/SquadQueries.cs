@@ -9,6 +9,7 @@
                                 INNER JOIN Organizacoes o on p.OrganizacaoId = o.Id
                             WHERE o.ClienteId = @ClienteId
                                   AND s.Status = 1
+                                  --and EXISTS(SELECT TOP 1 1 FROM UsuarioSquads us WHERE o.ClienteId = us.ClienteId AND s.Id = us.SquadId AND us.UsuarioId = @UsuarioId)
                             ORDER BY s.Nome";
     }
 }

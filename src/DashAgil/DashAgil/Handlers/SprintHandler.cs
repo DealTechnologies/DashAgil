@@ -15,7 +15,7 @@ namespace DashAgil.Handlers
         }
         public async Task<ICommandResult> Handle(ObterSprintsPorClienteCommand command)
         {
-            var Sprintes = await _repository.GetAllByCliente(command.IdCliente);
+            var Sprintes = await _repository.GetAllByCliente(command.IdCliente, command.IdUsuario);
             
             await Task.CompletedTask;
 

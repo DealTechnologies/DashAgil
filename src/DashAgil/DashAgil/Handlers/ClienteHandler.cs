@@ -15,7 +15,7 @@ namespace DashAgil.Handlers
         }
         public async Task<ICommandResult> Handle(ObterClientesPorProvedorCommand command)
         {
-            var Clientes = await _repository.GetClientesByProvedor(command.IdProvedor);
+            var Clientes = await _repository.GetClientesByProvedor(command.IdProvedor, command.IdUsuario);
             
             await Task.CompletedTask;
 

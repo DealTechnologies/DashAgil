@@ -13,9 +13,9 @@ namespace DashAgil.Infra.Data.Repositorio
         {
         }
 
-        public async Task<IEnumerable<Squads>> GetAllAtivosByCliente(string clienteId)
+        public async Task<IEnumerable<Squads>> GetAllAtivosByCliente(string clienteId, string usuarioId)
         {
-            return await _context.Connection.QueryAsync<Squads>(Queries.SquadQueries.GetAllAtivosByCliente, new { ClienteId = clienteId });
+            return await _context.Connection.QueryAsync<Squads>(Queries.SquadQueries.GetAllAtivosByCliente, new { ClienteId = clienteId, UsuarioId = usuarioId });
         }
     }
 }

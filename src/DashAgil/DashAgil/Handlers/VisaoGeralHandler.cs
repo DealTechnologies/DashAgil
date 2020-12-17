@@ -24,7 +24,7 @@ namespace DashAgil.Handlers
         }
         public async Task<ICommandResult> Handle(ObterVisaoGeralDemandasCommand command)
         {
-            var demandas = await _repository.GetDemandas(command.IdCliente, (int)EDemandaTipo.UserStory);
+            var demandas = await _repository.GetDemandas(command.IdCliente, (int)EDemandaTipo.UserStory, command.IdUsuario);
             var demanda = new Demandas();
             var squad = new Squads();
 
@@ -43,11 +43,11 @@ namespace DashAgil.Handlers
 
         public async Task<ICommandResult> Handle(ObterVisaoGeralFeaturesCommand command)
         {
-            var featuresEstorias = await _repository.GetFeaturesEstorias(command.IdCliente, command.IdSquad);
+            var featuresEstorias = await _repository.GetFeaturesEstorias(command.IdCliente, command.IdSquad, command.IdUsuario);
             var demanda = new Demandas();
             var sprint = new Sprints();
 
-            var historicoEstorias = await _repository.GetEstoriasHistorico(command.IdCliente, command.IdSquad, command.IdSprint);
+            var historicoEstorias = await _repository.GetEstoriasHistorico(command.IdCliente, command.IdSquad, command.IdSprint, command.IdUsuario);
             //var visaoFeaturesResult = new ObterVisaoGeralFeaturesCommandResult
             //{
             //    ListaFeaturesEstagio = demanda.TotalEstoriasPorFeature(featuresEstorias),                
@@ -70,7 +70,7 @@ namespace DashAgil.Handlers
 
         public async Task<ICommandResult> Handle(ObterListaEstoriasPorSquadCommand command)
         {
-            var estorias = await _repository.GetAll(command.IdCliente, (int)EDemandaTipo.UserStory, command.IdSquad);
+            var estorias = await _repository.GetAll(command.IdCliente, (int)EDemandaTipo.UserStory, command.IdUsuario, command.IdSquad);
             var demanda = new Demandas();
             
             var listaDemandasResult = new ObterListaEstoriasPorSquadCommandResult {
@@ -84,7 +84,7 @@ namespace DashAgil.Handlers
 
         public async Task<ICommandResult> Handle(ObterVisaoEstoriasPorSquadCommand command)
         {
-            var estorias = await _repository.GetDemandas(command.IdCliente, (int)EDemandaTipo.UserStory);
+            var estorias = await _repository.GetDemandas(command.IdCliente, (int)EDemandaTipo.UserStory, command.IdUsuario);
             var demanda = new Demandas();
             var listaEstoriasCommandResult = new ObterVisaoEstoriasPorSquadCommandResult
             {
@@ -98,7 +98,7 @@ namespace DashAgil.Handlers
 
         public async Task<ICommandResult> Handle(ObterVelocidadePorSquadCommand command)
         {
-            var estorias = await _repository.GetDemandasSprint(command.IdCliente, (int)EDemandaTipo.UserStory, command.IdSquad);
+            var estorias = await _repository.GetDemandasSprint(command.IdCliente, (int)EDemandaTipo.UserStory, command.IdSquad, command.IdUsuario);
             var demanda = new Demandas();
             var result = demanda.VelocidadePorSquad(estorias);
 

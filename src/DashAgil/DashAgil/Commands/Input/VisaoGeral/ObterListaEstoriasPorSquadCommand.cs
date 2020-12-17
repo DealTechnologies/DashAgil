@@ -8,12 +8,14 @@ namespace DashAgil.Commands.Input.VisaoGeral
     {
         public string IdCliente { get; set; }
         public string IdSquad { get; set; }
+        public string IdUsuario { get; set; }
 
         public bool EhValido()
         {
             AddNotifications(new Contract()
                 .IsNotNullOrEmpty(IdCliente, "IdCliente", "Id do cliente é obrigatório")
-                .IsNotNullOrEmpty(IdSquad, "IdSquad", "Id da squad é obrigatória")                
+                .IsNotNullOrEmpty(IdSquad, "IdSquad", "Id da squad é obrigatória")
+                .IsNotNullOrEmpty(IdUsuario, "IdUsuario", "Id do usuário é obrigatório")
             );
 
             return Valid;

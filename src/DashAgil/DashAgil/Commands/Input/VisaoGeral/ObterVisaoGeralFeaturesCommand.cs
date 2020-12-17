@@ -9,6 +9,7 @@ namespace DashAgil.Commands.Input.VisaoGeral
         public string IdCliente { get; set; }
         public string IdSquad { get; set; }
         public string IdSprint { get; set; }
+        public string IdUsuario { get; set; }
 
         public bool EhValido()
         {
@@ -16,6 +17,7 @@ namespace DashAgil.Commands.Input.VisaoGeral
                 .IsNotNullOrEmpty(IdCliente, "IdCliente", "Id do cliente é obrigatório")
                 .IsNotNullOrEmpty(IdSquad, "IdSquad", "Id da squad é obrigatória")
                 .IsNotNullOrEmpty(IdSprint, "IdSprint", "Id da sprint é obrigatória")
+                .IsNotNullOrEmpty(IdUsuario, "IdUsuario", "Id do usuário é obrigatório")
             );
 
             return Valid;

@@ -85,7 +85,7 @@ namespace DashAgil.Entidades
                 {
                     FeatureId = group.Key.FeatureId,
                     FeatureDescricao = group.Key.FeatureDescricao,
-                    StatusDeXPara = ((EDemandaStatusDexPara)int.Parse(group.Key.StatusDeXPara)).GetDisplayName(),
+                    StatusDeXPara = ((EDemandaStatusDexPara)group.Key.StatusDeXPara).GetDisplayName(),
                     Quantidade = group.Count(),
                     Percentual = Math.Round(Convert.ToDouble(group.Count()) / Convert.ToDouble(totalPorFeature.Where(x => x.FeatureId == group.Key.FeatureId).Select(x => x.Quantidade).FirstOrDefault()) * 100.0, 2)
                 });
@@ -104,7 +104,7 @@ namespace DashAgil.Entidades
                     StatusDeXPara = group.Key.StatusDeXPara,
                     Quantidade = group.Count()
                 })
-                .Where(c => int.Parse(c.StatusDeXPara) == (int)EDemandaStatusDexPara.Homologacao)
+                .Where(c => c.StatusDeXPara == (int)EDemandaStatusDexPara.Homologacao)
                 .Count();
 
             var totalEstoriasAux = Convert.ToDouble(totalEstorias);
@@ -130,7 +130,7 @@ namespace DashAgil.Entidades
                     StatusDeXPara = group.Key.StatusDeXPara,
                     Quantidade = group.Count()
                 })
-                .Where(c => int.Parse(c.StatusDeXPara) == (int)EDemandaStatusDexPara.Concluido)
+                .Where(c => c.StatusDeXPara == (int)EDemandaStatusDexPara.Concluido)
                 .Count();
 
             var totalEstoriasAux = Convert.ToDouble(totalEstorias);

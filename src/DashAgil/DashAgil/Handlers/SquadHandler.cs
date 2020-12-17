@@ -15,7 +15,7 @@ namespace DashAgil.Handlers
         }
         public async Task<ICommandResult> Handle(ObterSquadsPorClienteCommand command)
         {
-            var Squades = await _repository.GetAllAtivosByCliente(command.IdCliente);
+            var Squades = await _repository.GetAllAtivosByCliente(command.IdCliente, command.IdUsuario);
             
             await Task.CompletedTask;
 

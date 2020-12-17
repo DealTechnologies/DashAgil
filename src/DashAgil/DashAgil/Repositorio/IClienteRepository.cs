@@ -6,6 +6,6 @@ namespace DashAgil.Repositorio
 {
     public interface IClienteRepository : IRepository<Clientes>
     {
-        Task<IEnumerable<Clientes>> GetClientesByProvedor(string provedorId);
+        Task<IEnumerable<Clientes>> GetClientesByProvedor(string provedorId, string usuarioId);
     }
 }

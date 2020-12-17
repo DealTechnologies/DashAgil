@@ -6,6 +6,6 @@ namespace DashAgil.Repositorio
 {
     public interface ISquadRepository : IRepository<Squads>
     {
-        Task<IEnumerable<Squads>> GetAllAtivosByCliente(string clienteId);
+        Task<IEnumerable<Squads>> GetAllAtivosByCliente(string clienteId, string usuarioId);
     }
 }
