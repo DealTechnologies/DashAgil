@@ -63,32 +63,33 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
 
         public async void Insert(Demandas entity)
         {
-
-            _param.Add("@Comentario", entity.Comentario);
-            _param.Add("@DataCadastro", entity.DataCadastro);
-            _param.Add("@DataFim", entity.DataFim);
-            _param.Add("@DataInicio", entity.DataInicio);
-            _param.Add("@DataModificacao", entity.DataModificacao);
-            _param.Add("@DemandaPaiId", entity.DemandaPaiId);
-            _param.Add("@Descricao", entity.Descricao);
-            _param.Add("@ExternalId", entity.ExternalId);
-            _param.Add("@HorasEstimadas", entity.HorasEstimadas);
-            _param.Add("@HorasRestantes", entity.HorasRestantes);
-            _param.Add("@HorasUtilizadas", entity.HorasUtilizadas);
-            _param.Add("@Pontos", entity.Pontos);
-            _param.Add("@Prioridade", entity.Prioridade);
-            _param.Add("@ProjetoId", entity.ProjetoId);
-            _param.Add("@Responsavel", entity.Responsavel);
-            _param.Add("@Risco", entity.Risco);
-            _param.Add("@SprintId", entity.SprintId);
-            _param.Add("@Risco", entity.Risco);
-            _param.Add("@SquadId", entity.SquadId);
-            _param.Add("@Status", entity.Status);
-            _param.Add("@Tags", entity.Tags);
-            _param.Add("@Tipo", entity.Tipo);
-            _param.Add("@Id", entity.Id);
-            
-             await _context.Connection.ExecuteAsync(Queries.DemandasQueries.Insert, _param);
+            await _context.Connection.ExecuteAsync(Queries.DemandasQueries.Insert, new
+            {
+                entity.Id,
+                entity.HorasEstimadas,
+                entity.ExternalId,
+                entity.Comentario,
+                entity.DataCadastro,
+                entity.DataFim,
+                entity.DataInicio,
+                entity.DataModificacao,
+                entity.DemandaHistorico,
+                entity.DemandaPaiId,
+                entity.DemandaPaiIntegracaoId,
+                entity.Descricao,
+                entity.HorasRestantes,
+                entity.HorasUtilizadas,
+                entity.Pontos,
+                entity.Prioridade,
+                entity.ProjetoId,
+                entity.Responsavel,
+                entity.Risco,
+                entity.SprintId,
+                entity.SquadId,
+                entity.Status,
+                entity.Tags,
+                entity.Tipo
+            });
         }
 
         public async Task<long> Inserir(Demandas entity)
@@ -117,9 +118,14 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
             _param.Add("@Tipo", entity.Tipo);
             _param.Add("@Id", entity.Id, DbType.Guid);
 
-           var result = await  _context.Connection.ExecuteScalarAsync<long>(Queries.DemandasQueries.Insert, _param);
+            var result = await _context.Connection.ExecuteScalarAsync<long>(Queries.DemandasQueries.Insert, _param);
 
             return result;
+        }
+
+        public async Task<Demandas> ConsultarPorExternalId(string externalId)
+        {
+            return await _context.Connection.QueryFirstOrDefaultAsync<Demandas>("select * from Demandas where ExternalId = @externalId ", new { externalId });
         }
 
         //Demandas

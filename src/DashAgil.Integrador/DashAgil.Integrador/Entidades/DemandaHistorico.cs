@@ -1,6 +1,7 @@
-﻿using System;
+﻿using DashAgil.Integrador.Entidades.Devops;
+using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace DashAgil.Integrador.Entidades
 {
@@ -35,8 +36,50 @@ namespace DashAgil.Integrador.Entidades
         {
 
         }
+        public bool IsInt(string value)
+        {
+            try
+            {
+                Convert.ToInt32(value);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public List<DemandaHistorico> PreencherDemandaHistoricoDevops(IList<WorkItemHistoric> historico, string externalId, long projetoId, long sprintId, long squadId )
+        {
+            try
+            {
+                return historico.ToList().ConvertAll(s => new DemandaHistorico
+                {
+                    ExternalId = externalId,
+                    Pontos = (s.Fields?.MicrosoftVstsSchedulingStoryPoints?.NewValue) is null ? 0 :
+                                    !IsInt(s.Fields?.MicrosoftVstsSchedulingStoryPoints?.NewValue) ?  0:  Convert.ToInt32(s.Fields?.MicrosoftVstsSchedulingStoryPoints?.NewValue),
+                    Prioridade = (s.Fields?.MicrosoftVstsSchedulingStoryPoints?.NewValue) is null ? 0:
+                                !IsInt(s.Fields?.MicrosoftVstsCommonPriority?.NewValue) ? 0 :  Convert.ToInt32(s.Fields?.MicrosoftVstsCommonPriority?.NewValue),
+                    ProjetoId = projetoId,
+                    DataModificacao = string.IsNullOrEmpty(s.Fields?.SystemChangedDate?.NewValue) ? DataModificacao : DateTime.Parse(s.Fields?.SystemChangedDate?.NewValue),
+                    HorasEstimadas = string.IsNullOrEmpty(s.Fields?.OriginalEstimate?.NewValue) ? 0 : Convert.ToInt32(s.Fields?.OriginalEstimate?.NewValue.Split(".")[0]),
+                    HorasUtilizadas = string.IsNullOrEmpty(s.Fields?.CompletedWork?.NewValue) ? 0 : Convert.ToInt32(s.Fields?.CompletedWork?.NewValue.Split(".")[0]),
+                    DataInicio = DateTime.Parse(historico.FirstOrDefault(x => x.Fields?.SystemCreatedDate?.NewValue != null).Fields?.SystemCreatedDate?.NewValue),
+                    DataFim = string.IsNullOrEmpty(s.Fields?.MicrosoftVstsSchedulingFinishDate?.NewValue) ? DataFim : DateTime.Parse(s.Fields?.MicrosoftVstsSchedulingFinishDate?.NewValue),
+                    SprintId = sprintId,
+                    DemandaPaiId = null,
+                    Responsavel = s.Fields?.SystemAssignedTo?.NewValue?.DisplayName,
+                    SquadId = squadId,
+                    Status = Demandas.ObterStatusDemanda(s.Fields?.SystemState?.NewValue),
+                    Tipo = Demandas.ObterTipoWorkItemDevops(s.Fields?.SystemWorkItemType?.NewValue ?? s.Fields?.SystemWorkItemType?.OldValue),
+                }); ;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string ExternalId { get; set; }
         public long? SprintId { get; set; }
         public long? ProjetoId { get; set; }

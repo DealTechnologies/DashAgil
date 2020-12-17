@@ -69,7 +69,7 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
             return result.ToList();
         }
 
-        public Task<Sprint> Obter(string nome)
-            => _context.Connection.QueryFirstOrDefaultAsync<Sprint>("SELECT * FROM DashAgil.dbo.Sprints WHERE Nome =  @nome ", new { nome });
+        public Task<Sprint> Obter(string nome, long projetoId)
+            => _context.Connection.QueryFirstOrDefaultAsync<Sprint>("SELECT * FROM DashAgil.dbo.Sprints WHERE Nome =  @nome and ProjetoId = @projetoId ", new { nome, projetoId });
     }
 }

@@ -1,157 +1,84 @@
-import { Component, OnInit } from '@angular/core';
-import { EChartOption } from 'echarts';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { EChartOption, ECharts } from 'echarts';
 import { ChartsConfigurationService, OverviewService } from 'src/app/core/services';
 
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { formatDate } from '@angular/common';
-import { MatSnackBar } from '@angular/material/snack-bar';
+let echarts = require('echarts');
 
 @Component({
   selector: 'app-radar-agil',
   templateUrl: './radar-agil.component.html',
   styleUrls: ['./radar-agil.component.scss'],
 })
+export class RadarAgilComponent implements OnInit, AfterViewInit {
 
-export class RadarAgilComponent implements OnInit {
-
+  @ViewChild('radar') radar: ElementRef;
   optionsRadar: EChartOption;
-  taskForm: FormGroup;
-  mode = new FormControl('side');
-  isNewEvent = false;
-  showFiller = false;
-  userImg: string;
-  dialogTitle: string;
+  radarChart: ECharts;
+  series = [];
 
+  constructor(private chartsConfiguration: ChartsConfigurationService) { }
 
-  constructor(private chartsConfiguration: ChartsConfigurationService,
-              private fb: FormBuilder, private snackBar: MatSnackBar) {
-                this.taskForm = this.createFormGroup(null);
-              }
-  step = 0;
+  ngOnInit() {
 
+    this.series = [
+      { value: 0, type: 1, name: '1. Entrega de valor ao cliente', itemStyle: {} },
+      { value: 0, type: 1, name: '2. Satisfação do cliente', itemStyle: {} },
+      { value: 0, type: 1, name: '3. Cycle Time de histórias', itemStyle: {} },
+      { value: 0, type: 1, name: '4. Product Backlog', itemStyle: {} },
+      { value: 0, type: 1, name: '5. Sprint Backlog', itemStyle: {} },
+      { value: 0, type: 2, name: '1. Práticas DevOps', itemStyle: {} },
+      { value: 0, type: 2, name: '2. A execução de testes automatizados faz cobertura dos principais cenários?', itemStyle: {} },
+      { value: 0, type: 2, name: '3. Clean Code', itemStyle: {} },
+      { value: 0, type: 2, name: '4. Código Sustentável (Refactoring)', itemStyle: {} },
+      { value: 0, type: 2, name: '5. Volume de defeitos dentro das Sprints', itemStyle: {} },
+      { value: 0, type: 3, name: '1. Producção de Baclogs (SLA >= 2.0)', itemStyle: {} },
+      { value: 0, type: 3, name: '2. Velocidade da Equipe (SLA >= 1.0)', itemStyle: {} },
+      { value: 0, type: 3, name: '3. Qualidade da Entrega (SLA <= 5%)', itemStyle: {} },
+      { value: 0, type: 3, name: '4. Eficácia dos Testes (SLA <= 10%)', itemStyle: {} },
+      { value: 0, type: 3, name: '5. Índice dos Testes (SLA <= 20%)', itemStyle: {} },
+      { value: 0, type: 4, name: '1. Ferramentas e Documentação', itemStyle: {} },
+      { value: 0, type: 4, name: '2. Cerimônias', itemStyle: {} },
+      { value: 0, type: 4, name: '3. Scrum Master', itemStyle: {} },
+      { value: 0, type: 4, name: '4. Product Owner', itemStyle: {} },
+      { value: 0, type: 4, name: '5. Líder Técnic', itemStyle: {} },
+    ];
 
+    this.optionsRadar = this.chartsConfiguration.radar(this.series);
+  }
 
-  tasks = [
-    {
-      id: '1',
-      name: 'Entrega de valor ao cliente',
-      title: 'Estamos conseguindo medir o valor para o cliente de forma Quantitativa Exemplo: Receita recorrente; anual; Receita  anual total; Receita recorrente anual por cliente; Receita  recorrente mensal; Lucro  bruto; Custo de aquisição do cliente; Evasão; Número  de usuários ativos.',
-    },
-    {
-      id: '1',
-      name: 'Entrega de valor ao cliente',
-      title: 'Estamos conseguindo medir o valor para o cliente de forma Quantitativa Exemplo: Receita recorrente; anual; Receita  anual total; Receita recorrente anual por cliente; Receita  recorrente mensal; Lucro  bruto; Custo de aquisição do cliente; Evasão; Número  de usuários ativos.',
-    },
-    {
-      id: '1',
-      name: 'Entrega de valor ao cliente',
-      title: 'Estamos conseguindo medir o valor para o cliente de forma Quantitativa Exemplo: Receita recorrente; anual; Receita  anual total; Receita recorrente anual por cliente; Receita  recorrente mensal; Lucro  bruto; Custo de aquisição do cliente; Evasão; Número  de usuários ativos.',
-    },
-    {
-      id: '1',
-      name: 'Entrega de valor ao cliente',
-      title: 'Estamos conseguindo medir o valor para o cliente de forma Quantitativa Exemplo: Receita recorrente; anual; Receita  anual total; Receita recorrente anual por cliente; Receita  recorrente mensal; Lucro  bruto; Custo de aquisição do cliente; Evasão; Número  de usuários ativos.',
-    },
-    {
-      id: '1',
-      name: 'Entrega de valor ao cliente',
-      title: 'Estamos conseguindo medir o valor para o cliente de forma Quantitativa Exemplo: Receita recorrente; anual; Receita  anual total; Receita recorrente anual por cliente; Receita  recorrente mensal; Lucro  bruto; Custo de aquisição do cliente; Evasão; Número  de usuários ativos.',
+  ngAfterViewInit(): void {
+    this.radarChart = echarts.init(this.radar.nativeElement);
+  }
+
+  change(serie: any) {
+    serie.itemStyle.color = this.selectColor(serie.value);
+    this.radarChart.setOption(this.chartsConfiguration.radar(this.series));
+  }
+
+  selectColor(value: string) {
+    switch (value) {
+      case '1':
+        return 'rgb(247, 74, 77)';
+      case '2':
+        return 'rgb(245, 130, 93)';
+      case '3':
+        return 'rgb(252, 178, 96)';
+      case '4':
+        return 'rgb(255, 231, 105)';
+      case '5':
+        return 'rgb(61, 168, 89)';
+
     }
-  ];
+  }
 
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.tasks, event.previousIndex, event.currentIndex);
-  }
-  toggle(task, nav: any) {
-    nav.close();
-    task.done = !task.done;
-  }
-  addNewTask(nav: any) {
-    this.resetFormField();
-    this.isNewEvent = true;
-    this.dialogTitle = 'New Task';
-    this.userImg = 'assets/images/user/user1.jpg';
-    nav.open();
-  }
   taskClick(task, nav: any): void {
-    this.isNewEvent = false;
-    this.dialogTitle = 'Edit Task';
-    this.userImg = task.img;
     nav.open();
-    this.taskForm = this.createFormGroup(task);
   }
+
   closeSlider(nav: any) {
     if (nav.open()) {
       nav.close();
     }
-  }
-  createFormGroup(data: any) {
-    return this.fb.group({
-      id: [data ? data.id : this.getRandomID()],
-      name: [data ? data.name : null],
-      title: [data ? data.title : null]
-    });
-  }
-  saveTask() {
-    this.tasks.unshift(this.taskForm.value);
-    this.resetFormField();
-    this.showNotification(
-      'snackbar-success',
-      'Add Task Successfully...!!!',
-      'bottom',
-      'center'
-    );
-  }
-  editTask() {
-    const targetIdx = this.tasks
-      .map((item) => item.id)
-      .indexOf(this.taskForm.value.id);
-    this.tasks[targetIdx] = this.taskForm.value;
-    this.showNotification(
-      'black',
-      'Edit Task Successfully...!!!',
-      'bottom',
-      'center'
-    );
-  }
-  deleteTask(nav: any) {
-    const targetIdx = this.tasks
-      .map((item) => item.id)
-      .indexOf(this.taskForm.value.id);
-    this.tasks.splice(targetIdx, 1);
-    nav.close();
-    this.showNotification(
-      'snackbar-danger',
-      'Delete Task Successfully...!!!',
-      'bottom',
-      'center'
-    );
-  }
-  resetFormField() {
-    this.taskForm.controls.name.reset();
-    this.taskForm.controls.title.reset();
-  }
-  public getRandomID(): string {
-    const S4 = () => {
-      return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-    };
-    return S4() + S4();
-  }
-
-
-
-  ngOnInit() {
-    this.optionsRadar = this.chartsConfiguration.radar();
-  }
-
-  showNotification(colorName, text, placementFrom, placementAlign) {
-    this.snackBar.open(text, '', {
-      duration: 2000,
-      verticalPosition: placementFrom,
-      horizontalPosition: placementAlign,
-      panelClass: colorName
-    });
   }
 
   onChartEvent(event: any, type: string) {

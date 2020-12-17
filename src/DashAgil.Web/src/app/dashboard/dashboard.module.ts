@@ -20,7 +20,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { OverviewComponent } from './overview/overview.component';
@@ -37,12 +37,11 @@ import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../shared/material.module';
 import { SquadComponent } from './squad/squad.component';
 import { LeadTimeComponent } from './lead-time/lead-time.component';
-
-
-
+import { FilterSeriesPipe } from '../core/pipes/filter.pipe';
+import { RadarItemsComponent } from './radar-agil/radar-items/radar-items.component';
 
 @NgModule({
-  declarations: [OverviewComponent, SquadComponent, LeadTimeComponent, RadarAgilComponent],
+  declarations: [OverviewComponent, SquadComponent, LeadTimeComponent, RadarAgilComponent, FilterSeriesPipe, RadarItemsComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -58,7 +57,7 @@ import { LeadTimeComponent } from './lead-time/lead-time.component';
       echarts: () => import('echarts')
     }),
     GaugeModule.forRoot(),
-
+    ReactiveFormsModule,
     FormsModule,
     MatSelectModule,
     MatCheckboxModule,
@@ -77,7 +76,8 @@ import { LeadTimeComponent } from './lead-time/lead-time.component';
     MatSortModule,
     MatToolbarModule,
     DragDropModule,
-    MaterialFileInputModule
+    MaterialFileInputModule,
+    MatTabsModule
   ],
   providers: [
     ClientService,
