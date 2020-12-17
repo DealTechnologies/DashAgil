@@ -7,5 +7,7 @@ namespace DashAgil.Entidades.DTO
         public int Id { get; set; }
 
         public string Nome { get; set; }
+
+        public List<SquadsDTO> Squads { get; set; }
     }
 }
