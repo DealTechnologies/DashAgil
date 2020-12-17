@@ -705,38 +705,39 @@ export class ChartsConfigurationService {
     return chartOptions;
   }
 
-  radar(): EChartOption {
+  radar(data): EChartOption {
     const chartOptions: EChartOption = {
       angleAxis: {
         type: 'category',
-        data: [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5,
-          // { value: '1. Entrega de valor ao cliente', },
-          // { value: '2. Satisfação do cliente', },
-          // { value: '3. Cycle Time de histórias', },
-          // { value: '4. Product Backlog', },
-          // { value: '5. Sprint Backlog', },
-          // { value: '1. Práticas DevOps', },
-          // { value: '2. A execução de testes automatizados faz cobertura dos principais cenários?', },
-          // { value: '3. Clean Code', },
-          // { value: '4. Código Sustentável (Refactoring)', },
-          // { value: '5. Volume de defeitos dentro das Sprints', },
-          // { value: '1. Producção de Baclogs (SLA >= 2.0)', },
-          // { value: '2. Velocidade da Equipe (SLA >= 1.0)', },
-          // { value: '3. Qualidade da Entrega (SLA <= 5%)', },
-          // { value: '4. Eficácia dos Testes (SLA <= 10%)', },
-          // { value: '5. Índice dos Testes (SLA <= 20%)', },
-          // { value: '1. Ferramentas e Documentação', },
-          // { value: '2. Cerimônias', },
-          // { value: '3. Scrum Master', },
-          // { value: '4. Product Owner', },
-          // { value: '5. Líder Técnico', }
+        data: [
+          { value: '                                 1. Entrega de valor ao cliente', },
+          { value: '2. Satisfação do cliente', },
+          { value: '3. Cycle Time de histórias', },
+          { value: '4. Product Backlog', },
+          { value: '5. Sprint Backlog', },
+          { value: '1. Práticas DevOps', },
+          { value: '2. A execução de testes automatizados \nfaz cobertura dos principais cenários?', },
+          { value: '3. Clean Code', },
+          { value: '4. Código Sustentável (Refactoring)', },
+          { value: '                                               5.Volume de defeitos dentro das Sprints', },
+          { value: '1. Producção de Baclogs (SLA >= 2.0)                                               ', },
+          { value: '2. Velocidade da Equipe (SLA >= 1.0)', },
+          { value: '3. Qualidade da Entrega (SLA <= 5%)', },
+          { value: '4. Eficácia dos Testes (SLA <= 10%)', },
+          { value: '5. Índice dos Testes (SLA <= 20%)', },
+          { value: '1. Ferramentas e Documentação', },
+          { value: '2. Cerimônias', },
+          { value: '3. Scrum Master', },
+          { value: '4. Product Owner', },
+          { value: '5. Líder Técnico            ', }
         ],
         min: 0,
         max: 19,
         axisLine: {
           show: true,
           lineStyle: {
-            color: 'rgba(255, 255, 255, 1)'
+            color: 'rgba(255, 255, 255, 1)',
+
           }
         },
         axisTick: {
@@ -744,15 +745,16 @@ export class ChartsConfigurationService {
           length: 20
         },
         axisLabel: {
-          //show: false
+          show: true,
+          margin: 20
         },
 
       },
       grid: {
         top: 0,
         bottom: 0,
-        right: 0,
-        left: 0,
+        left: '25%',
+        right: '25%',
       },
       xAxis: {
         min: -1,
@@ -816,37 +818,18 @@ export class ChartsConfigurationService {
       series: [
         {
           type: 'bar',
+          //@ts-ignore
           showBackground: true,
           //@ts-ignore
           barWidth: '100%',
+          height: '100%',
           backgroundStyle: {
             color: 'transparent',
             borderWidth: 0.5,
             borderColor: 'rgba(255, 255, 255, 1)'
           },
           coordinateSystem: 'polar',
-          data: [
-            { value: 1, name: 'rose1', itemStyle: { color: 'rgb(254, 0, 0)' } },
-            { value: 2, name: 'rose2', itemStyle: { color: 'rgb(254, 0, 0)' } },
-            { value: 3, name: 'rose3', itemStyle: { color: 'rgb(255, 255, 0)' } },
-            { value: 4, name: 'rose4', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 5, name: 'rose5', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 4, name: 'rose6', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 2, name: 'rose7', itemStyle: { color: 'rgb(254, 0, 0)' } },
-            { value: 1, name: 'rose8', itemStyle: { color: 'rgb(254, 0, 0)' } },
-            { value: 5, name: 'rose9', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 2, name: 'rose10', itemStyle: { color: 'rgb(254, 0, 0)' } },
-            { value: 3, name: 'rose11', itemStyle: { color: 'rgb(255, 255, 0)' } },
-            { value: 4, name: 'rose12', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 5, name: 'rose13', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 4, name: 'rose14', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 3, name: 'rose15', itemStyle: { color: 'rgb(255, 255, 0)' } },
-            { value: 4, name: 'rose16', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 5, name: 'rose17', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 2, name: 'rose18', itemStyle: { color: 'rgb(254, 0, 0)' } },
-            { value: 3, name: 'rose19', itemStyle: { color: 'rgb(255, 255, 0)' } },
-            { value: 4, name: 'rose20', itemStyle: { color: 'rgb(0, 255, 1)' } },
-          ]
+          data: data
         },
       ],
     };

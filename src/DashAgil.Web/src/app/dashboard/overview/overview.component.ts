@@ -19,8 +19,6 @@ export class OverviewComponent implements OnInit {
   providers: Provider[];
   clients: Client[];
 
-  optionsRadar: EChartOption;
-
   constructor(
     private overviewService: OverviewService,
     private chartsConfiguration: ChartsConfigurationService,
@@ -42,8 +40,6 @@ export class OverviewComponent implements OnInit {
     });
 
     this.loadProviders();
-
-    this.optionsRadar = this.chartsConfiguration.radar();
   }
 
   loadProviders() {

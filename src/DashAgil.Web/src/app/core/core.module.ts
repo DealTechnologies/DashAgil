@@ -5,6 +5,7 @@ import { AuthGuard } from './guard/auth.guard';
 import { AuthService } from './services/auth/auth.service';
 import { DynamicScriptLoaderService } from './services/core/dynamic-script-loader.service';
 import { throwIfAlreadyLoaded } from './guard/module-import.guard';
+import { FilterSeriesPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [],

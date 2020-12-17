@@ -3,67 +3,35 @@
     <div class="block-header">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
         <div class="card">
-          <mat-sidenav-container class="task-container">
-              <mat-sidenav #sidenav [mode]="mode.value" position="end">
-                <div class="header">
-                  <h2 class="header-title">Descrição</h2>
-                  <div class="header-close m-l-0">
-                    <button mat-icon-button (click)="closeSlider(sidenav)">
-                      <mat-icon>close</mat-icon>
-                    </button>
-                  </div>
-                </div>
-                <form class="m-4" [formGroup]="taskForm">
-                  <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                      <mat-form-field  appearance="outline">
-                        <input matInput formControlName="title">
-                      </mat-form-field>
-                    </div>
-                  </div>
-                </form>
-              </mat-sidenav>
-              <mat-sidenav-content>
-                <div cdkDropList class="task-list" (cdkDropListDropped)="drop($event)"
-                      style="position: relative; max-height: 500px;" [perfectScrollbar]>
-                  <div class="task-box" *ngFor="let task of tasks"
-                        (click)="taskClick(task, sidenav)" cdkDrag>
-                    <div>
-                      <div class="task-handle m-r-20" cdkDragHandle>
-                        <mat-icon aria-hidden="false">drag_indicator</mat-icon>
-                      </div>
-                    </div>
-
-                    <div class="task-custom-placeholder" *cdkDragPlaceholder></div>
-                    <div matTooltip="Title">
-                      {{task.name}}
-                    </div>
-                    <div>
-                      <mat-radio-group >
-                        <label class="example-margin">Pontuação: </label>
-                        <mat-radio-button class="example-margin" value="1">1</mat-radio-button>
-                        <mat-radio-button class="example-margin" value="3">2</mat-radio-button>
-                        <mat-radio-button class="example-margin" value="4">3</mat-radio-button>
-                        <mat-radio-button class="example-margin" value="5">4</mat-radio-button>
-                        <mat-radio-button class="example-margin" value="6">5</mat-radio-button>
-                      </mat-radio-group>
-                    </div>
-                  </div>
-                </div>
-              </mat-sidenav-content>
-          </mat-sidenav-container>
+          <!-- <span class="h4 title">Indicadores</span> -->
+          <div class="body">
+            <mat-tab-group>
+              <mat-tab label="Processo">
+                <app-radar-items [series]="series" [type]="1" (change)="change($event)"></app-radar-items>
+              </mat-tab>
+              <mat-tab label="Negócio">
+                <app-radar-items [series]="series" [type]="2" (change)="change($event)"></app-radar-items>
+              </mat-tab>
+              <mat-tab label="Qualidade">
+                <app-radar-items [series]="series" [type]="3" (change)="change($event)"></app-radar-items>
+              </mat-tab>
+              <mat-tab label="Indicadores e SLAs">
+                <app-radar-items [series]="series" [type]="4" (change)="change($event)"></app-radar-items>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
         </div>
       </div>
 
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
         <div class="card">
           <div class="header">
-            <h2>Radar Agil</h2>
+            <h2>Radar Ágil</h2>
           </div>
           <div class="body">
             <div class="card radar-container">
-              <div echarts #radar class="radar" [ngStyle]="{'height.px': radar?.offsetWidth }"
-              (chartClick)="onChartEvent($event, 'chartClick')" [options]="optionsRadar"></div>
+              <div echarts #radar class="radar"
+                (chartClick)="onChartEvent($event, 'chartClick')" [options]="optionsRadar"></div>
             </div>
           </div>
         </div>

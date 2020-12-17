@@ -1,0 +1,22 @@
+<div class="media-list position-relative">
+  <div class="table-responsive">
+    <table class="table table-hover table-xl mb-0">
+      <tbody>
+        <tr *ngFor="let serie of series | filterSeries:type">
+          <td>
+            {{serie.name}}
+          </td>
+          <td>
+            <mat-radio-group (change)="changeValue(serie)">
+              <mat-radio-button value="1" ngDefaultControl [(ngModel)]="serie.value">1</mat-radio-button>
+              <mat-radio-button value="2" ngDefaultControl [(ngModel)]="serie.value">2</mat-radio-button>
+              <mat-radio-button value="3" ngDefaultControl [(ngModel)]="serie.value">3</mat-radio-button>
+              <mat-radio-button value="4" ngDefaultControl [(ngModel)]="serie.value">4</mat-radio-button>
+              <mat-radio-button value="5" ngDefaultControl [(ngModel)]="serie.value">5</mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
