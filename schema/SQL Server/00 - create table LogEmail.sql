@@ -15,9 +15,9 @@ GO
 
 CREATE TABLE [dbo].[Emails](
 	[Id] [uniqueidentifier] NOT NULL,
-	[Assunto] [varchar] (200) NOT NULL,
+	[Assunto] [varchar] (200) NULL,
 	[Conteudo] [varchar] (max) NOT NULL,
-	[Anexo] [varchar] (200) NOT NULL,
+	[Anexos] [varchar] (200) NULL,
 	[Remetente] [varchar] (150) NOT NULL,
 	[Destinatario] [varchar] (200) NOT NULL,
 	[DataCriacao] [datetime] NOT NULL,
