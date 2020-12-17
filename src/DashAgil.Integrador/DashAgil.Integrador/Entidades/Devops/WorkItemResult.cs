@@ -77,10 +77,13 @@ namespace DashAgil.Integrador.Entidades.Devops
         public string ActivatedDate { get; set; }
 
         [JsonProperty("OriginalEstimate")]
-        public int OriginalEstimate { get; set; }
+        public string OriginalEstimate { get; set; }
 
         [JsonProperty("RemainingWork")]
-        public int RemainingWork { get; set; }
+        public string RemainingWork { get; set; }
+
+        [JsonProperty("CompletedWork")]
+        public string CompletedWork { get; set; }
 
         [JsonProperty("Priority")]
         public long MicrosoftVstsCommonPriority { get; set; }

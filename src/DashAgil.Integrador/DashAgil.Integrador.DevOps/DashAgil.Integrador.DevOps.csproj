@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Commands\Input\" />
-    <Folder Include="Commands\Output\" />
     <Folder Include="Entidades\" />
     <Folder Include="Enums\" />
     <Folder Include="Handlers\" />

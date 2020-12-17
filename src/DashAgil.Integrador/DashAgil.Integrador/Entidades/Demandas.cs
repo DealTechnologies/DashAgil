@@ -35,41 +35,43 @@ namespace DashAgil.Integrador.Entidades
 
         public static Demandas PreencherDemandaDevops(WorkItemResult workItens, long projetoId, long squadId, long sprintId)
         {
-            return   new Demandas
+            return new Demandas
             {
                 ProjetoId = projetoId,
                 ExternalId = workItens.Id.ToString(),
-                DataInicio = Convert.ToDateTime(workItens.Fields.ActivatedDate),
+                DataInicio = string.IsNullOrEmpty(workItens.Fields.ActivatedDate) ? DateTime.Now : Convert.ToDateTime(workItens.Fields.ActivatedDate),
+                DataFim = string.IsNullOrEmpty(workItens.Fields.MicrosoftVstsCommonClosedDate) ? DateTime.Now : Convert.ToDateTime(workItens.Fields.MicrosoftVstsCommonClosedDate),
                 Descricao = workItens.Fields.SystemTitle,
                 Comentario = workItens.Fields.SystemHistory,
                 DataModificacao = Convert.ToDateTime(workItens.Fields.SystemChangedDate),
-                DataCadastro = Convert.ToDateTime(workItens.Fields.SystemCreatedDate), 
-                HorasEstimadas = workItens.Fields.OriginalEstimate,
-                HorasUtilizadas = workItens.Fields.RemainingWork,
+                DataCadastro = Convert.ToDateTime(workItens.Fields.SystemCreatedDate),
+                HorasEstimadas = string.IsNullOrEmpty(workItens.Fields.OriginalEstimate) ? 0 : Convert.ToInt32(workItens.Fields.OriginalEstimate.Split('.')[0]),
+                HorasUtilizadas = string.IsNullOrEmpty(workItens.Fields.CompletedWork) ? 0 : Convert.ToInt32(workItens.Fields.CompletedWork.Split('.')[0]),
                 Tipo = ObterTipoWorkItemDevops(workItens.Fields.SystemWorkItemType),
-                HorasRestantes = workItens.Fields.RemainingWork,
-                Prioridade = (int)workItens.Fields.MicrosoftVstsCommonPriority,
-                Status = ObterStatusDemanda(workItens.Fields.SystemState),
-                Responsavel = workItens.Fields.SystemAssignedTo.DisplayName,
+                HorasRestantes = string.IsNullOrEmpty(workItens.Fields.RemainingWork) ? 0 : Convert.ToInt32(workItens.Fields.RemainingWork.Split('.')[0]),
+                Prioridade = workItens.Fields.MicrosoftVstsCommonPriority > 0 ? (int)workItens.Fields.MicrosoftVstsCommonPriority : 0,
+                Responsavel = workItens.Fields?.SystemAssignedTo?.DisplayName,
                 SquadId = squadId,
-                SprintId = sprintId
-            }; 
+                SprintId = sprintId,
+                Status = ObterStatusDemanda(workItens.Fields.SystemState)
+            };
         }
 
         public static int? ObterStatusDemanda(string state)
             => state switch
             {
-                "Backlog" => 1,
+                "Em Backlog" => 1,
                 "Priorizado" => 2,
-                "AnaliseViabilidade" => 3,
-                "Especificacao" => 4,
-                "BacklogDesenvolvimento" => 5,
-                "Desenvolvimento" => 6,
-                "GC" => 7,
-                "PacoteLiberado" => 8,
-                "Homologacao" => 9,
-                "FilaProducao" => 10,
-                "Concluido" => 11,
+                "Analise de Viabilidade" => 3,
+                "Especificação" => 4,
+                "Backlog Desenvolvimento" => 5,
+                "Em Desenvolvimento" => 6,
+                "Em GC" => 7,
+                "Pacote Liberado" => 8,
+                "Em Homologação" => 9,
+                "Fila de Produção" => 10,
+                "Concluído" => 11,
+                "Closed" => 11,
                 "PromoverMain" => 12,
                 _ => 1
             };

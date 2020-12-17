@@ -6,14 +6,47 @@ namespace DashAgil.Integrador.Infra.Data.Queries
 {
     public class DemandasQueries
     {
-        public const string Insert = @"INSERT INTO DashAgil.dbo.Demandas (Id, ExternalId , SprintId , ProjetoId , SquadId , Tipo ,
-																  DemandaPaiId , Responsavel , DataInicio, DataModificacao , DataFim ,
-																  Pontos , Tags , Prioridade, HorasEstimadas , HorasRestantes, HorasUtilizadas ,
-																  Risco , Comentario , Status , Descricao )
-								VALUES(@Id, @ExternalId , @SprintId , @ProjetoId , @SquadId , @Tipo ,
-																  @DemandaPaiId , @Responsavel , @DataInicio, @DataModificacao , @DataFim ,
-																  @Pontos , @Tags , @Prioridade, @HorasEstimadas , @HorasRestantes, @HorasUtilizadas ,
-																  @Risco , @Comentario , @Status , @Descricao ); SELECT SCOPE_IDENTITY()                            ";
+        public const string Insert = @"INSERT INTO [DashAgil].[dbo].[Demandas]
+													([Id]
+													,[ExternalId]
+													,[SprintId]
+													,[ProjetoId]
+													,[SquadId]
+													,[Tipo]
+													,[DemandaPaiId]
+													,[Responsavel]
+													,[DataInicio]
+													,[DataModificacao]
+													,[DataFim]
+													,[Pontos]
+													,[Tags]
+													,[Prioridade]
+													,[HorasEstimadas]
+													,[HorasRestantes]
+													,[HorasUtilizadas]
+													,[Risco]
+													,[Comentario]
+													,[Status])
+								VALUES(@Id
+									  ,@ExternalId
+									  ,@SprintId
+									  ,@ProjetoId
+									  ,@SquadId
+									  ,@Tipo
+									  ,@DemandaPaiId
+									  ,@Responsavel
+									  ,@DataInicio
+									  ,@DataModificacao
+									  ,@DataFim
+									  ,@Pontos
+									  ,@Tags
+									  ,@Prioridade
+									  ,@HorasEstimadas
+									  ,@HorasRestantes
+									  ,@HorasUtilizadas
+									  ,@Risco
+									  ,@Comentario
+									  ,@Status);  SELECT SCOPE_IDENTITY() ";
 
 		public const string Update = @"UPDATE DashAgil.dbo.Demandas SET ExternalId = @ExternalId , 
 															     SprintId = @SprintId ,
