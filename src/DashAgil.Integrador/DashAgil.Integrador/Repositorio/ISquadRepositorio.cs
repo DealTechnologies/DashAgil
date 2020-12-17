@@ -1,13 +1,4 @@
 ﻿using DashAgil.Integrador.Entidades;
-<<<<<<< HEAD
-=======
-
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-
->>>>>>> dev
 using System.Threading.Tasks;
 
 namespace DashAgil.Integrador.Repositorio
