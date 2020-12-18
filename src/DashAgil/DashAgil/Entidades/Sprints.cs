@@ -45,7 +45,7 @@ namespace DashAgil.Entidades
                         Dia = dataInicioSprint,
                         PontosTotalDia = group.Select(x => new { x.Id, x.Pontos }).Distinct().Sum(x => x.Pontos),//total pontos sprint
                         PontosConcluidosDia = group.Where(x =>
-                            int.Parse(x.StatusDeXPara) >= (int)EDemandaStatusDexPara.DesenvolvimentoConcluido &&
+                            x.StatusDeXPara >= (int)EDemandaStatusDexPara.DesenvolvimentoConcluido &&
                             x.DataModificacao <= dataInicioSprint.Date.AddHours(23.9999))
                             .Select(x => new { x.Id, x.Pontos }).Distinct().Sum(x => x.Pontos) //pontos baixados de hoje ate o inicio do sprint
                     });
