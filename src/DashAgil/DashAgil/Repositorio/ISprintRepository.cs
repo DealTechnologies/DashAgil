@@ -7,5 +7,6 @@ namespace DashAgil.Repositorio
     public interface ISprintRepository : IRepository<Sprints>
     {
         Task<IEnumerable<Sprints>> GetAllByCliente(string clienteId, string usuarioId);
+        Task<Sprints> GetSprintById(long sprintId);
     }
 }
