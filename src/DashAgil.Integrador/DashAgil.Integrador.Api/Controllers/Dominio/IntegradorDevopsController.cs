@@ -18,7 +18,7 @@ namespace DashAgil.Integrador.Api.Controllers.Dominio
             this._handler = _handler;
         }
 
-        [HttpPost("projetos")]
+        [HttpPost("sync")]
         public async Task<IActionResult> Projetos([FromBody] IntegracaoInicialDevopsCommand command)
         {
             var result = await _handler.Handle(command);

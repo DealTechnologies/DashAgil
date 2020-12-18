@@ -1,0 +1,56 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Sincronização</h2>
+          </div>
+          <div class="body">
+            <form  (ngSubmit)="sendSync()">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="row">
+                  <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100 client">
+                  <mat-select [formControl]="client">
+                    <mat-option *ngFor="let client of clients" [value]="client.id">
+                      {{client.nome}}
+                    </mat-option>
+                  </mat-select>
+                  <span matPrefix>
+                    <mat-icon class="m-r-10">account_circle</mat-icon>
+                  </span>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-select [formControl]="provider">
+                        <mat-option *ngFor="let provider of providers" [value]="provider.id">
+                          {{provider.descricao}}
+                        </mat-option>
+                      </mat-select>
+                    <span matPrefix>
+                      <mat-icon class="m-r-10" [svgIcon]="getIcon(provider.value)"></mat-icon>
+                    </span>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Token</mat-label>
+                      <input [formControl]="token" matInput placeholder="Token de integração" value="">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <button class="btn btn-primary">Sincronizar</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>

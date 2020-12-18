@@ -19,14 +19,4 @@ export class LeadTimeComponent implements OnInit {
     this.velocity = this.chartsConfiguration.velocity();
     this.cumulativeFlow = this.chartsConfiguration.cumulativeFlow();
   }
-
-  displayedColumns = [
-    'id',
-    'workItemType',
-    'description',
-    'status',
-  ];
-
-  dataSource = [];
-
 }

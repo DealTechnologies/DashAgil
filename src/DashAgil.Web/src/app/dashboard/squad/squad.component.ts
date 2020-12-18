@@ -13,7 +13,7 @@ export class SquadComponent implements OnInit {
 
   squadName: string;
   overviewFeature: OverviewFeature;
-  percentFeatures: number;
+  percentFeatures: { isProd: boolean, value: number };
 
   squads: number[];
   squad: FormControl;
@@ -31,12 +31,18 @@ export class SquadComponent implements OnInit {
   }
 
   loadData() {
-    this.overviewService.getOverviewFeatures(1, 1, 1).subscribe(response => {
-      this.overviewFeature = response;
-      this.percentFeatures = response.percentualFeaturesHomologacao;
-      this.optionsSquad = this.chartsConfiguration.squad(response);
-      this.optionsSprint = this.chartsConfiguration.sprint(response);
+    this.overviewService.getOverviewFeatures(1, 1, 1).subscribe(overviewFeature => {
+      this.overviewFeature = overviewFeature;
+      this.definePercent(overviewFeature);
+      this.optionsSquad = this.chartsConfiguration.squad(overviewFeature);
+      this.optionsSprint = this.chartsConfiguration.sprint(overviewFeature);
     });
+  }
+
+  definePercent(overviewFeature: OverviewFeature) {
+    this.percentFeatures = overviewFeature.ListaPercentual.percentualFeaturesConclusao > 0
+      ? { isProd: true, value: overviewFeature.ListaPercentual.percentualFeaturesConclusao }
+      : { isProd: false, value: overviewFeature.ListaPercentual.percentualFeaturesHomologacao || 0 }
   }
 
 }

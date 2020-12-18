@@ -71,85 +71,89 @@
         </div>
       </div>
 
-      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-        <div class="card">
-          <div class="header">
-            <h2>Demandas X Squad</h2>
-          </div>
-          <div class="body">
-            <div class="chart-squad" echarts (chartClick)="onChartEvent($event, 'chartClick')"
-              [options]="optionsDemandsVsSquad"></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="header">
-            <h2>Destaques</h2>
-          </div>
-          <div class="body m-l-10">
-            <div class="sl-item sl-primary">
-              <div class="sl-content">
-                <span class="h5">Squad Terror By Night </span>
-                <p>Apresentação e Entrega Sprint 2</p>
+      <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12">
+        <div class="row">
+          <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+            <div class="card">
+              <div class="header">
+                <h2>Demandas X Squad</h2>
               </div>
-            </div>
-            <div class="sl-item sl-primary">
-              <div class="sl-content">
-                <span class="h5">Squad 1 </span>
-                <p>Primeira parte do PIX entrou em produção 03/11</p>
-              </div>
-            </div>
-            <div class="sl-item sl-primary">
-              <div class="sl-content">
-                <span class="h5">Squad 2 </span>
-                <p>Homologação em andamento</p>
+              <div class="body">
+                <div class="chart-squad" echarts (chartClick)="onChartEvent($event, 'chartClick')"
+                  [options]="optionsDemandsVsSquad"></div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+          <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+            <div class="card">
+              <div class="header">
+                <h2>Demandas em execução</h2>
+              </div>
+              <div class="body">
+                <div class="chart-execution" echarts (chartClick)="onChartEvent($event, 'chartClick')"
+                  [options]="optionsInExecution"></div>
+              </div>
+            </div>
 
-      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-        <div class="card">
-          <div class="header">
-            <h2>Demandas em execução</h2>
-          </div>
-          <div class="body">
-            <div class="chart-execution" echarts (chartClick)="onChartEvent($event, 'chartClick')"
-              [options]="optionsInExecution"></div>
+            <div class="card">
+              <div class="header">
+                <h2>Destaques</h2>
+              </div>
+              <div class="body m-l-10">
+                <div class="sl-item sl-primary">
+                  <div class="sl-content">
+                    <span class="h5">Squad Terror By Night </span>
+                    <p>Apresentação e Entrega Sprint 2</p>
+                  </div>
+                </div>
+                <div class="sl-item sl-primary">
+                  <div class="sl-content">
+                    <span class="h5">Squad 1 </span>
+                    <p>Primeira parte do PIX entrou em produção 03/11</p>
+                  </div>
+                </div>
+                <div class="sl-item sl-primary">
+                  <div class="sl-content">
+                    <span class="h5">Squad 2 </span>
+                    <p>Homologação em andamento</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="card evolution">
-          <div class="header">
-            <h2>Evolução</h2>
-          </div>
-          <div class="body">
-            <div class="media-list position-relative">
-              <div class="table-responsive">
-                <table id="new-orders-table" class="table table-hover table-xl mb-0">
-                  <thead>
-                    <tr>
-                      <th class="border-top-0">Squad</th>
-                      <th class="border-top-0">Anterior</th>
-                      <th class="border-top-0">Atual</th>
-                      <th class="border-top-0">Evolução</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of overview.listaEvolucaoSquad">
-                      <td class="text-truncate">{{item.squadNome}}</td>
-                      <td class="text-right">{{item.evolucaoAnterior}}</td>
-                      <td class="text-right">{{item.evolucaoAtual}}</td>
-                      <td class="text-right">{{item.evolucao}}</td>
-                    </tr>
-                  </tbody>
-                </table>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card evolution">
+              <div class="header">
+                <h2>Evolução</h2>
+              </div>
+              <div class="body">
+                <div class="table-responsive">
+                  <table class="table table-hover table-xl mb-0">
+                    <thead>
+                      <tr>
+                        <th class="border-top-0" width="150px">Squad</th>
+                        <th class="border-top-0">Anterior</th>
+                        <th class="border-top-0">Atual</th>
+                        <th class="border-top-0">Evolução</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of overview.listaEvolucaoSquad">
+                        <td class="text-truncate">{{item.squadNome}}</td>
+                        <td class="text-right">{{item.evolucaoAnterior}}</td>
+                        <td class="text-right">{{item.evolucaoAtual}}</td>
+                        <td class="text-right">{{item.evolucao}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
   </div>
 </section>
