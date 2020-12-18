@@ -33,6 +33,7 @@ CREATE TABLE [dbo].[Demandas](
 	[HorasUtilizadas] [int] NULL,
 	[Risco] [int] NULL,
 	[Comentario] [varchar] (max) NULL,
+	[Descricao] [varchar](1000) NULL,
 	[Status] [int] NOT NULL
 
 	
