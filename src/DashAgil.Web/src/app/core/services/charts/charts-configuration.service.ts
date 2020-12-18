@@ -4,8 +4,8 @@ import * as moment from 'moment';
 import { OverviewDemand, OverviewFeature } from '../../models';
 
 interface ChartData {
-  name?: string;
   value: number | string;
+  name?: string;
 }
 
 @Injectable()
@@ -23,21 +23,20 @@ export class ChartsConfigurationService {
         trigger: 'item',
         formatter: '{b}: {c} demandas'
       },
-      grid: {
-      },
       legend: {
         orient: 'vertical',
-        right: 20,
+        type: 'scroll',
+        left: 400,
         textStyle: {
           color: '#fff'
         },
-        data: legends
+        data: legends,
       },
       series: [
         {
           type: 'pie',
           radius: ['38%', '70%'],
-          center: ['40%', '50%'],
+          center: ['30%', '50%'],
           height: 320,
           label: {
             show: true,
@@ -161,7 +160,7 @@ export class ChartsConfigurationService {
         type: 'category',
         data: [
           'Monitoramento de Auditoria',
-          'Donload de Documentos',
+          'Download de Documentos',
           'Consulta de Documentos',
           'Cadastro de Documentos',
           'Tratamento das Requisições pelo Sistema de Câmbio',

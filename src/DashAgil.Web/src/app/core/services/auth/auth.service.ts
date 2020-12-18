@@ -37,7 +37,6 @@ export class AuthService extends BaseService<User>  {
     return this.http
       .post<any>(`${this.url}`, { username, password })
       .pipe(map((resp) => {
-
         if (resp.data == null || !resp.data.length)
           throw "InvalidUser";
 

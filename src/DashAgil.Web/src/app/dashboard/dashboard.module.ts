@@ -1,3 +1,4 @@
+import { FirstSyncComponent } from './first-sync/first-sync.component';
 import { RadarAgilComponent } from './radar-agil/radar-agil.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -39,9 +40,15 @@ import { SquadComponent } from './squad/squad.component';
 import { LeadTimeComponent } from './lead-time/lead-time.component';
 import { FilterSeriesPipe } from '../core/pipes/filter.pipe';
 import { RadarItemsComponent } from './radar-agil/radar-items/radar-items.component';
+import { StoriesComponent } from './stories/stories.component';
+import { StoriesSquadComponent } from './stories-squad/stories-squad.component';
+import { IntegracaoService } from '../core/services/api/integracao.service';
 
 @NgModule({
-  declarations: [OverviewComponent, SquadComponent, LeadTimeComponent, RadarAgilComponent, FilterSeriesPipe, RadarItemsComponent],
+  declarations: [OverviewComponent, SquadComponent, LeadTimeComponent,
+                 RadarAgilComponent, FilterSeriesPipe,
+                 RadarItemsComponent, FirstSyncComponent,
+                 StoriesComponent, StoriesSquadComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -82,6 +89,7 @@ import { RadarItemsComponent } from './radar-agil/radar-items/radar-items.compon
   providers: [
     ClientService,
     OverviewService,
+    IntegracaoService,
     ProviderService,
     ChartsConfigurationService,
   ]

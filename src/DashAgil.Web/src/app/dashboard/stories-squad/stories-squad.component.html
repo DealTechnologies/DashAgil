@@ -1,0 +1,116 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Histórias</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Histórias</li>
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table">
+                <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+
+                  <ng-container matColumnDef="squad">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                    <mat-cell *matCellDef="let row">{{row.squad}}</mat-cell>
+                    <mat-footer-cell *matFooterCellDef>Total Geral</mat-footer-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="emBacklog">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef>
+                      Em Backlog
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      {{row.emBacklog}}
+                    </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>324</mat-footer-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="emDesenvolvimento">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Em Desenvolvimento
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      {{row.emDesenvolvimento}}
+                    </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>63</mat-footer-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="desenvolvimentoConcluido">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Desenvolvimento Concluído
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      {{row.desenvolvimentoConcluido}}
+                    </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>511</mat-footer-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="emHomologacao">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Em Homologação
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      {{row.emHomologacao}}
+                    </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>135</mat-footer-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="homologado">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Homologado
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      {{row.homologado}}
+                    </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>78</mat-footer-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="concluido">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Concluído
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      {{row.concluido}}
+                    </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>1231</mat-footer-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="totalGeral">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Total Geral
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      {{row.totalGeral}}
+                    </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>2342</mat-footer-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
+                  </mat-row>
+                  <mat-footer-row *matFooterRowDef="displayedColumns" class="nettoRow"></mat-footer-row>
+                </mat-table>
+                <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10"
+                  [pageSizeOptions]="[5, 10, 25, 100]">
+                </mat-paginator>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

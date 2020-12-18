@@ -54,6 +54,11 @@ namespace DashAgil.Integrador.Api
 
             app.UseMiddleware<ErrorMiddleware>();
 
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.ConfigureSwaggerUi();
 
             app.UseEndpoints(endpoints =>
