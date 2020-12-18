@@ -39,9 +39,11 @@ import { SquadComponent } from './squad/squad.component';
 import { LeadTimeComponent } from './lead-time/lead-time.component';
 import { FilterSeriesPipe } from '../core/pipes/filter.pipe';
 import { RadarItemsComponent } from './radar-agil/radar-items/radar-items.component';
+import { StoriesComponent } from './stories/stories.component';
+import { StoriesSquadComponent } from './stories-squad/stories-squad.component';
 
 @NgModule({
-  declarations: [OverviewComponent, SquadComponent, LeadTimeComponent, RadarAgilComponent, FilterSeriesPipe, RadarItemsComponent],
+  declarations: [OverviewComponent, SquadComponent, LeadTimeComponent, RadarAgilComponent, FilterSeriesPipe, RadarItemsComponent, StoriesComponent, StoriesSquadComponent],
   imports: [
     CommonModule,
     SharedModule,

@@ -61,7 +61,8 @@ export class OverviewComponent implements OnInit {
   }
 
   loadDemands(clientId: number) {
-    this.overviewService.getOverviewDemands(clientId).subscribe(overview => {
+    const userId = this.authService.currentUserValue.id;
+    this.overviewService.getOverviewDemands(clientId, userId).subscribe(overview => {
       this.overview = overview;
       this.optionsDemandsVsSquad = this.chartsConfiguration.demandsVsSquad(overview);
       this.optionsInExecution = this.chartsConfiguration.inExecution(overview);
