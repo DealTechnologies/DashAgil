@@ -21,8 +21,8 @@ export class OverviewService extends BaseService<OverviewDemand> {
       }));;
   }
 
-  getOverviewFeatures(projectId: number, squadId: number, sprintId: number): Observable<OverviewFeature> {
-    const params = { IdProjeto: projectId.toString(), IdSquad: squadId.toString(), IdSprint: sprintId.toString() };
+  getOverviewFeatures(clientId: number, squadId: number, sprintId: number): Observable<OverviewFeature> {
+    const params = { IdCliente: clientId.toString(), IdSquad: squadId.toString(), IdSprint: sprintId.toString() };
 
     return this.http
       .get<OverviewDemand>(`${this.url}/ObterVisaoGeralFeatures`, { params: params })

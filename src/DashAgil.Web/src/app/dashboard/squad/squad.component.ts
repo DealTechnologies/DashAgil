@@ -24,6 +24,7 @@ export class SquadComponent implements OnInit {
   constructor(private overviewService: OverviewService, private chartsConfiguration: ChartsConfigurationService) { }
 
   ngOnInit(): void {
+    this.percentFeatures = { isProd: false, value: 0 };
     this.squadName = 'Terror By Night';
     this.squads = [1, 2, 3];
     this.squad = new FormControl(1);
@@ -31,7 +32,7 @@ export class SquadComponent implements OnInit {
   }
 
   loadData() {
-    this.overviewService.getOverviewFeatures(1, 1, 1).subscribe(overviewFeature => {
+    this.overviewService.getOverviewFeatures(1, 9, 50).subscribe(overviewFeature => {
       this.overviewFeature = overviewFeature;
       this.definePercent(overviewFeature);
       this.optionsSquad = this.chartsConfiguration.squad(overviewFeature);
@@ -40,9 +41,9 @@ export class SquadComponent implements OnInit {
   }
 
   definePercent(overviewFeature: OverviewFeature) {
-    this.percentFeatures = overviewFeature.ListaPercentual.percentualFeaturesConclusao > 0
-      ? { isProd: true, value: overviewFeature.ListaPercentual.percentualFeaturesConclusao }
-      : { isProd: false, value: overviewFeature.ListaPercentual.percentualFeaturesHomologacao || 0 }
+    this.percentFeatures = overviewFeature.ListaPercentual.PercentualFeaturesConclusao > 0
+      ? { isProd: true, value: overviewFeature.ListaPercentual.PercentualFeaturesConclusao }
+      : { isProd: false, value: overviewFeature.ListaPercentual.PercentualFeaturesHomologacao || 0 }
   }
 
 }

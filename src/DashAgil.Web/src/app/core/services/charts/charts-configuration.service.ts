@@ -115,21 +115,33 @@ export class ChartsConfigurationService {
 
   squad(overview: OverviewFeature): EChartOption {
 
-    const legends: string[] = []// overview.listaEstoriasPorSquad.map(item => item.squadNome);
-    const series: ChartData[] = [] //overview.listaEstoriasPorSquad.map(item => ({ name: item.squadNome, value: item.quantidade }));
+    const legends: string[] = overview.ListaFeaturesEstagio.map(item => item.featureId);
+
+    const remanescente = overview.ListaFeaturesEstagio.map(item => item.remanescente);
+    const emAndamento = overview.ListaFeaturesEstagio.map(item => item.emAndamento);
+    const desenvolvimentoConcluido = overview.ListaFeaturesEstagio.map(item => item.desenvolvimentoConcluido);
+    const homologacao = overview.ListaFeaturesEstagio.map(item => item.homologacao);
+    const homologado = overview.ListaFeaturesEstagio.map(item => item.homologado);
+    const concluido = overview.ListaFeaturesEstagio.map(item => item.concluido);
+
+    const formatter = (params: any) => {
+      return params.value > 0 ? params.value + '%' : '';
+    }
 
     const chartOptions: EChartOption = {
       tooltip: {
         trigger: 'axis',
         axisPointer: {
           type: 'line'
-        }
+        },
       },
       legend: {
+        type: 'scroll',
         data: [
           { name: 'Concluído' },
           { name: 'Desenvolvimento Concluído' },
           { name: 'Homologação' },
+          { name: 'Homologado' },
           { name: 'Em Andamento' },
           { name: 'Remanescente' },
         ],
@@ -139,7 +151,7 @@ export class ChartsConfigurationService {
         bottom: 0
       },
       grid: {
-        top: 0,
+        top: 5,
         left: '3%',
         right: '4%',
         bottom: '10%',
@@ -158,25 +170,40 @@ export class ChartsConfigurationService {
       },
       yAxis: {
         type: 'category',
-        data: [
-          'Monitoramento de Auditoria',
-          'Download de Documentos',
-          'Consulta de Documentos',
-          'Cadastro de Documentos',
-          'Tratamento das Requisições pelo Sistema de Câmbio',
-          'Estruturação do Projeto'
-        ],
+        data: legends,
         axisLine: { show: false },
         axisTick: { show: false },
         axisLabel: {
           color: 'rgba(255, 255, 255, 1)'
         },
       },
+      dataZoom: [
+        {
+          show: true,
+          type: 'slider',
+          minValueSpan: 4,
+          maxValueSpan: 4,
+          yAxisIndex: [0],
+          handleSize: 0,
+          orient: 'vertical',
+          borderColor: "rgba(43,48,67,.8)",
+          fillerColor: '#33384b',
+          start: 100,
+          textStyle: {
+            color: 'rgba(255, 255, 255, 1)'
+          }
+        },
+        {
+          type: 'inside',
+          show: true,
+          yAxisIndex: [0]
+        },
+      ],
       series: [
         {
           name: 'Concluído',
           type: 'bar',
-          barWidth: '35%',
+          barWidth: '20px',
           stack: '1',
           itemStyle: {
             color: 'rgb(0, 176, 80)'
@@ -184,9 +211,9 @@ export class ChartsConfigurationService {
           label: {
             show: true,
             position: 'inside',
-            formatter: '{c}%'
+            formatter: formatter
           },
-          data: []
+          data: concluido
         },
         {
           name: 'Desenvolvimento Concluído',
@@ -199,9 +226,9 @@ export class ChartsConfigurationService {
           label: {
             show: true,
             position: 'inside',
-            formatter: '{c}%'
+            formatter: formatter
           },
-          data: [30, 40, 50, 60, 70, 80, 90]
+          data: desenvolvimentoConcluido
         },
         {
           name: 'Homologação',
@@ -214,9 +241,24 @@ export class ChartsConfigurationService {
           label: {
             show: true,
             position: 'inside',
-            formatter: '{c}%'
+            formatter: formatter
           },
-          data: [70, 60, 50, 40, 30, 20, 10]
+          data: homologacao
+        },
+        {
+          name: 'Homologado',
+          type: 'bar',
+          barWidth: '35%',
+          itemStyle: {
+            color: 'rgb(0, 190, 240)'
+          },
+          stack: '1',
+          label: {
+            show: true,
+            position: 'inside',
+            formatter: formatter
+          },
+          data: homologado
         },
         {
           name: 'Em Andamento',
@@ -229,9 +271,9 @@ export class ChartsConfigurationService {
           label: {
             show: true,
             position: 'inside',
-            formatter: '{c}%'
+            formatter: formatter
           },
-          data: []
+          data: emAndamento
         },
         {
           name: 'Remanescente',
@@ -244,9 +286,9 @@ export class ChartsConfigurationService {
           label: {
             show: true,
             position: 'inside',
-            formatter: '{c}%'
+            formatter: formatter
           },
-          data: []
+          data: remanescente
         },
       ]
     };
