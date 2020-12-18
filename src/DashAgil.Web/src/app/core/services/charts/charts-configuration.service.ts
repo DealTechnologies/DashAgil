@@ -160,7 +160,7 @@ export class ChartsConfigurationService {
         type: 'category',
         data: [
           'Monitoramento de Auditoria',
-          'Donload de Documentos',
+          'Download de Documentos',
           'Consulta de Documentos',
           'Cadastro de Documentos',
           'Tratamento das Requisições pelo Sistema de Câmbio',

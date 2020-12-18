@@ -59,8 +59,10 @@
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="card">
               <div class="body text-center percent-homolog">
-                <h1>{{percentFeatures}}%</h1>
-                <span>Em homologação – Features da Squad</span>
+                <h1 [ngStyle]="{'color': percentFeatures.isProd ? '#00b050' : '#a9d18e'}">
+                  {{percentFeatures.value}}%
+                </h1>
+                <span>{{ percentFeatures.isProd ? 'Em Produção' : 'Em homologação' }} – Features da Squad</span>
               </div>
             </div>
           </div>
