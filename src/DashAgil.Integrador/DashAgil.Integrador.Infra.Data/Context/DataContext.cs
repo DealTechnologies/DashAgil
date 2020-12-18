@@ -10,7 +10,7 @@ namespace DashAgil.Integrador.Infra.Data.Context
         public DataContext(string connectionString)
         {
             this.Connection = new SqlConnection(connectionString);
-            this.Connection.Open();
+            //this.Connection.Open();
         }
 
         public void Dispose()
