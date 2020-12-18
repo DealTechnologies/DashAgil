@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Dynamic;
 using DashAgil.Entidades.DashAgil;
 using System.Collections.Specialized;
+using DashAgil.Entidades.DTO;
 
 namespace DashAgil.Entidades
 {
     public class Demandas
     {
         public Demandas() { }
-        public Demandas(Guid id, string externalId, int clienteId, Squads squad, int tipo, Guid demandaPaiId, string responsavel, DateTime dataInicio, DateTime dataModificacao, 
+        public Demandas(Guid id, string externalId, int clienteId, Squads squad, int tipo, Guid demandaPaiId, string responsavel, DateTime dataInicio, DateTime dataModificacao,
             DateTime dataFim, int pontos, string tags, int prioridade, int horasEstimadas, int horasRestantes, int horasUtilizadas, int risco, string comentario, int status)
         {
             Id = id;
@@ -46,7 +47,7 @@ namespace DashAgil.Entidades
                 });
 
             var retorno = new ListDictionary();
-            foreach(var estoria in estoriasGroup)
+            foreach (var estoria in estoriasGroup)
             {
                 retorno.Add(estoria.StatusDeXPara, estoria.Quantidade);
             }
@@ -69,7 +70,7 @@ namespace DashAgil.Entidades
 
         public long TotalGeralEstorias(IEnumerable<dynamic> demandas) => demandas.Count();
 
-        public List<FeaturesEstagioResult> TotalEstoriasPorFeature(IEnumerable<dynamic> demandasFeatues)
+        public List<FeatureDTO> TotalEstoriasPorFeature(IEnumerable<dynamic> demandasFeatues)
         {
             var totalPorFeature = demandasFeatues
                 .GroupBy(x => x.FeatureId)
@@ -79,18 +80,71 @@ namespace DashAgil.Entidades
                     Quantidade = group.Count()
                 });
 
-            var featuresGroup = demandasFeatues
-                .GroupBy(x => new { x.FeatureId, x.FeatureDescricao, x.StatusDeXPara })
-                .Select(group => new FeaturesEstagioResult
-                {
-                    FeatureId = group.Key.FeatureId,
-                    FeatureDescricao = group.Key.FeatureDescricao,
-                    StatusDeXPara = ((EDemandaStatusDexPara)group.Key.StatusDeXPara).GetDisplayName(),
-                    Quantidade = group.Count(),
-                    Percentual = Math.Round(Convert.ToDouble(group.Count()) / Convert.ToDouble(totalPorFeature.Where(x => x.FeatureId == group.Key.FeatureId).Select(x => x.Quantidade).FirstOrDefault()) * 100.0, 2)
-                });
+            //var featuresGroup = demandasFeatues
+            //    .GroupBy(x => new { x.FeatureId, x.FeatureDescricao, x.StatusDeXPara })
+            //    .Select(group => new FeaturesEstagioResult
+            //    {
+            //        FeatureId = group.Key.FeatureId,
+            //        FeatureDescricao = group.Key.FeatureDescricao,
+            //        StatusDeXPara = ((EDemandaStatusDexPara)group.Key.StatusDeXPara).ToString(),
+            //        Quantidade = group.Count(),
+            //        Percentual = Math.Round(Convert.ToDouble(group.Count()) / Convert.ToDouble(totalPorFeature.Where(x => x.FeatureId == group.Key.FeatureId).Select(x => x.Quantidade).FirstOrDefault()) * 100.0, 2)
+            //    });
 
-            return featuresGroup.ToList();
+            var resultCollection = new List<FeatureDTO>();
+            var features = demandasFeatues.GroupBy(o => new { o.FeatureId, o.FeatureDescricao, o.StatusDeXPara }).Select(o => o).ToList();
+
+            foreach (var stories in features)
+            {
+                var result = new FeatureDTO
+                {
+                    FeatureId = stories.Key.FeatureId,
+                    FeatureDescricao = stories.Key.FeatureDescricao
+                };
+
+                foreach (var story in stories)
+                {
+                    var valueFeature = totalPorFeature.FirstOrDefault(x => x.FeatureId == story.FeatureId);
+                    var quantidade = valueFeature?.Quantidade ?? 0;
+                    var value = Math.Round(Convert.ToDouble(stories.Count()) / Convert.ToDouble(quantidade) * 100.0, 2);
+
+                    switch (story.StatusDeXPara)
+                    {
+                        case (int)EDemandaStatusDexPara.Remanescente:
+                            result.Remanescente = value;
+                            break;
+                        case (int)EDemandaStatusDexPara.EmAndamento:
+                            result.EmAndamento = value;
+                            break;
+                        case (int)EDemandaStatusDexPara.DesenvolvimentoConcluido:
+                            result.DesenvolvimentoConcluido = value;
+                            break;
+                        case (int)EDemandaStatusDexPara.Homologacao:
+                            result.Homologacao = value;
+                            break;
+                        case (int)EDemandaStatusDexPara.Homologado:
+                            result.Homologado = value;
+                            break;
+                        case (int)EDemandaStatusDexPara.Concluido:
+                            result.Concluido = value;
+                            break;
+                    }
+                }
+
+                resultCollection.Add(result);
+            }
+
+            return resultCollection?.GroupBy(o => new { o.FeatureId, o.FeatureDescricao }).Select(o => new FeatureDTO
+            {
+                FeatureId = o.Key.FeatureId,
+                FeatureDescricao = o.Key.FeatureDescricao,
+                Remanescente = o.Sum(x => x.Remanescente),
+                EmAndamento = o.Sum(x => x.EmAndamento),
+                DesenvolvimentoConcluido = o.Sum(x => x.DesenvolvimentoConcluido),
+                Homologacao = o.Sum(x => x.Homologacao),
+                Homologado = o.Sum(x => x.Homologado),
+                Concluido = o.Sum(x => x.Concluido)
+            })?.ToList();
         }
 
         public double PercentualFeaturesHomologacao(IEnumerable<dynamic> demandasFeatues)
@@ -116,7 +170,7 @@ namespace DashAgil.Entidades
             else
             {
                 return 0;
-            }    
+            }
         }
 
         public double PercentualFeaturesConcluisao(IEnumerable<dynamic> demandasFeatues)
@@ -208,7 +262,7 @@ namespace DashAgil.Entidades
 
         public EDemandaStatusDexPara ConverterEstoriasStatus(EDemandaStatus status)
         {
-            EDemandaStatusDexPara statusDeXPara = EDemandaStatusDexPara.Remanescente;    
+            EDemandaStatusDexPara statusDeXPara = EDemandaStatusDexPara.Remanescente;
             switch (status)
             {
                 case EDemandaStatus.Backlog:
