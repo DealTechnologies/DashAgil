@@ -1,3 +1,4 @@
+import { FirstSyncComponent } from './first-sync/first-sync.component';
 import { RadarAgilComponent } from './radar-agil/radar-agil.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'radar',
     component: RadarAgilComponent
+  },
+  {
+    path: 'sync',
+    component: FirstSyncComponent
   },
   {
     path: 'squad',
