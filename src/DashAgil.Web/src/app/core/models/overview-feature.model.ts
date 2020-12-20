@@ -4,7 +4,7 @@ export class OverviewFeature {
     PercentualFeaturesConclusao: number
   };
 
-  sprintBurndown: {
+  SprintBurndown: {
     id: number,
     nome: string,
     dataInicio: Date,

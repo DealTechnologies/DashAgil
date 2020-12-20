@@ -15,4 +15,8 @@
     <ProjectReference Include="..\DashAgil.Infra\DashAgil.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\Input\Sprint\" />
+  </ItemGroup>
+
 </Project>

@@ -32,7 +32,6 @@ namespace DashAgil.Api.Extensions
             services.AddTransient<VisaoGeralHandler, VisaoGeralHandler>();
             services.AddTransient<ProvedorHandler, ProvedorHandler>();
             services.AddTransient<ClienteHandler, ClienteHandler>();
-            services.AddTransient<SprintHandler, SprintHandler>();
             services.AddTransient<SquadHandler, SquadHandler>();
             services.AddTransient<AuthHandler, AuthHandler>();
             services.AddTransient<RadarAgilHandler, RadarAgilHandler>();

@@ -9,13 +9,13 @@ namespace DashAgil.Infra.Data.Repositorio
 {
     public class SprintRepository : BaseRepository<Sprints>, ISprintRepository
     {
-        public SprintRepository(DataContext context): base(context)
+        public SprintRepository(DataContext context) : base(context)
         {
         }
 
-        public async Task<IEnumerable<Sprints>> GetAllByCliente(string clienteId, string usuarioId)
+        public async Task<IEnumerable<Sprints>> GetAllBySuqad(int squadId)
         {
-            return await _context.Connection.QueryAsync<Sprints>(Queries.SprintQueries.GetAllByCliente, new { ClienteId = clienteId, UsuarioId = usuarioId });
+            return await _context.Connection.QueryAsync<Sprints>(Queries.SprintQueries.GetAllBySquadId, new { SquadId = squadId });
         }
 
         public async Task<Sprints> GetSprintById(long sprintId)
