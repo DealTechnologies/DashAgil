@@ -20,8 +20,7 @@
           <div class="card">
             <div class="body">
               <div class="responsive_table">
-                <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
-
+                <mat-table [dataSource]="dataSource" matSort>
                   <ng-container matColumnDef="squad">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
                     <mat-cell *matCellDef="let row">{{row.squad}}</mat-cell>

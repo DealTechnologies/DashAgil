@@ -47,7 +47,27 @@ export class StoriesSquadComponent implements OnInit {
         homologado: 0,
         concluido: 16,
         totalGeral: 23,
-      }
+      },
+      {
+        squad: 'Squad 2',
+        emBacklog: 10,
+        emDesenvolvimento: 2,
+        desenvolvimentoConcluido: 0,
+        emHomologacao: 2,
+        homologado: 0,
+        concluido: 22,
+        totalGeral: 36,
+      },
+      {
+        squad: 'Squad 4',
+        emBacklog: 39,
+        emDesenvolvimento: 5,
+        desenvolvimentoConcluido: 0,
+        emHomologacao: 2,
+        homologado: 0,
+        concluido: 249,
+        totalGeral: 293,
+      },
     ];
 
     this.dataSource = new MatTableDataSource<any>(data);
