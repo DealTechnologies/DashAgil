@@ -4,9 +4,12 @@ using DashAgil.Commands.Output.VisaoGeral;
 using DashAgil.Entidades;
 using DashAgil.Enums;
 using DashAgil.Infra.Comum;
+using DashAgil.Queries;
 using DashAgil.Repositorio;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Dynamic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DashAgil.Handlers
@@ -85,15 +88,22 @@ namespace DashAgil.Handlers
         public async Task<ICommandResult> Handle(ObterVisaoEstoriasPorSquadCommand command)
         {
             var estorias = await _repository.GetDemandas(command.IdCliente, (int)EDemandaTipo.UserStory, command.IdUsuario);
-            var demanda = new Demandas();
-            var listaEstoriasCommandResult = new ObterVisaoEstoriasPorSquadCommandResult
+            var squads = estorias.GroupBy(x => x.Squad.Nome).Select(y => y.First().Squad.Nome).ToList();
+            var result = new List<SquadItensQueryResult>();
+
+            foreach (var squad in squads)
             {
-                ListaEstoriasSquadEstagio = demanda.TotalEstoriasPorEstagioSquad(estorias)
-            };
+                var itens = estorias.Where(x => x.Squad.Nome.Equals(squad)).ToList();
+                var squadResult = SquadItensQueryResult.ObterTotais(itens, squad);
 
-            await Task.CompletedTask;
+                result.Add(squadResult);
 
-            return new GenericCommandResult(true, "sucess", listaEstoriasCommandResult);
+            }
+
+            var total = SquadItensQueryResult.ObterTotais(estorias.ToList(), "Total Geral");
+            result.Add(total);
+
+            return new GenericCommandResult(true, "sucess", result);
         }
 
         public async Task<ICommandResult> Handle(ObterVelocidadePorSquadCommand command)

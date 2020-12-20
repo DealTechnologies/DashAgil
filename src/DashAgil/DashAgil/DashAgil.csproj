@@ -15,8 +15,4 @@
     <ProjectReference Include="..\DashAgil.Infra\DashAgil.Infra.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Queries\" />
-  </ItemGroup>
-
 </Project>
