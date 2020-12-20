@@ -5,4 +5,5 @@ export * from './client.model';
 export * from './provider.model';
 export * from './demand.model';
 export * from './squad.model';
+export * from './sprint.model';
 export * from './squad-story.model';

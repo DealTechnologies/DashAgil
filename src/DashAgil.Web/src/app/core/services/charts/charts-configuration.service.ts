@@ -116,7 +116,7 @@ export class ChartsConfigurationService {
 
   squad(overview: OverviewFeature): EChartOption {
 
-    const legends: string[] = overview.ListaFeaturesEstagio.map(item => item.featureId);
+    const legends: string[] = overview.ListaFeaturesEstagio.map(item => item.featureDescricao);
 
     const remanescente = overview.ListaFeaturesEstagio.map(item => item.remanescente);
     const emAndamento = overview.ListaFeaturesEstagio.map(item => item.emAndamento);
