@@ -6,6 +6,7 @@ import { OverviewDemand, OverviewFeature } from '../../models';
 interface ChartData {
   value: number | string;
   name?: string;
+  id?: string
 }
 
 @Injectable()
@@ -115,7 +116,7 @@ export class ChartsConfigurationService {
 
   squad(overview: OverviewFeature): EChartOption {
 
-    const legends: string[] = overview.ListaFeaturesEstagio.map(item => item.featureId);
+    const legends: string[] = overview.ListaFeaturesEstagio.map(item => item.featureDescricao);
 
     const remanescente = overview.ListaFeaturesEstagio.map(item => item.remanescente);
     const emAndamento = overview.ListaFeaturesEstagio.map(item => item.emAndamento);
@@ -132,7 +133,10 @@ export class ChartsConfigurationService {
       tooltip: {
         trigger: 'axis',
         axisPointer: {
-          type: 'line'
+          type: 'line',
+          label: {
+              backgroundColor: '#6a7985'
+          }
         },
       },
       legend: {
@@ -191,7 +195,9 @@ export class ChartsConfigurationService {
           start: 100,
           textStyle: {
             color: 'rgba(255, 255, 255, 1)'
-          }
+          },
+          left: '97%',
+          right: 15,
         },
         {
           type: 'inside',
@@ -303,14 +309,14 @@ export class ChartsConfigurationService {
     let seriesTotal: ChartData[];
     let seriesComplete: ChartData[];
 
-    if (overview.sprintBurndown) {
-      const start = moment(overview.sprintBurndown.dataInicio).format('DD/MMM');
-      const end = moment(overview.sprintBurndown.dataFim).format('DD/MMM');
+    if (overview.SprintBurndown) {
+      const start = moment(overview.SprintBurndown.dataInicio).format('DD/MMM');
+      const end = moment(overview.SprintBurndown.dataFim).format('DD/MMM');
       title = `${start} - ${end}`;
 
-      categories = overview.sprintBurndown.demandasHistoricos.map(item => moment(item.dia).format('DD/MM/YYYY'));
-      seriesTotal = overview.sprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.pontosTotalDia }));
-      seriesComplete = overview.sprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.pontosConcluidosDia }));
+      categories = overview.SprintBurndown.demandasHistoricos.map(item => moment(item.dia).format('DD/MM/YYYY'));
+      seriesTotal = overview.SprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.pontosTotalDia }));
+      seriesComplete = overview.SprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.pontosConcluidosDia }));
     }
 
     const chartOptions: EChartOption = {
@@ -322,6 +328,15 @@ export class ChartsConfigurationService {
           fontSize: 15,
           align: 'center'
         }
+      },
+      tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+              type: 'cross',
+              label: {
+                  backgroundColor: '#6a7985'
+              }
+          }
       },
       legend: {
         icon: 'roundRect',
@@ -554,7 +569,7 @@ export class ChartsConfigurationService {
       {
         type: 'category',
         boundaryGap: false,
-        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        data: ['31 nov', '30 jan', '31 mar', '31 mai', '31 jul', '31 set', '31 nov', '30 nov', '18 dez'],
         axisLine: {
           lineStyle: {
             color: 'rgba(255, 255, 255, 1)'

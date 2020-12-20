@@ -15,17 +15,33 @@
               <a href="#" onClick="return false;">Squad</a>
             </li>
             <li class="breadcrumb-item active">{{squadName}}</li>
-            <!-- <li>
-              <mat-form-field appearance="fill" class="w-100">
-                <mat-select [formControl]="squad">
-                  <mat-option *ngFor="let squad of squads" [value]="squad">
-                    {{squad}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </li> -->
           </ul>
         </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+        <mat-form-field appearance="fill">
+          <mat-label>Squad</mat-label>
+          <mat-select [formControl]="controlSquad">
+            <mat-optgroup *ngFor="let client of clients" [label]="client.nome">
+              <mat-option *ngFor="let squad of client.squads | sortBy:'asc':'nome'" [value]="squad.id" with="200px">
+                {{squad.nome}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12">
+        <mat-form-field appearance="fill">
+          <mat-label>Sprint</mat-label>
+          <mat-select [formControl]="controlSprint">
+            <mat-option *ngFor="let sprint of sprints" [value]="sprint.id" with="200px">
+              {{sprint.nome}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
     </div>
 
@@ -44,7 +60,7 @@
       <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
         <div class="card">
           <div class="header">
-            <h2>Sprint 5</h2>
+            <h2>Burndown - {{ currentSprint?.nome }}</h2>
           </div>
           <div class="body">
             <div class="graphic" echarts [options]="optionsSprint"></div>

@@ -1,7 +1,7 @@
-import { Provider } from "./provider.model";
+import { Provider } from './provider.model';
 
 export class User {
-  id: number;
+  id: string;
   nome: string;
   provedores: Provider[];
   token: string;

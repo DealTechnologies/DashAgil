@@ -19,28 +19,27 @@ export class RadarAgilComponent implements OnInit, AfterViewInit {
   constructor(private chartsConfiguration: ChartsConfigurationService) { }
 
   ngOnInit() {
-
     this.series = [
-      { value: 0, type: 1, name: '1. Entrega de valor ao cliente', itemStyle: {} },
-      { value: 0, type: 1, name: '2. Satisfação do cliente', itemStyle: {} },
-      { value: 0, type: 1, name: '3. Cycle Time de histórias', itemStyle: {} },
-      { value: 0, type: 1, name: '4. Product Backlog', itemStyle: {} },
-      { value: 0, type: 1, name: '5. Sprint Backlog', itemStyle: {} },
-      { value: 0, type: 2, name: '1. Práticas DevOps', itemStyle: {} },
-      { value: 0, type: 2, name: '2. A execução de testes automatizados faz cobertura dos principais cenários?', itemStyle: {} },
-      { value: 0, type: 2, name: '3. Clean Code', itemStyle: {} },
-      { value: 0, type: 2, name: '4. Código Sustentável (Refactoring)', itemStyle: {} },
-      { value: 0, type: 2, name: '5. Volume de defeitos dentro das Sprints', itemStyle: {} },
-      { value: 0, type: 3, name: '1. Producção de Baclogs (SLA >= 2.0)', itemStyle: {} },
-      { value: 0, type: 3, name: '2. Velocidade da Equipe (SLA >= 1.0)', itemStyle: {} },
-      { value: 0, type: 3, name: '3. Qualidade da Entrega (SLA <= 5%)', itemStyle: {} },
-      { value: 0, type: 3, name: '4. Eficácia dos Testes (SLA <= 10%)', itemStyle: {} },
-      { value: 0, type: 3, name: '5. Índice dos Testes (SLA <= 20%)', itemStyle: {} },
-      { value: 0, type: 4, name: '1. Ferramentas e Documentação', itemStyle: {} },
-      { value: 0, type: 4, name: '2. Cerimônias', itemStyle: {} },
-      { value: 0, type: 4, name: '3. Scrum Master', itemStyle: {} },
-      { value: 0, type: 4, name: '4. Product Owner', itemStyle: {} },
-      { value: 0, type: 4, name: '5. Líder Técnic', itemStyle: {} },
+      { id: 1, value: 0, type: 1, name: '1. Entrega de valor ao cliente', itemStyle: {} },
+      { id: 2, value: 0, type: 1, name: '2. Satisfação do cliente', itemStyle: {} },
+      { id: 3, value: 0, type: 1, name: '3. Cycle Time de histórias', itemStyle: {} },
+      { id: 4, value: 0, type: 1, name: '4. Product Backlog', itemStyle: {} },
+      { id: 5, value: 0, type: 1, name: '5. Sprint Backlog', itemStyle: {} },
+      { id: 6, value: 0, type: 2, name: '1. Práticas DevOps', itemStyle: {} },
+      { id: 7, value: 0, type: 2, name: '2. A execução de testes automatizados faz cobertura dos principais cenários?', itemStyle: {} },
+      { id: 8, value: 0, type: 2, name: '3. Clean Code', itemStyle: {} },
+      { id: 9, value: 0, type: 2, name: '4. Código Sustentável (Refactoring)', itemStyle: {} },
+      { id: 10, value: 0, type: 2, name: '5. Volume de defeitos dentro das Sprints', itemStyle: {} },
+      { id: 11, value: 0, type: 3, name: '1. Producção de Baclogs (SLA >= 2.0)', itemStyle: {} },
+      { id: 12, value: 0, type: 3, name: '2. Velocidade da Equipe (SLA >= 1.0)', itemStyle: {} },
+      { id: 13, value: 0, type: 3, name: '3. Qualidade da Entrega (SLA <= 5%)', itemStyle: {} },
+      { id: 14, value: 0, type: 3, name: '4. Eficácia dos Testes (SLA <= 10%)', itemStyle: {} },
+      { id: 15, value: 0, type: 3, name: '5. Índice dos Testes (SLA <= 20%)', itemStyle: {} },
+      { id: 16, value: 0, type: 4, name: '1. Ferramentas e Documentação', itemStyle: {} },
+      { id: 17, value: 0, type: 4, name: '2. Cerimônias', itemStyle: {} },
+      { id: 18, value: 0, type: 4, name: '3. Scrum Master', itemStyle: {} },
+      { id: 19, value: 0, type: 4, name: '4. Product Owner', itemStyle: {} },
+      { id: 20, value: 0, type: 4, name: '5. Líder Técnic', itemStyle: {} },
     ];
 
     this.optionsRadar = this.chartsConfiguration.radar(this.series);

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Demand } from 'src/app/core/models';
-import { OverviewService } from 'src/app/core/services';
+import { AuthService, OverviewService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-stories',
@@ -20,10 +20,13 @@ export class StoriesComponent implements OnInit {
     'status',
   ];
 
-  constructor(private overviewService: OverviewService) { }
+  constructor(
+    private overviewService: OverviewService,
+    private authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
-    this.overviewService.getDemandList(1, 9).subscribe(demands => {
+    this.overviewService.getDemandList(1, 9, this.authService.userId).subscribe(demands => {
       this.dataSource = new MatTableDataSource<Demand>(demands);
       this.dataSource.paginator = this.paginator;
     });

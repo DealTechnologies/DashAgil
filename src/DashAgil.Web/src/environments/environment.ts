@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:44398',
+  apiUrl: 'http://dashagil-env.eba-iixc3mqa.sa-east-1.elasticbeanstalk.com',
   // apiUrl: 'http://dashagil-env-1.eba-bq2tak24.sa-east-1.elasticbeanstalk.com',
   apiIntegracao: 'http://localhost:59384'
 };

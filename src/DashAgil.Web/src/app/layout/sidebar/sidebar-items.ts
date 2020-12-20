@@ -19,15 +19,6 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     submenu: [
       {
-        path: 'dashboard/sync',
-        title: 'Sincronização de dados',
-        moduleName: 'sync',
-        icon: '',
-        class: '',
-        groupTitle: false,
-        submenu: []
-      },
-      {
         path: 'dashboard/overview',
         title: 'Visão Geral',
         moduleName: 'overview',
@@ -77,6 +68,15 @@ export const ROUTES: RouteInfo[] = [
         path: 'dashboard/stories-squad',
         title: 'Histórias por Squad',
         moduleName: 'stories-squad',
+        icon: '',
+        class: '',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: 'dashboard/sync',
+        title: 'Sincronização de dados',
+        moduleName: 'sync',
         icon: '',
         class: '',
         groupTitle: false,

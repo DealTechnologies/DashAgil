@@ -13,8 +13,8 @@ export class ProviderService extends BaseService<Provider> {
 
   getProviders(): Observable<Provider[]> {
     return this.http
-      .get<Provider>(`${this.url}/ObterProvedores`).pipe(map((req: any) => {
-        return req.data;
+      .get<Provider>(`${this.url}/ObterProvedores`).pipe(map((response: any) => {
+        return response.data;
       }));
   }
 }

@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:4200'
+  apiUrl: 'http://dashagil-env.eba-iixc3mqa.sa-east-1.elasticbeanstalk.com',
+  apiIntegracao: 'http://localhost:59384'
 };

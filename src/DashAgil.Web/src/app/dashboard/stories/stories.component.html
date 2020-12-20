@@ -20,7 +20,7 @@
           <div class="card">
             <div class="body">
               <div class="responsive_table">
-                <div class="materialTableHeader">
+                <!-- <div class="materialTableHeader">
                   <div class="row">
                     <div class="col-8">
                       <ul class="header-buttons-left ml-0">
@@ -37,8 +37,8 @@
                       </ul>
                     </div>
                   </div>
-                </div>
-                <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+                </div> -->
+                <mat-table [dataSource]="dataSource" matSort>
                   <ng-container matColumnDef="id">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
                     <mat-cell *matCellDef="let row">{{row.id}}</mat-cell>
