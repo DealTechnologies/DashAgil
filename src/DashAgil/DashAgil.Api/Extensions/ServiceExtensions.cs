@@ -35,6 +35,8 @@ namespace DashAgil.Api.Extensions
             services.AddTransient<SprintHandler, SprintHandler>();
             services.AddTransient<SquadHandler, SquadHandler>();
             services.AddTransient<AuthHandler, AuthHandler>();
+            services.AddTransient<RadarAgilHandler, RadarAgilHandler>();
+            
         }
 
         /// <summary>
@@ -49,6 +51,7 @@ namespace DashAgil.Api.Extensions
             services.AddTransient<ISquadRepository, SquadRepository>();
             services.AddTransient<ISprintRepository, SprintRepository>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            services.AddTransient<IRadarAgilRepository, RadarAgilRepository>();  
         }
 
         #endregion
