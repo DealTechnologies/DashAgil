@@ -29,6 +29,10 @@ export class AuthService extends BaseService<User>  {
     }
   }
 
+  get userId(): string {
+    return this.currentUserSubject.value.id;
+  }
+
   get currentUserValue(): User {
     return this.currentUserSubject.value;
   }

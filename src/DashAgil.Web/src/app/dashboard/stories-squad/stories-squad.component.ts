@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Demand } from 'src/app/core/models';
-import { OverviewService } from 'src/app/core/services';
+import { SquadStory } from 'src/app/core/models';
+import { AuthService, OverviewService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-stories-squad',
@@ -12,7 +12,9 @@ import { OverviewService } from 'src/app/core/services';
 export class StoriesSquadComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  dataSource = new MatTableDataSource<Demand>();
+
+  dataSource = new MatTableDataSource<SquadStory>();
+
   displayedColumns = [
     'squad',
     'emBacklog',
@@ -24,53 +26,18 @@ export class StoriesSquadComponent implements OnInit {
     'totalGeral',
   ];
 
-  constructor(private overviewService: OverviewService) { }
+  total: SquadStory;
+
+  constructor(
+    private overviewService: OverviewService,
+    private authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
-    const data = [
-      {
-        squad: 'Terror By Night',
-        emBacklog: 8,
-        emDesenvolvimento: 9,
-        desenvolvimentoConcluido: 80,
-        emHomologacao: 0,
-        homologado: 0,
-        concluido: 582,
-        totalGeral: 679,
-      },
-      {
-        squad: 'Squad 3',
-        emBacklog: 5,
-        emDesenvolvimento: 2,
-        desenvolvimentoConcluido: 0,
-        emHomologacao: 0,
-        homologado: 0,
-        concluido: 16,
-        totalGeral: 23,
-      },
-      {
-        squad: 'Squad 2',
-        emBacklog: 10,
-        emDesenvolvimento: 2,
-        desenvolvimentoConcluido: 0,
-        emHomologacao: 2,
-        homologado: 0,
-        concluido: 22,
-        totalGeral: 36,
-      },
-      {
-        squad: 'Squad 4',
-        emBacklog: 39,
-        emDesenvolvimento: 5,
-        desenvolvimentoConcluido: 0,
-        emHomologacao: 2,
-        homologado: 0,
-        concluido: 249,
-        totalGeral: 293,
-      },
-    ];
-
-    this.dataSource = new MatTableDataSource<any>(data);
-    this.dataSource.paginator = this.paginator;
+    this.overviewService.getSquadStories(1, this.authService.userId).subscribe(stories => {
+      this.total= stories.pop();
+      this.dataSource = new MatTableDataSource<any>(stories);
+      this.dataSource.paginator = this.paginator;
+    });
   }
 }

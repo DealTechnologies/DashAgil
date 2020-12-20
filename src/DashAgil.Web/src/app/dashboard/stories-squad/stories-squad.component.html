@@ -22,8 +22,8 @@
               <div class="responsive_table">
                 <mat-table [dataSource]="dataSource" matSort>
                   <ng-container matColumnDef="squad">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-                    <mat-cell *matCellDef="let row">{{row.squad}}</mat-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Squad</mat-header-cell>
+                    <mat-cell *matCellDef="let row" width="30%">{{row.squadNome}}</mat-cell>
                     <mat-footer-cell *matFooterCellDef>Total Geral</mat-footer-cell>
                   </ng-container>
 
@@ -31,76 +31,62 @@
                     <mat-header-cell mat-header-cell *matHeaderCellDef>
                       Em Backlog
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let row">
-                      {{row.emBacklog}}
-                    </mat-cell>
-                    <mat-footer-cell *matFooterCellDef>324</mat-footer-cell>
+                    <mat-cell *matCellDef="let row"> {{row.backlog}} </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>{{total?.backlog}}</mat-footer-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="emDesenvolvimento">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
                       Em Desenvolvimento
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let row">
-                      {{row.emDesenvolvimento}}
-                    </mat-cell>
-                    <mat-footer-cell *matFooterCellDef>63</mat-footer-cell>
+                    <mat-cell *matCellDef="let row"> {{row.desenvolvimento}} </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>{{total?.desenvolvimento}}</mat-footer-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="desenvolvimentoConcluido">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
                       Desenvolvimento Concluído
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let row">
-                      {{row.desenvolvimentoConcluido}}
-                    </mat-cell>
-                    <mat-footer-cell *matFooterCellDef>511</mat-footer-cell>
+                    <mat-cell *matCellDef="let row"> {{row.desenvolvimentoConcluido}} </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>{{total?.desenvolvimentoConcluido}}</mat-footer-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="emHomologacao">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
                       Em Homologação
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let row">
-                      {{row.emHomologacao}}
-                    </mat-cell>
-                    <mat-footer-cell *matFooterCellDef>135</mat-footer-cell>
+                    <mat-cell *matCellDef="let row"> {{row.emHomologacao}} </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>{{total?.emHomologacao}}</mat-footer-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="homologado">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
                       Homologado
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let row">
-                      {{row.homologado}}
-                    </mat-cell>
-                    <mat-footer-cell *matFooterCellDef>78</mat-footer-cell>
+                    <mat-cell *matCellDef="let row"> {{row.homologado}} </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>{{total?.homologado}}</mat-footer-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="concluido">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
                       Concluído
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let row">
-                      {{row.concluido}}
-                    </mat-cell>
-                    <mat-footer-cell *matFooterCellDef>1231</mat-footer-cell>
+                    <mat-cell *matCellDef="let row"> {{row.concluido}} </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>{{total?.concluido}}</mat-footer-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="totalGeral">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>
                       Total Geral
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let row">
-                      {{row.totalGeral}}
-                    </mat-cell>
-                    <mat-footer-cell *matFooterCellDef>2342</mat-footer-cell>
+                    <mat-cell *matCellDef="let row"> {{row.total}} </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>{{total?.total}}</mat-footer-cell>
                   </ng-container>
 
                   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
                   </mat-row>
-                  <mat-footer-row *matFooterRowDef="displayedColumns" class="nettoRow"></mat-footer-row>
+                  <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
                 </mat-table>
                 <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10"
                   [pageSizeOptions]="[5, 10, 25, 100]">
