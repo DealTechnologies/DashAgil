@@ -48,7 +48,7 @@ namespace DashAgil.Entidades
 
             var velocidadeIdeal = 0.0;
             var velocidadeSprint = 0.0;
-            var totalPontosEntregues = 0;
+            var totalPontosEntregues = 0.0;
             var estorias = new List<DemandaHistoricoResult>();
             while (dataInicioSprint <= dataFimSprint)
             {
@@ -100,8 +100,8 @@ namespace DashAgil.Entidades
 
                 velocidadeSprint-= totalPontosEntregues;
 
-                estorias.FirstOrDefault().VelocidadeIdeal = velocidadeIdeal;
-                estorias.FirstOrDefault().VelocidadeSprint = velocidadeSprint;
+                estorias.FirstOrDefault().PontosTotalDia = velocidadeIdeal;
+                estorias.FirstOrDefault().PontosConcluidosDia = velocidadeSprint;
                 sprint.AdicionarDemandasHistoricos(estorias.FirstOrDefault());
 
                 dataInicioSprint = dataInicioSprint.AddDays(1);
