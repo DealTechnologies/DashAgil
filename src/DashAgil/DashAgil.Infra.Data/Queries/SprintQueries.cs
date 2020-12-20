@@ -18,7 +18,7 @@
 				INNER JOIN Squads sq on p.Id = sq.ProjetoId
 			WHERE
 				sq.Id = @SquadId
-			ORDER BY s.Nome";
+			ORDER BY s.DataInicio, s.Nome desc";
 
         public const string SprintById = @" SELECT s.Id, s.Nome, s.ExternalId, s.Descricao, s.ProjetoId, s.DataInicio, s.DataFim, s.DataConclusao, s.Status
                                             FROM Sprints s
