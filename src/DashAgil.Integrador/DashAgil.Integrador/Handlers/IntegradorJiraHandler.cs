@@ -7,6 +7,7 @@ using DashAgil.Integrador.Jira.Queries.Sprints;
 using DashAgil.Integrador.Jira.Repositorio;
 using DashAgil.Integrador.Repositorio;
 using Flunt.Notifications;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -59,9 +60,9 @@ namespace DashAgil.Integrador.Handlers
 
                 var sprints = await InserirSprints(command, item.Id, projetoId);
 
-                var squadId = await _squadRepositorio.Inserir(Squad.PreencherInsercao(item.Name, projetoId));
+                var squadId = await _squadRepositorio.Inserir(Squad.PreencherInsercao("Squad "+item.Project.ProjectName, projetoId));
 
-                await InserirDemandas(command, sprints, item.Id, squadId);
+                await InserirDemandas(command, sprints, item.Id, squadId, item.Project.ProjectName);
             }
 
             var result = await _projetoRepositorio.ObterPorOrganizaçãoId(command.OrganizacaoId);
@@ -98,13 +99,22 @@ namespace DashAgil.Integrador.Handlers
 
         }
 
-        private async Task InserirDemandas(IntegracaoInicialJiraCommand command, List<Sprint> sprints, int boardId, long squadId)
+        private async Task InserirDemandas(IntegracaoInicialJiraCommand command, List<Sprint> sprints, int boardId, long squadId, string nomeProjeto)
         {
             _issueRepositorio.PreencherAcesso(command.Token, command.Url);
 
             var issues = await _issueRepositorio.Obter(boardId);
 
-            var demandas = Demandas.PreencherDemandasJira(issues, sprints, sprints.First().ProjetoId, squadId);
+            #region : feature padrao
+
+            var feature = Demandas.PreencherFeaturePadrao(issues, sprints.First().ProjetoId, squadId, nomeProjeto);
+            await _demandasRepostory.Inserir(feature);
+            await _demandaHistoricoRepositorio.Inserir(feature.DemandaHistorico);
+
+            #endregion
+
+            var demandas = Demandas.PreencherDemandasJira(issues, sprints, sprints.First().ProjetoId, squadId, feature.Id.ToString());
+
 
             foreach (var item in demandas)
             {

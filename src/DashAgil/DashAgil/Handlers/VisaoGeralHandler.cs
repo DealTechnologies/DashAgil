@@ -87,6 +87,13 @@ namespace DashAgil.Handlers
 
         public async Task<ICommandResult> Handle(ObterVisaoEstoriasPorSquadCommand command)
         {
+
+            if(!command.EhValido())
+            {
+                return new GenericCommandResult(false, "Erro", command.Notifications);
+            }
+
+
             var estorias = await _repository.GetDemandas(command.IdCliente, (int)EDemandaTipo.UserStory, command.IdUsuario);
             var squads = estorias.GroupBy(x => x.Squad.Nome).Select(y => y.First().Squad.Nome).ToList();
             var result = new List<SquadItensQueryResult>();
