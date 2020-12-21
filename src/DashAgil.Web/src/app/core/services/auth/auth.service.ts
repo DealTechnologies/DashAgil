@@ -37,6 +37,10 @@ export class AuthService extends BaseService<User>  {
     return this.currentUserSubject.value;
   }
 
+  get clients() {
+    return this.currentUserValue.provedores.map(item => item.clientes).reduce((x, y) => x.concat(y), []);
+  }
+
   login(username: string, password: string) {
     return this.http
       .post<any>(`${this.url}`, { username, password })

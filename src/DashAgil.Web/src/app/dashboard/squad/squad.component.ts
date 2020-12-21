@@ -46,6 +46,8 @@ export class SquadComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sprints = [];
+    this.clients = [];
     this.controlSprint = new FormControl();
     this.controlSquad = new FormControl();
     this.valueChanges();
@@ -60,7 +62,7 @@ export class SquadComponent implements OnInit {
       this.squadName = this.authService.currentUserValue.provedores[0].clientes[0].squads[0].nome;
     }
 
-    this.clients = this.authService.currentUserValue.provedores.map(item => item.clientes).reduce((x, y) => x.concat(y), []);
+    this.clients = this.authService.clients;
 
     const squad = this.clients.map(client => client.squads).reduce((x, y) => x.concat(y), []).find(squad => squad.nome == this.squadName);
 
@@ -68,7 +70,7 @@ export class SquadComponent implements OnInit {
 
     this.controlSquad.setValue(squad.id);
 
-    this.clients = this.authService.currentUserValue.provedores.map(item => item.clientes).reduce((x, y) => x.concat(y), []);
+    this.clients = this.authService.clients;
 
   }
 

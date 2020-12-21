@@ -13,7 +13,7 @@ export class SprintService extends BaseService<Sprint> {
 
   getSprintsBySquad(squadId: number): Observable<Sprint[]> {
     return this.http
-      .get<Sprint>(`${this.url}/Squad/` + squadId).pipe(map((response: any) => {
+      .get(`${this.url}/Squad/${squadId}`).pipe(map((response: any) => {
         return response;
       }));
   }

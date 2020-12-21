@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import { Provider } from '../../models';
+import { CommandResult, Provider } from '../../models';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -13,7 +13,7 @@ export class ProviderService extends BaseService<Provider> {
 
   getProviders(): Observable<Provider[]> {
     return this.http
-      .get<Provider>(`${this.url}/ObterProvedores`).pipe(map((response: any) => {
+      .get(`${this.url}/ObterProvedores`).pipe(map((response: CommandResult) => {
         return response.data;
       }));
   }

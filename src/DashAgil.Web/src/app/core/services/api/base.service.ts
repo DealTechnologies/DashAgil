@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { InRequest } from '../../interfaces';
+import { CommandResult } from '../../models';
 
 export class BaseService<T> {
 
@@ -13,7 +14,7 @@ export class BaseService<T> {
     }
 
     get(): Observable<T> {
-        return this.http.get<T>(this.url).pipe(map((response: any) => {
+        return this.http.get(this.url).pipe(map((response: CommandResult) => {
             return response.data;
         }));
     }
