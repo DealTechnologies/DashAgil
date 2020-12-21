@@ -13,7 +13,7 @@ namespace DashAgil.Entidades
             Assunto = "Apresentação Dash Ágil";
             Conteudo = Email.email;
             Destinatarios = new List<string>();
-            Destinatarios.Add("hoeliton.bevernanco@deal.com.br");
+            Destinatarios.Add("hoeliton.bevervanco@deal.com.br");
         }
 
         public string NomeRemetente { get; set; }
