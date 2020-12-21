@@ -1,5 +1,5 @@
 .risks {
-  height: 100%;
+  height: 95%;
 
   td {
     color: #e7e7e7;
@@ -76,5 +76,13 @@
         margin-top: 8px;
       }
     }
+  }
+}
+
+.squad .body {
+  overflow: auto;
+
+  .graphic {
+    min-width: 600px;
   }
 }
