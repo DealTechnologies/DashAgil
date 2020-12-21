@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { User } from '../../models/user.model';
 import { BaseService } from '../api/base.service';
 import { Router } from '@angular/router';
+import { orderBy } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -48,11 +49,23 @@ export class AuthService extends BaseService<User>  {
         if (resp.data == null || !resp.data.length)
           throw "InvalidUser";
 
-        const user = resp.data[0];
+        const user = this.orderSquads(resp.data[0]);
+
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         return user;
       }));
+  }
+
+  orderSquads(user: User) {
+    user.provedores.forEach(prov => {
+      prov.clientes = orderBy(prov.clientes, 'nome', 'asc');
+      prov.clientes.forEach(cli => {
+        cli.squads = orderBy(cli.squads, 'nome', 'asc');
+      });
+    });
+
+    return user;
   }
 
   logout() {
