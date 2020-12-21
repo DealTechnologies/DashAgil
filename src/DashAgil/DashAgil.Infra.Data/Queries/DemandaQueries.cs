@@ -51,7 +51,7 @@ namespace DashAgil.Infra.Data.Queries
             FROM v_estoria_status_dexpara v
             WHERE NOT EXISTS(SELECT TOP 1 1 FROM @TMP_DEMANDAS tmp WHERE tmp.StatusDeXPara = v.status_novo_num)
 
-            SELECT * FROM @TMP_DEMANDAS ORDER BY Nome";
+            SELECT Id, SquadId, Tipo, DataInicio, DataModificacao, DataFim, Pontos, Status, Descricao, StatusDeXPara, IdSquad, Nome   FROM @TMP_DEMANDAS ORDER BY Nome";
 
         public const string GetFeaturesEstorias =
             @"SELECT features.id as FeatureId, features.descricao as FeatureDescricao, 
