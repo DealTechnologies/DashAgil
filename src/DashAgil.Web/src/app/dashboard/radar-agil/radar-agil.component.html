@@ -21,7 +21,7 @@
             <mat-label>Squad</mat-label>
             <mat-select [formControl]="controlSquad">
               <mat-optgroup *ngFor="let client of clients" [label]="client.nome">
-                <mat-option *ngFor="let squad of client.squads" [value]="squad.id" with="200px">
+                <mat-option *ngFor="let squad of client.squads" [value]="squad.id" >
                   {{squad.nome}}
                 </mat-option>
               </mat-optgroup>
@@ -58,7 +58,11 @@
             </div>
             <div class="body">
               <div class="card radar-container">
+                <h4 class="processo">Processo</h4>
+                <h4 class="negocio">Negócio</h4>
                 <div echarts #radar class="radar" [options]="optionsRadar"></div>
+                <h4 class="qualidade">Qualidade</h4>
+                <h4 class="slas">Indicadores e SLAs</h4>
               </div>
             </div>
           </div>

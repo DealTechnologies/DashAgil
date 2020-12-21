@@ -20,7 +20,7 @@
           <mat-form-field appearance="fill">
             <mat-label>Cliente</mat-label>
             <mat-select [formControl]="controlClient">
-              <mat-option *ngFor="let client of clients" [value]="client.id" with="200px">
+              <mat-option *ngFor="let client of clients" [value]="client.id" >
                 {{client.nome}}
               </mat-option>
             </mat-select>

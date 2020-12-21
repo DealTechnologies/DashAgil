@@ -26,7 +26,7 @@
           <mat-label>Squad</mat-label>
           <mat-select [formControl]="controlSquad">
             <mat-optgroup *ngFor="let client of clients" [label]="client.nome">
-              <mat-option *ngFor="let squad of client.squads" [value]="squad.id" with="200px">
+              <mat-option *ngFor="let squad of client.squads" [value]="squad.id">
                 {{squad.nome}}
               </mat-option>
             </mat-optgroup>
@@ -37,7 +37,7 @@
         <mat-form-field appearance="fill" class="w-100">
           <mat-label>Sprint</mat-label>
           <mat-select [formControl]="controlSprint">
-            <mat-option *ngFor="let sprint of sprints" [value]="sprint.id" with="200px">
+            <mat-option *ngFor="let sprint of sprints" [value]="sprint.id">
               {{sprint.nome}}
             </mat-option>
           </mat-select>
