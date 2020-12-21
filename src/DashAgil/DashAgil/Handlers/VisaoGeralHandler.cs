@@ -61,52 +61,55 @@ namespace DashAgil.Handlers
             #region burndown
 
             var burndownResult = new SprintBurndown();
-            burndownResult.Id = command.IdSprint;
-            burndownResult.DataInicio = historicoEstorias.FirstOrDefault().SprintDataInicio;
-            burndownResult.DataFim = historicoEstorias.FirstOrDefault().SprintDataFim;
-            burndownResult.Nome = historicoEstorias.FirstOrDefault().SprintNome;
 
-
-
-            int quantidadeDiasUteis = 0;
-            var dataAux = burndownResult.DataInicio;
-
-            while (dataAux.Date <= burndownResult.DataFim.Date)
+            if(historicoEstorias.Any())
             {
-
-                if (dataAux.DayOfWeek != DayOfWeek.Saturday && dataAux.DayOfWeek != DayOfWeek.Sunday)
-                    quantidadeDiasUteis++;
-
-                dataAux = dataAux.AddDays(1);
-            };
+                burndownResult.Id = command.IdSprint;
+                burndownResult.DataInicio = historicoEstorias.FirstOrDefault().SprintDataInicio;
+                burndownResult.DataFim = historicoEstorias.FirstOrDefault().SprintDataFim;
+                burndownResult.Nome = historicoEstorias.FirstOrDefault().SprintNome;
 
 
-            var pontos = historicoEstorias.Sum(x => x.Pontos) ?? 0;
-            var pontosPorDia =   Convert.ToInt32(Math.Round(Convert.ToDecimal(pontos) / Convert.ToDecimal(quantidadeDiasUteis),0));
-            var pontosDesejados = pontos;
-            dataAux = burndownResult.DataInicio;
 
-            while (dataAux.Date <= burndownResult.DataFim.Date)
-            {
+                int quantidadeDiasUteis = 0;
+                var dataAux = burndownResult.DataInicio;
 
-                var demandaHistorico = new DemandasHistoricos();
-                demandaHistorico.VelocidadeIdeal = pontosDesejados;
-                demandaHistorico.Dia = dataAux.Date;
-                if (dataAux.Date == burndownResult.DataFim.Date || pontosDesejados < 0)
+                while (dataAux.Date <= burndownResult.DataFim.Date)
                 {
-                    demandaHistorico.VelocidadeIdeal = 0;
-                }
 
-                if (dataAux.DayOfWeek != DayOfWeek.Saturday && dataAux.DayOfWeek != DayOfWeek.Sunday)
-                    pontosDesejados = pontosDesejados - pontosPorDia;
+                    if (dataAux.DayOfWeek != DayOfWeek.Saturday && dataAux.DayOfWeek != DayOfWeek.Sunday)
+                        quantidadeDiasUteis++;
 
-                demandaHistorico.VelocidadeSprint = pontos - (historicoEstorias.Where(x => x.DataFim != null && x.DataFim <= dataAux.AddDays(1).Date).Sum(y => y.Pontos) ?? 0);
+                    dataAux = dataAux.AddDays(1);
+                };
 
-                burndownResult.DemandasHistoricos.Add(demandaHistorico);
 
-                dataAux = dataAux.AddDays(1);
-            };
+                var pontos = historicoEstorias.Sum(x => x.Pontos) ?? 0;
+                var pontosPorDia = Convert.ToInt32(Math.Round(Convert.ToDecimal(pontos) / Convert.ToDecimal(quantidadeDiasUteis), 0));
+                var pontosDesejados = pontos;
+                dataAux = burndownResult.DataInicio;
 
+                while (dataAux.Date <= burndownResult.DataFim.Date)
+                {
+
+                    var demandaHistorico = new DemandasHistoricos();
+                    demandaHistorico.VelocidadeIdeal = pontosDesejados;
+                    demandaHistorico.Dia = dataAux.Date;
+                    if (dataAux.Date == burndownResult.DataFim.Date || pontosDesejados < 0)
+                    {
+                        demandaHistorico.VelocidadeIdeal = 0;
+                    }
+
+                    if (dataAux.DayOfWeek != DayOfWeek.Saturday && dataAux.DayOfWeek != DayOfWeek.Sunday)
+                        pontosDesejados = pontosDesejados - pontosPorDia;
+
+                    demandaHistorico.VelocidadeSprint = pontos - (historicoEstorias.Where(x => x.DataFim != null && x.DataFim <= dataAux.AddDays(1).Date).Sum(y => y.Pontos) ?? 0);
+
+                    burndownResult.DemandasHistoricos.Add(demandaHistorico);
+
+                    dataAux = dataAux.AddDays(1);
+                };
+            }
             #endregion
 
 
@@ -116,7 +119,12 @@ namespace DashAgil.Handlers
 
             dynamic retorno = new ExpandoObject();
             retorno.ListaFeaturesEstagio = demanda.TotalEstoriasPorFeature(featuresEstorias);
-            retorno.SprintBurndown = burndownResult;
+
+            if (historicoEstorias.Any())
+                retorno.SprintBurndown = burndownResult;
+            else
+            retorno.SprintBurndown = sprint.Burndown(historicoEstorias, command.IdSprint);
+
             retorno.ListaPercentual = listaPercentual;
 
             await Task.CompletedTask;
