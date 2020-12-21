@@ -63,4 +63,28 @@ export class EmailComponent implements OnInit {
     });
   }
 
+  defineStatusColor(item: string) {
+    switch (item) {
+      case 'criado':
+        return 'col-criado';
+
+      case 'enviado':
+        return 'col-enviado';
+
+      case 'entregue':
+        return 'col-entregue';
+
+      case 'rejeitado':
+        return 'col-rejeitado';
+
+      case 'lixo':
+        return 'col-lixo';
+
+      case 'aberto':
+        return 'col-aberto';
+
+      case 'clicado':
+        return 'col-clicado';
+    }
+  }
 }

@@ -904,9 +904,8 @@ export class ChartsConfigurationService {
       series: [
         {
           type: 'pie',
-          radius: ['38%', '70%'],
-          center: ['50%', '50%'],
-          height: 320,
+          radius: ['40%', '70%'],
+          center: ['40%', '50%'],
           label: {
             show: true,
             color: '#fff',

@@ -1,0 +1,37 @@
+.chart {
+  height: 60vh;
+}
+
+mat-cell > span {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.col-criado {
+  color: rgb(166, 166, 166) !important;
+}
+
+.col-enviado {
+  color: rgb(255, 192, 0) !important;
+}
+
+.col-entregue {
+  color: rgb(169, 209, 142) !important;
+}
+
+.col-rejeitado {
+  color: rgb(243, 38, 11) !important;
+}
+
+.col-lixo {
+  color: rgb(243, 38, 11) !important;
+}
+
+.col-aberto {
+  color: rgb(0, 176, 80) !important;
+}
+
+.col-clicado {
+  color: rgb(166, 166, 166) !important;
+}
