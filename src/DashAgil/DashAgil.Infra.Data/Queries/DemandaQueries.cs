@@ -85,7 +85,7 @@ namespace DashAgil.Infra.Data.Queries
                                 --and EXISTS(SELECT TOP 1 1 FROM UsuarioSquads us WHERE o.ClienteId = us.ClienteId AND s.Id = us.SquadId AND us.UsuarioId = @UsuarioId)";
 
         public const string GetEstoriasHistorico =
-            @"SELECT d.Id, d.SquadId, d.Tipo, d.Status, d.Descricao, isnull(d.Pontos,0) as Pontos,
+            @"SELECT d.Id, d.SquadId, d.Tipo, d.Status, d.Descricao, isnull(d.Pontos,0) as Pontos, d.DataInicio, d.DataFim,
                                  s.Nome as SprintNome, s.DataInicio as SprintDataInicio, s.DataFim as SprintDataFim,
                                  dh.Id as IdHistorico, dh.DataModificacao, isnull(v.status_novo_num,1) as StatusDeXPara
                           FROM Demandas d

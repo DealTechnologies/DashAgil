@@ -6,6 +6,7 @@ using DashAgil.Enums;
 using DashAgil.Infra.Comum;
 using DashAgil.Queries;
 using DashAgil.Repositorio;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Dynamic;
@@ -57,13 +58,65 @@ namespace DashAgil.Handlers
             //    SprintBurndown = sprint.Burndown(historicoEstorias, command.IdSprint)
             //};
 
+            #region burndown
+
+            var burndownResult = new SprintBurndown();
+            burndownResult.Id = command.IdSprint;
+            burndownResult.DataInicio = historicoEstorias.FirstOrDefault().SprintDataInicio;
+            burndownResult.DataFim = historicoEstorias.FirstOrDefault().SprintDataFim;
+            burndownResult.Nome = historicoEstorias.FirstOrDefault().SprintNome;
+
+
+
+            int quantidadeDiasUteis = 0;
+            var dataAux = burndownResult.DataInicio;
+
+            while (dataAux.Date <= burndownResult.DataFim.Date)
+            {
+
+                if (dataAux.DayOfWeek != DayOfWeek.Saturday && dataAux.DayOfWeek != DayOfWeek.Sunday)
+                    quantidadeDiasUteis++;
+
+                dataAux = dataAux.AddDays(1);
+            };
+
+
+            var pontos = historicoEstorias.Sum(x => x.Pontos) ?? 0;
+            var pontosPorDia =   Convert.ToInt32(Math.Round(Convert.ToDecimal(pontos) / Convert.ToDecimal(quantidadeDiasUteis),0));
+            var pontosDesejados = pontos;
+            dataAux = burndownResult.DataInicio;
+
+            while (dataAux.Date <= burndownResult.DataFim.Date)
+            {
+
+                var demandaHistorico = new DemandasHistoricos();
+                demandaHistorico.VelocidadeIdeal = pontosDesejados;
+                demandaHistorico.Dia = dataAux.Date;
+                if (dataAux.Date == burndownResult.DataFim.Date || pontosDesejados < 0)
+                {
+                    demandaHistorico.VelocidadeIdeal = 0;
+                }
+
+                if (dataAux.DayOfWeek != DayOfWeek.Saturday && dataAux.DayOfWeek != DayOfWeek.Sunday)
+                    pontosDesejados = pontosDesejados - pontosPorDia;
+
+                demandaHistorico.VelocidadeSprint = pontos - (historicoEstorias.Where(x => x.DataFim != null && x.DataFim <= dataAux.AddDays(1).Date).Sum(y => y.Pontos) ?? 0);
+
+                burndownResult.DemandasHistoricos.Add(demandaHistorico);
+
+                dataAux = dataAux.AddDays(1);
+            };
+
+            #endregion
+
+
             var listaPercentual = new ListDictionary();
             listaPercentual.Add("PercentualFeaturesHomologacao", demanda.PercentualFeaturesHomologacao(featuresEstorias));
             listaPercentual.Add("PercentualFeaturesConclusao", demanda.PercentualFeaturesConcluisao(featuresEstorias));
 
             dynamic retorno = new ExpandoObject();
             retorno.ListaFeaturesEstagio = demanda.TotalEstoriasPorFeature(featuresEstorias);
-            retorno.SprintBurndown = sprint.Burndown(historicoEstorias, command.IdSprint);
+            retorno.SprintBurndown = burndownResult;
             retorno.ListaPercentual = listaPercentual;
 
             await Task.CompletedTask;
@@ -75,8 +128,9 @@ namespace DashAgil.Handlers
         {
             var estorias = await _repository.GetAll(command.IdCliente, (int)EDemandaTipo.UserStory, command.IdUsuario, command.IdSquad);
             var demanda = new Demandas();
-            
-            var listaDemandasResult = new ObterListaEstoriasPorSquadCommandResult {
+
+            var listaDemandasResult = new ObterListaEstoriasPorSquadCommandResult
+            {
                 ListaDemandas = demanda.TratamentoListaEstorias(estorias)
             };
 
@@ -88,7 +142,7 @@ namespace DashAgil.Handlers
         public async Task<ICommandResult> Handle(ObterVisaoEstoriasPorSquadCommand command)
         {
 
-            if(!command.EhValido())
+            if (!command.EhValido())
             {
                 return new GenericCommandResult(false, "Erro", command.Notifications);
             }
@@ -104,7 +158,6 @@ namespace DashAgil.Handlers
                 var squadResult = SquadItensQueryResult.ObterTotais(itens, squad);
 
                 result.Add(squadResult);
-
             }
 
             var total = SquadItensQueryResult.ObterTotais(estorias.ToList(), "Total Geral");
