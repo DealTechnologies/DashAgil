@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import { Provider } from '../../models';
+import { Sprint } from '../../models';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class ProviderService extends BaseService<Provider> {
+export class SprintService extends BaseService<Sprint> {
   constructor(http: HttpClient) {
-    super(http, 'Provedor');
+    super(http, 'Sprint');
   }
 
-  getProviders(): Observable<Provider[]> {
+  getSprintsBySquad(squadId: number): Observable<Sprint[]> {
     return this.http
-      .get<Provider>(`${this.url}/ObterProvedores`).pipe(map((response: any) => {
-        return response.data;
+      .get<Sprint>(`${this.url}/Squad/` + squadId).pipe(map((response: any) => {
+        return response;
       }));
   }
 }

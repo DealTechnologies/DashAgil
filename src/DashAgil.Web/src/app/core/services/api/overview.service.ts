@@ -16,8 +16,8 @@ export class OverviewService extends BaseService<OverviewDemand> {
 
     return this.http
       .get<OverviewDemand>(`${this.url}/ObterVisaoGeralDemandas`, { params: params })
-      .pipe(map((req: any) => {
-        return req.data;
+      .pipe(map((response: any) => {
+        return response.data;
       }));;
   }
 
@@ -26,8 +26,8 @@ export class OverviewService extends BaseService<OverviewDemand> {
 
     return this.http
       .get<OverviewDemand>(`${this.url}/ObterVisaoGeralFeatures`, { params: params })
-      .pipe(map((req: any) => {
-        return req.data;
+      .pipe(map((response: any) => {
+        return response.data;
       }));;
   }
 
@@ -36,8 +36,8 @@ export class OverviewService extends BaseService<OverviewDemand> {
 
     return this.http
       .get<Demand>(`${this.url}/ObterListaEstoriasSquad`, { params: params })
-      .pipe(map((req: any) => {
-        return req.data.listaDemandas;
+      .pipe(map((response: any) => {
+        return response.data.listaDemandas;
       }));;
   }
 
@@ -46,8 +46,8 @@ export class OverviewService extends BaseService<OverviewDemand> {
 
     return this.http
       .get<Demand>(`${this.url}/ObterVisaoEstoriasPorSquad`, { params: params })
-      .pipe(map((req: any) => {
-        return req.data;
+      .pipe(map((response: any) => {
+        return response.data;
       }));;
   }
 

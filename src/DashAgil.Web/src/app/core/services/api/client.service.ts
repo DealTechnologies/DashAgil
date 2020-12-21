@@ -14,8 +14,8 @@ export class ClientService extends BaseService<Client> {
   getClientByProvider(providerId: number): Observable<Client[]> {
     return this.http
       .get<Client>(`${this.url}/ObterClientesPorCliente`, { params: { IdProvedor: providerId.toString() } })
-      .pipe(map((req: any) => {
-        return req.data;
+      .pipe(map((response: any) => {
+        return response.data;
       }));;
   }
 

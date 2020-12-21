@@ -15,8 +15,8 @@ export class BaseService<T> {
     }
 
     get(): Observable<T> {
-        return this.http.get<T>(this.url).pipe(map((req: any) => {
-            return req.data;
+        return this.http.get<T>(this.url).pipe(map((response: any) => {
+            return response.data;
         }));
     }
 }

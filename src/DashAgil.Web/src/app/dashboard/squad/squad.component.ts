@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { EChartOption } from 'echarts';
-import { Client, OverviewFeature } from 'src/app/core/models';
-import { AuthService, ChartsConfigurationService, OverviewService } from 'src/app/core/services';
+import { Client, OverviewFeature, Sprint } from 'src/app/core/models';
+import { AuthService, ChartsConfigurationService, OverviewService, SprintService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-squad',
@@ -16,56 +16,86 @@ export class SquadComponent implements OnInit {
   overviewFeature: OverviewFeature;
   percentFeatures: { isProd: boolean, value: number };
 
-  squad: FormControl;
+  controlSquad: FormControl;
+  controlSprint: FormControl;
 
   optionsSquad: EChartOption;
   optionsSprint: EChartOption;
 
   clients: Client[];
+  sprints: Sprint[];
 
   constructor(
     private overviewService: OverviewService,
+    private sprintService: SprintService,
     private authService: AuthService,
     private route: ActivatedRoute,
     private chartsConfiguration: ChartsConfigurationService) {
   }
 
+  get currentClient() {
+    return this.clients.find(item => item.squads.some(squad => squad.id == this.controlSquad.value));
+  }
+
+  get currentSquad() {
+    return this.currentClient.squads.find(item => item.id == this.controlSquad.value);
+  }
+
+  get currentSprint() {
+    return this.sprints.find(item => item.id == this.controlSprint.value);
+  }
+
   ngOnInit(): void {
+    this.controlSprint = new FormControl();
+    this.controlSquad = new FormControl();
+    this.valueChanges();
+
     this.percentFeatures = { isProd: false, value: 0 };
 
     this.route.queryParams.subscribe(params => {
       this.squadName = params.squadName;
     });
 
-    if (!this.squadName)
-      this.squadName = 'Projetos';
+    if (!this.squadName) {
+      this.squadName = this.authService.currentUserValue.provedores[0].clientes[0].squads[0].nome;
+    }
 
     this.clients = this.authService.currentUserValue.provedores.map(item => item.clientes).reduce((x, y) => x.concat(y), []);
 
     const squad = this.clients.map(client => client.squads).reduce((x, y) => x.concat(y), []).find(squad => squad.nome == this.squadName);
-    this.squad = new FormControl(squad.id);
 
     this.squadName = squad.nome;
 
-    const client = this.clients.find(item => item.squads.some(squadItem => squadItem.id == squad.id));
+    this.controlSquad.setValue(squad.id);
 
-    this.loadData(client.id, squad.id, 50);
     this.clients = this.authService.currentUserValue.provedores.map(item => item.clientes).reduce((x, y) => x.concat(y), []);
 
-    this.valueChanges();
   }
 
   valueChanges() {
-    this.squad.valueChanges.subscribe(id => {
-      const client = this.clients.find(item => item.squads.some(squad => squad.id == id));
-      const squad = client.squads.find(item => item.id == id);
-      this.squadName = squad.nome;
-      this.loadData(client.id, squad.id, 50);
+    this.controlSquad.valueChanges.subscribe(async squadId => {
+      await this.loadSprints(squadId);
+
+      this.squadName = this.currentSquad.nome;
+
+      if (this.sprints.length) {
+        this.controlSprint.setValue(this.sprints[0].id);
+      }
+    });
+
+    this.controlSprint.valueChanges.subscribe(sprintId => {
+      this.loadData(this.currentClient.id, this.currentSquad.id, sprintId);
     });
   }
 
-  loadData(clientId: number, squadId: number, sprintId?: number) {
-    this.overviewService.getOverviewFeatures(clientId, squadId, 50).subscribe(overviewFeature => {
+  async loadSprints(squadId: number) {
+    await this.sprintService.getSprintsBySquad(squadId).toPromise().then(sprints => {
+      this.sprints = sprints;
+    });
+  }
+
+  loadData(clientId: number, squadId: number, sprintId: number) {
+    this.overviewService.getOverviewFeatures(clientId, squadId, sprintId).subscribe(overviewFeature => {
       this.overviewFeature = overviewFeature;
       this.definePercent(overviewFeature);
       this.optionsSquad = this.chartsConfiguration.squad(overviewFeature);
