@@ -4,3 +4,5 @@ export * from './api/overview.service';
 export * from './api/client.service';
 export * from './api/provider.service';
 export * from './api/sprint.service';
+export * from './api/email.service';
+

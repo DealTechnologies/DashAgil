@@ -81,7 +81,16 @@ export const ROUTES: RouteInfo[] = [
         class: '',
         groupTitle: false,
         submenu: []
-      },
+      }
     ]
   },
+  {
+    path: 'dashboard/email',
+    title: 'Emails',
+    moduleName: 'sync',
+    icon: 'fas fa-envelope-open',
+    class: '',
+    groupTitle: false,
+    submenu: []
+  }
 ];
