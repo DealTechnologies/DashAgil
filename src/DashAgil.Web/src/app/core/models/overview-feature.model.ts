@@ -11,8 +11,8 @@ export class OverviewFeature {
     dataFim: Date,
     demandasHistoricos: {
       dia: Date,
-      pontosTotalDia: number,
-      pontosConcluidosDia: number
+      velocidadeIdeal: number,
+      velocidadeSprint: number
     }[];
   };
 

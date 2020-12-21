@@ -12,6 +12,7 @@ import { AuthService, ChartsConfigurationService, OverviewService, SprintService
 })
 export class SquadComponent implements OnInit {
 
+  squadId: number;
   squadName: string;
   overviewFeature: OverviewFeature;
   percentFeatures: { isProd: boolean, value: number };
@@ -55,23 +56,20 @@ export class SquadComponent implements OnInit {
     this.percentFeatures = { isProd: false, value: 0 };
 
     this.route.queryParams.subscribe(params => {
-      this.squadName = params.squadName;
+      this.squadId = params.squadId;
     });
 
-    if (!this.squadName) {
-      this.squadName = this.authService.currentUserValue.provedores[0].clientes[0].squads[0].nome;
+    if (!this.squadId) {
+      this.squadId = this.authService.currentUserValue.provedores[0].clientes[0].squads[0].id;
     }
 
     this.clients = this.authService.clients;
 
-    const squad = this.clients.map(client => client.squads).reduce((x, y) => x.concat(y), []).find(squad => squad.nome == this.squadName);
+    const squad = this.clients.map(client => client.squads).reduce((x, y) => x.concat(y), []).find(squad => squad.id == this.squadId);
 
     this.squadName = squad.nome;
 
     this.controlSquad.setValue(squad.id);
-
-    this.clients = this.authService.clients;
-
   }
 
   valueChanges() {

@@ -17,7 +17,7 @@ export class ChartsConfigurationService {
   demandsVsSquad(overview: OverviewDemand): EChartOption {
 
     const legends: string[] = overview.listaEstoriasPorSquad.map(item => item.squadNome);
-    const data: ChartData[] = overview.listaEstoriasPorSquad.map(item => ({ name: item.squadNome, value: item.quantidade }));
+    const data: ChartData[] = overview.listaEstoriasPorSquad.map(item => ({ squadId: item.squadId, name: item.squadNome, value: item.quantidade }));
 
     const chartOptions: EChartOption = {
       tooltip: {
@@ -307,8 +307,8 @@ export class ChartsConfigurationService {
 
     let title: string;
     let categories: string[];
-    let seriesTotal: ChartData[];
-    let seriesComplete: ChartData[];
+    let seriesIdeal: ChartData[];
+    let seriesSprint: ChartData[];
 
     if (overview.SprintBurndown) {
       const start = moment(overview.SprintBurndown.dataInicio).format('DD/MMM');
@@ -316,8 +316,8 @@ export class ChartsConfigurationService {
       title = `${start} - ${end}`;
 
       categories = overview.SprintBurndown.demandasHistoricos.map(item => moment(item.dia).format('DD/MM/YYYY'));
-      seriesTotal = overview.SprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.pontosTotalDia }));
-      seriesComplete = overview.SprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.pontosConcluidosDia }));
+      seriesIdeal = overview.SprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.velocidadeIdeal }));
+      seriesSprint = overview.SprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.velocidadeSprint }));
     }
 
     const chartOptions: EChartOption = {
@@ -384,7 +384,7 @@ export class ChartsConfigurationService {
       },
       series: [{
         name: 'Velocidade Ideal',
-        data: seriesTotal,
+        data: seriesIdeal,
         type: 'line',
         symbol: 'none',
         lineStyle: {
@@ -394,7 +394,7 @@ export class ChartsConfigurationService {
       },
       {
         name: 'Velocidade da Sprint',
-        data: seriesComplete,
+        data: seriesSprint,
         type: 'line',
         symbol: 'none',
         lineStyle: {
