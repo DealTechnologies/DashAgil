@@ -33,7 +33,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { ChartsConfigurationService, ClientService, OverviewService, ProviderService } from '../core/services';
+import { ChartsConfigurationService, ClientService, EmailService, OverviewService, ProviderService } from '../core/services';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../shared/material.module';
 import { SquadComponent } from './squad/squad.component';
@@ -43,12 +43,13 @@ import { RadarItemsComponent } from './radar-agil/radar-items/radar-items.compon
 import { StoriesComponent } from './stories/stories.component';
 import { StoriesSquadComponent } from './stories-squad/stories-squad.component';
 import { IntegracaoService } from '../core/services/api/integracao.service';
+import { EmailComponent } from './email/email.component';
 
 @NgModule({
   declarations: [OverviewComponent, SquadComponent, LeadTimeComponent,
-                 RadarAgilComponent, FilterSeriesPipe,
-                 RadarItemsComponent, FirstSyncComponent,
-                 StoriesComponent, StoriesSquadComponent],
+    RadarAgilComponent, FilterSeriesPipe,
+    RadarItemsComponent, FirstSyncComponent,
+    StoriesComponent, StoriesSquadComponent, EmailComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -92,6 +93,7 @@ import { IntegracaoService } from '../core/services/api/integracao.service';
     IntegracaoService,
     ProviderService,
     ChartsConfigurationService,
+    EmailService
   ]
 })
-export class DashboardModule {}
+export class DashboardModule { }
