@@ -105,7 +105,7 @@ import { SortByPipe } from '../core/pipes/sort.pipe';
     IntegracaoService,
     ProviderService,
     ChartsConfigurationService,
-    SprintService
+    SprintService,
     EmailService
   ]
 })

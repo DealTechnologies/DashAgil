@@ -14,6 +14,7 @@ let echarts = require('echarts');
 export class RadarAgilComponent implements OnInit, AfterViewInit {
 
   @ViewChild('radar') radar: ElementRef;
+
   optionsRadar: EChartOption;
   radarChart: ECharts;
   clients: Client[];
