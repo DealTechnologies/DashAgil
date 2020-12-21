@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EChartOption } from 'echarts';
 import * as moment from 'moment';
-import { OverviewDemand, OverviewFeature } from '../../models';
+import { EmailCount, OverviewDemand, OverviewFeature } from '../../models';
 
 interface ChartData {
   value: number | string;
@@ -17,7 +17,7 @@ export class ChartsConfigurationService {
   demandsVsSquad(overview: OverviewDemand): EChartOption {
 
     const legends: string[] = overview.listaEstoriasPorSquad.map(item => item.squadNome);
-    const series: ChartData[] = overview.listaEstoriasPorSquad.map(item => ({ name: item.squadNome, value: item.quantidade }));
+    const data: ChartData[] = overview.listaEstoriasPorSquad.map(item => ({ name: item.squadNome, value: item.quantidade }));
 
     const chartOptions: EChartOption = {
       tooltip: {
@@ -27,7 +27,8 @@ export class ChartsConfigurationService {
       legend: {
         orient: 'vertical',
         type: 'scroll',
-        left: 400,
+        left: '60%',
+        align: 'left',
         textStyle: {
           color: '#fff'
         },
@@ -37,7 +38,7 @@ export class ChartsConfigurationService {
         {
           type: 'pie',
           radius: ['38%', '70%'],
-          center: ['30%', '50%'],
+          center: [200, '50%'],
           height: 320,
           label: {
             show: true,
@@ -61,7 +62,7 @@ export class ChartsConfigurationService {
               fontWeight: 'bold',
             }
           },
-          data: series
+          data: data
         }
       ]
     };
@@ -71,7 +72,7 @@ export class ChartsConfigurationService {
 
   inExecution(overview: OverviewDemand): EChartOption {
 
-    const series: ChartData[] = [{ value: overview.totalGeralEstorias }];
+    const data: ChartData[] = [{ value: overview.totalGeralEstorias }];
 
     const chartOptions: EChartOption = {
       tooltip: {
@@ -106,7 +107,7 @@ export class ChartsConfigurationService {
             color: 'rgb(91, 155, 213)'
           },
           barWidth: 20,
-          data: series
+          data: data
         }
       ]
     };
@@ -412,7 +413,7 @@ export class ChartsConfigurationService {
     const sprints = Object.keys(velocity);
     const data: ChartData[] = sprints.map(item => ({ name: item, value: velocity[item] })).reverse();
 
-    const interval = Math.trunc(data.reduce((a,b) => a + Number(b.value), 0) / data.length / 2);
+    const interval = Math.trunc(data.reduce((a, b) => a + Number(b.value), 0) / data.length / 2);
     const max = Math.max(...data.map(item => Number(item.value))) + interval;
 
     const chartOptions: EChartOption = {
@@ -748,7 +749,7 @@ export class ChartsConfigurationService {
     return chartOptions;
   }
 
-  radar(data): EChartOption {
+  radar(data: any): EChartOption {
     const chartOptions: EChartOption = {
       angleAxis: {
         type: 'category',
@@ -875,6 +876,62 @@ export class ChartsConfigurationService {
           data: data
         },
       ],
+    };
+
+    return chartOptions;
+  }
+
+  emails(emailCount: EmailCount): EChartOption {
+    const legends = ['Criado', 'Enviado', 'Entregue', 'Rejeitado', 'Lixo', 'Aberto', 'Clicado'];
+    const data = legends.map(key => ({ name: key, value: emailCount[key.toLowerCase()] || '-' }));
+
+    const chartOptions: EChartOption = {
+      tooltip: {
+        trigger: 'item',
+        formatter: '{b}: {c} demandas'
+      },
+      legend: {
+        orient: 'vertical',
+        align: 'left',
+        type: 'scroll',
+        left: '5%',
+        top: '10%',
+        textStyle: {
+          color: '#fff'
+        },
+        data: legends,
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: ['38%', '70%'],
+          center: ['50%', '50%'],
+          height: 320,
+          label: {
+            show: true,
+            color: '#fff',
+            formatter: '{c}',
+            backgroundColor: 'black',
+            padding: 3,
+            align: 'left',
+            borderWidth: 1,
+            borderRadius: 4,
+          },
+          labelLine: {
+            show: true,
+            length: 20,
+            length2: 15
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: 25,
+              fontWeight: 'bold',
+            }
+          },
+          data: data
+        }
+      ]
     };
 
     return chartOptions;

@@ -8,4 +8,5 @@ export * from './squad.model';
 export * from './sprint.model';
 export * from './squad-story.model';
 export * from './email.model';
+export * from './email-count.model';
 export * from './command-result.model';
