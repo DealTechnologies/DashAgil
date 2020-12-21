@@ -26,6 +26,7 @@ namespace DashAgil.Integrador.Infra.Data.Queries
 													,[HorasUtilizadas]
 													,[Risco]
 													,[Comentario]
+													,[Descricao]
 													,[Status])
 								VALUES(@Id
 									  ,@ExternalId
@@ -46,6 +47,7 @@ namespace DashAgil.Integrador.Infra.Data.Queries
 									  ,@HorasUtilizadas
 									  ,@Risco
 									  ,@Comentario
+									  ,@Descricao
 									  ,@Status);  SELECT SCOPE_IDENTITY() ";
 
 		public const string Update = @"UPDATE DashAgil.dbo.Demandas SET ExternalId = @ExternalId , 
