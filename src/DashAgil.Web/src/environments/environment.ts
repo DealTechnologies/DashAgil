@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   apiUrl: 'http://dashagil-env.eba-iixc3mqa.sa-east-1.elasticbeanstalk.com',
   // apiUrl: 'http://dashagil-env-1.eba-bq2tak24.sa-east-1.elasticbeanstalk.com',
-  apiIntegracao: 'http://localhost:59384'
+  apiIntegracao: 'http://localhost:59384',
+  apiEmail: 'http://dashagilemail-env.eba-iiqkheny.sa-east-1.elasticbeanstalk.com'
 };
 
 /*

@@ -116,7 +116,7 @@ export class ChartsConfigurationService {
 
   squad(overview: OverviewFeature): EChartOption {
 
-    const legends: string[] = overview.ListaFeaturesEstagio.map(item => item.featureId);
+    const legends: string[] = overview.ListaFeaturesEstagio.map(item => item.featureDescricao);
 
     const remanescente = overview.ListaFeaturesEstagio.map(item => item.remanescente);
     const emAndamento = overview.ListaFeaturesEstagio.map(item => item.emAndamento);
@@ -135,7 +135,7 @@ export class ChartsConfigurationService {
         axisPointer: {
           type: 'line',
           label: {
-              backgroundColor: '#6a7985'
+            backgroundColor: '#6a7985'
           }
         },
       },
@@ -330,13 +330,13 @@ export class ChartsConfigurationService {
         }
       },
       tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-              type: 'cross',
-              label: {
-                  backgroundColor: '#6a7985'
-              }
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          label: {
+            backgroundColor: '#6a7985'
           }
+        }
       },
       legend: {
         icon: 'roundRect',
@@ -407,7 +407,14 @@ export class ChartsConfigurationService {
     return chartOptions;
   }
 
-  velocity(): EChartOption {
+  velocity(velocity: { [key: string]: number }): EChartOption {
+
+    const sprints = Object.keys(velocity);
+    const data: ChartData[] = sprints.map(item => ({ name: item, value: velocity[item] })).reverse();
+
+    const interval = Math.trunc(data.reduce((a,b) => a + Number(b.value), 0) / data.length / 2);
+    const max = Math.max(...data.map(item => Number(item.value))) + interval;
+
     const chartOptions: EChartOption = {
       tooltip: {
         trigger: 'axis',
@@ -430,27 +437,7 @@ export class ChartsConfigurationService {
       xAxis: [
         {
           type: 'category',
-          data: [
-            'Sprint 1',
-            'Sprint 2',
-            'Sprint 3',
-            'Sprint 4',
-            'Sprint 5',
-            'Sprint 6',
-            'Sprint 7',
-            'Sprint 8',
-            'Sprint 9',
-            'Sprint 10',
-            'Sprint 11',
-            'Sprint 12',
-            'Sprint 13',
-            'Sprint 14',
-            'Sprint 15',
-            'Sprint 16',
-            'Sprint 17',
-            'Sprint 18',
-            'Sprint 19',
-          ],
+          data: sprints,
           axisLine: {
             lineStyle: {
               color: 'rgba(255, 255, 255, 1)'
@@ -469,6 +456,8 @@ export class ChartsConfigurationService {
       yAxis: [
         {
           type: 'value',
+          interval: interval,
+          max: max,
           axisLine: {
             lineStyle: {
               color: 'transparent'
@@ -477,28 +466,26 @@ export class ChartsConfigurationService {
           axisLabel: {
             color: 'rgba(255, 255, 255, 1)'
           },
-          interval: 50,
-          max: 300
         }
       ],
       series: [
         {
           type: 'bar',
-          boundaryGap: '0%',
+          boundaryGap: ['0%'],
           barWidth: 15,
           itemStyle: {
             color: 'rgb(79, 129, 189)'
           },
-          data: [18, 32, 47, 33, 88, 56, 63, 67, 94, 106, 158, 143, 231, 147, 125, 113, 90, 111, 252],
-          markLine: {
-            lineStyle: {
-              type: 'dashed'
-            },
-            data: [
-              //@ts-ignore
-              [{ type: 'min' }, { type: 'max' }]
-            ]
-          }
+          // markLine: {
+          //   lineStyle: {
+          //     type: 'dashed'
+          //   },
+          //   data: [
+          //     //@ts-ignore
+          //     [{ type: 'min' }, { type: 'max' }]
+          //   ]
+          // },
+          data: data,
         }
       ]
     };

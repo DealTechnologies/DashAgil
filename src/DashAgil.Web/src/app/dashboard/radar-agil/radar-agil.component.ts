@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { EChartOption, ECharts } from 'echarts';
-import { ChartsConfigurationService, OverviewService } from 'src/app/core/services';
+import { Client } from 'src/app/core/models';
+import { AuthService, ChartsConfigurationService, OverviewService } from 'src/app/core/services';
 
 let echarts = require('echarts');
 
@@ -12,11 +14,16 @@ let echarts = require('echarts');
 export class RadarAgilComponent implements OnInit, AfterViewInit {
 
   @ViewChild('radar') radar: ElementRef;
+
   optionsRadar: EChartOption;
   radarChart: ECharts;
-  series = [];
+  clients: Client[];
+  controlSquad: FormControl;
+  series: any[];
 
-  constructor(private chartsConfiguration: ChartsConfigurationService) { }
+  constructor(
+    private authService: AuthService,
+    private chartsConfiguration: ChartsConfigurationService) { }
 
   ngOnInit() {
     this.series = [
@@ -43,10 +50,21 @@ export class RadarAgilComponent implements OnInit, AfterViewInit {
     ];
 
     this.optionsRadar = this.chartsConfiguration.radar(this.series);
+
+    this.controlSquad = new FormControl();
+    this.valueChanges();
+
+    this.clients = this.authService.clients;
   }
 
   ngAfterViewInit(): void {
     this.radarChart = echarts.init(this.radar.nativeElement);
+  }
+
+  valueChanges() {
+    this.controlSquad.valueChanges.subscribe(squadId => {
+      console.log(squadId);
+    });
   }
 
   change(serie: any) {
@@ -66,7 +84,6 @@ export class RadarAgilComponent implements OnInit, AfterViewInit {
         return 'rgb(255, 231, 105)';
       case '5':
         return 'rgb(61, 168, 89)';
-
     }
   }
 
@@ -83,5 +100,4 @@ export class RadarAgilComponent implements OnInit, AfterViewInit {
   onChartEvent(event: any, type: string) {
     alert(event.name);
   }
-
 }
