@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { NotifierService } from 'angular-notifier';
 import { EChartOption } from 'echarts';
 import { Email } from 'src/app/core/models';
-import { AuthService, ChartsConfigurationService, EmailService } from 'src/app/core/services';
+import { ChartsConfigurationService, ClientService, EmailService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-email',
@@ -33,7 +34,9 @@ export class EmailComponent implements OnInit {
   optionsEmail: EChartOption;
 
   constructor(
+    private clientService: ClientService,
     private emailService: EmailService,
+    private notifier: NotifierService,
     private chartsConfiguration: ChartsConfigurationService
   ) { }
 
@@ -45,8 +48,21 @@ export class EmailComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
+    this.loadEmailsCount();
+  }
+
+  loadEmailsCount() {
     this.emailService.getCount().subscribe(count => {
       this.optionsEmail = this.chartsConfiguration.emails(count);
+    });
+  }
+
+  sendEmail() {
+    this.clientService.sendEmail().subscribe(() => {
+      this.notifier.notify('success', 'E-mail enviado com sucesso');
+      this.loadEmailsCount();
+    }, () => {
+      this.notifier.notify('error', 'Não foi possível enviar o e-mail');
     });
   }
 

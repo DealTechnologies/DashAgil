@@ -16,7 +16,10 @@ export class ClientService extends BaseService<Client> {
       .get(`${this.url}/ObterClientesPorCliente`, { params: { IdProvedor: providerId.toString() } })
       .pipe(map((response: CommandResult) => {
         return response.data;
-      }));;
+      }));
   }
 
+  sendEmail() {
+    return this.http.post(`${this.url}`, null);
+  }
 }
