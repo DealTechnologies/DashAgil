@@ -888,7 +888,7 @@ export class ChartsConfigurationService {
     const chartOptions: EChartOption = {
       tooltip: {
         trigger: 'item',
-        formatter: '{b}: {c} demandas'
+        formatter: '{b}: {c} e-mails'
       },
       legend: {
         orient: 'vertical',
