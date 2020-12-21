@@ -58,4 +58,26 @@ export class StoriesComponent implements OnInit {
       this.loadData(client.id, squadId);
     });
   }
+
+  defineStatusColor(item: string) {
+    switch (item) {
+      case 'Remanescente':
+        return 'col-remanescente';
+
+      case 'Em Desenvolvimento':
+        return 'col-desenvolvimento';
+
+      case 'Desenvolvimento Concluído':
+        return 'col-desenvolvimento-concluido';
+
+      case 'Em Homologação':
+        return 'col-homologacao';
+
+      case 'Homologado':
+        return 'col-homologado';
+
+      case 'Concluído':
+        return 'col-concluido';
+    }
+  }
 }

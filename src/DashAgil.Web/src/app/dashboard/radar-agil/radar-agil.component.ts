@@ -55,6 +55,11 @@ export class RadarAgilComponent implements OnInit, AfterViewInit {
     this.valueChanges();
 
     this.clients = this.authService.clients;
+
+    if (this.clients.length && this.clients[0].squads.length) {
+      const squadId = this.clients[0].squads[0].id;
+      this.controlSquad.setValue(squadId);
+    }
   }
 
   ngAfterViewInit(): void {

@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { EChartOption } from 'echarts';
 import { Email } from 'src/app/core/models';
-import { AuthService, EmailService } from 'src/app/core/services';
+import { AuthService, ChartsConfigurationService, EmailService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-email',
@@ -29,8 +30,11 @@ export class EmailComponent implements OnInit {
     'status',
   ];
 
+  optionsEmail: EChartOption;
+
   constructor(
-    private emailService: EmailService
+    private emailService: EmailService,
+    private chartsConfiguration: ChartsConfigurationService
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +44,10 @@ export class EmailComponent implements OnInit {
 
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.emailService.getCount().subscribe(count => {
+      this.optionsEmail = this.chartsConfiguration.emails(count);
+    });
   }
 
   emailTabChange(source) {

@@ -83,8 +83,8 @@ export class OverviewComponent implements OnInit {
   }
 
   onChartEvent(event: any, type: string) {
-    const squadName = event.data.name;
-    this.router.navigate(['/dashboard/squad'], { queryParams: { squadName } });
+    const squadId = event.data.squadId;
+    this.router.navigate(['/dashboard/squad'], { queryParams: { squadId } });
   }
 
   public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
