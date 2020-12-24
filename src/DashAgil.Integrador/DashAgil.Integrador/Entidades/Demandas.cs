@@ -33,7 +33,7 @@ namespace DashAgil.Integrador.Entidades
         public DemandaHistorico DemandaHistorico { get; set; }
 
 
-        public static Demandas PreencherDemandaDevops(WorkItemResult workItens, long projetoId, long squadId, long sprintId)
+        public static Demandas PreencherDemandaDevops(WorkItemResult workItens, long projetoId, long squadId, long? sprintId)
         {
             return new Demandas
             {
@@ -86,7 +86,8 @@ namespace DashAgil.Integrador.Entidades
                 _ => 0,
             }; 
 
-        public static List<Demandas> PreencherDemandasJira(IssuesPaginateQueryResult issue, List<Sprint> sprints, long projetoId, long squadId, string featureId)
+        public static List<Demandas> PreencherDemandasJira(IssuesPaginateQueryResult issue, List<Sprint> sprints, long projetoId, long squadId)
+
         {
             var demandas = new List<Demandas>();
 
@@ -116,39 +117,16 @@ namespace DashAgil.Integrador.Entidades
                 if (demanda.Tipo == 4)
                    demanda.DemandaPaiIntegracaoId = PreencherPai(item);
 
-                if (demanda.Tipo == 3)
-                    demanda.DemandaPaiIntegracaoId = featureId;
 
-                    demandas.Add(demanda);
+
+
+
+                demandas.Add(demanda);
             }
-
 
             PreencherIdsPai(demandas);
 
             return demandas;
-
-        }
-
-
-        public static Demandas PreencherFeaturePadrao(IssuesPaginateQueryResult issue, long projetoId, long squadId, string projeto)
-        {
-
-            var demanda = new Demandas()
-            {
-                Id = Guid.NewGuid(),
-                ExternalId = projetoId+"01",
-                Descricao = "Feature Jira - "+ projeto,
-                ProjetoId = projetoId,
-                Tipo = 2,
-                SquadId = squadId,
-                Status = 6,
-                DataCadastro = DateTime.Now.AddDays(-50),
-                DataInicio = DateTime.Now.AddDays(-50),
-                DataModificacao = DateTime.Now.AddDays(-50)
-            };
-
-            demanda.DemandaHistorico = PreencherDemandaHistoricoJira(demanda);
-            return demanda;
 
         }
 
@@ -279,12 +257,7 @@ namespace DashAgil.Integrador.Entidades
 
             foreach (var item in demandas.Where(x => x.DemandaPaiIntegracaoId != null))
             {
-                if(item.Tipo != 3)
                 item.DemandaPaiId = demandas.FirstOrDefault(y => y.ExternalId == item.DemandaPaiIntegracaoId).Id;
-                else
-                {
-                    item.DemandaPaiId = Guid.Parse(item.DemandaPaiIntegracaoId);
-                }
             }
 
         }

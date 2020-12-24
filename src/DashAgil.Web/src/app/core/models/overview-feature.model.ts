@@ -4,15 +4,15 @@ export class OverviewFeature {
     PercentualFeaturesConclusao: number
   };
 
-  SprintBurndown: {
+  sprintBurndown: {
     id: number,
     nome: string,
     dataInicio: Date,
     dataFim: Date,
     demandasHistoricos: {
       dia: Date,
-      velocidadeIdeal: number,
-      velocidadeSprint: number
+      pontosTotalDia: number,
+      pontosConcluidosDia: number
     }[];
   };
 

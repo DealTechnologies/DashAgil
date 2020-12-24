@@ -19,6 +19,15 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     submenu: [
       {
+        path: 'dashboard/sync',
+        title: 'Sincronização de dados',
+        moduleName: 'sync',
+        icon: '',
+        class: '',
+        groupTitle: false,
+        submenu: []
+      },
+      {
         path: 'dashboard/overview',
         title: 'Visão Geral',
         moduleName: 'overview',
@@ -73,24 +82,6 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         submenu: []
       },
-      {
-        path: 'dashboard/sync',
-        title: 'Sincronização de dados',
-        moduleName: 'sync',
-        icon: '',
-        class: '',
-        groupTitle: false,
-        submenu: []
-      }
     ]
   },
-  {
-    path: 'dashboard/email',
-    title: 'Emails',
-    moduleName: 'sync',
-    icon: 'fas fa-envelope-open',
-    class: '',
-    groupTitle: false,
-    submenu: []
-  }
 ];

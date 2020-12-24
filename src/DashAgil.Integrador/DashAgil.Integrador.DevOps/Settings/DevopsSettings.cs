@@ -14,6 +14,7 @@
         public string AllFeatures { get; set; }
         public string AllUS { get; set; }
         public string AllTasks { get; set; }
+        public string AllBugs { get; set; }
     }
     public class EndPointsDevops
     {
@@ -23,5 +24,6 @@
         public string WorkItemTypes { get; set; }
         public string WorkItemByQuery { get; set; }
         public string WorkItemById { get; set; }
+        public string SprintsSettings { get; set; }
     }
 }

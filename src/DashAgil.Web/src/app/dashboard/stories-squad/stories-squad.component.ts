@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Client, SquadStory } from 'src/app/core/models';
-import { AuthService, OverviewService } from 'src/app/core/services';
+import { Demand } from 'src/app/core/models';
+import { OverviewService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-stories-squad',
@@ -13,53 +12,45 @@ import { AuthService, OverviewService } from 'src/app/core/services';
 export class StoriesSquadComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  dataSource = new MatTableDataSource<Demand>();
+  displayedColumns = [
+    'squad',
+    'emBacklog',
+    'emDesenvolvimento',
+    'desenvolvimentoConcluido',
+    'emHomologacao',
+    'homologado',
+    'concluido',
+    'totalGeral',
+  ];
 
-  dataSource: MatTableDataSource<SquadStory>;
-  displayedColumns: string[];
-  total: SquadStory;
-  clients: Client[];
-  controlClient: FormControl;
-
-  constructor(
-    private overviewService: OverviewService,
-    private authService: AuthService,
-  ) { }
+  constructor(private overviewService: OverviewService) { }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<SquadStory>();
-
-    this.displayedColumns = [
-      'squad',
-      'emBacklog',
-      'emDesenvolvimento',
-      'desenvolvimentoConcluido',
-      'emHomologacao',
-      'homologado',
-      'concluido',
-      'totalGeral',
+    const data = [
+      {
+        squad: 'Terror By Night',
+        emBacklog: 8,
+        emDesenvolvimento: 9,
+        desenvolvimentoConcluido: 80,
+        emHomologacao: 0,
+        homologado: 0,
+        concluido: 582,
+        totalGeral: 679,
+      },
+      {
+        squad: 'Squad 3',
+        emBacklog: 5,
+        emDesenvolvimento: 2,
+        desenvolvimentoConcluido: 0,
+        emHomologacao: 0,
+        homologado: 0,
+        concluido: 16,
+        totalGeral: 23,
+      }
     ];
 
-    this.controlClient = new FormControl();
-    this.valueChanges();
-
-    this.clients = this.authService.clients;
-
-    if (this.clients.length) {
-      this.controlClient.setValue(this.clients[0].id);
-    }
-  }
-
-  loadData(clientId: number) {
-    this.overviewService.getSquadStories(clientId, this.authService.userId).subscribe(stories => {
-      this.total = stories.pop();
-      this.dataSource = new MatTableDataSource<SquadStory>(stories);
-      this.dataSource.paginator = this.paginator;
-    });
-  }
-
-  valueChanges() {
-    this.controlClient.valueChanges.subscribe(clientId => {
-      this.loadData(clientId);
-    });
+    this.dataSource = new MatTableDataSource<any>(data);
+    this.dataSource.paginator = this.paginator;
   }
 }

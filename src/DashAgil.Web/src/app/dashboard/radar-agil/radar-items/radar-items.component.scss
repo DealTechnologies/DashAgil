@@ -2,12 +2,9 @@ table {
   border: solid 1px #10141d;
   background: #131825;
 
-  tr td {
+  tr td:first-child {
+    width: 1%;
     white-space: nowrap;
-
-    &:first-child {
-      width: 1%;
-    }
   }
 
   td {

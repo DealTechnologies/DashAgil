@@ -13,16 +13,8 @@ namespace DashAgil.Commands.Input.VisaoGeral
         {
             AddNotifications(new Contract()
                 .IsNotNullOrEmpty(IdCliente, "IdCliente", "Id do cliente é obrigatório")
+                .IsNotNullOrEmpty(IdUsuario, "IdUsuario", "Id do usuário é obrigatório")
             );
-
-            if (IdCliente != null)
-            {
-                AddNotifications(new Contract()
-                   .AreNotEquals(IdCliente, "0", "IdCliente", "o Id deve ser diferente de zero")
-               );
-            }
-
-
 
             return Valid;
         }

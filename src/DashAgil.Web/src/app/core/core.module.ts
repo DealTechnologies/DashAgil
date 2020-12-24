@@ -1,10 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RightSidebarService } from './services/core/rightsidebar.service';
 import { AuthGuard } from './guard/auth.guard';
-import { throwIfAlreadyLoaded } from './guard/module-import.guard';
 import { AuthService } from './services/auth/auth.service';
 import { DynamicScriptLoaderService } from './services/core/dynamic-script-loader.service';
-import { RightSidebarService } from './services/core/rightsidebar.service';
+import { throwIfAlreadyLoaded } from './guard/module-import.guard';
+import { FilterSeriesPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [],

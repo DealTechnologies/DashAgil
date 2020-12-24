@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { EChartOption } from 'echarts';
 import * as moment from 'moment';
-import { EmailCount, OverviewDemand, OverviewFeature } from '../../models';
+import { OverviewDemand, OverviewFeature } from '../../models';
 
 interface ChartData {
   value: number | string;
   name?: string;
-  id?: string
 }
 
 @Injectable()
@@ -17,7 +16,7 @@ export class ChartsConfigurationService {
   demandsVsSquad(overview: OverviewDemand): EChartOption {
 
     const legends: string[] = overview.listaEstoriasPorSquad.map(item => item.squadNome);
-    const data: ChartData[] = overview.listaEstoriasPorSquad.map(item => ({ squadId: item.squadId, name: item.squadNome, value: item.quantidade }));
+    const series: ChartData[] = overview.listaEstoriasPorSquad.map(item => ({ name: item.squadNome, value: item.quantidade }));
 
     const chartOptions: EChartOption = {
       tooltip: {
@@ -27,8 +26,7 @@ export class ChartsConfigurationService {
       legend: {
         orient: 'vertical',
         type: 'scroll',
-        left: '60%',
-        align: 'left',
+        left: 400,
         textStyle: {
           color: '#fff'
         },
@@ -38,7 +36,7 @@ export class ChartsConfigurationService {
         {
           type: 'pie',
           radius: ['38%', '70%'],
-          center: [200, '50%'],
+          center: ['30%', '50%'],
           height: 320,
           label: {
             show: true,
@@ -62,7 +60,7 @@ export class ChartsConfigurationService {
               fontWeight: 'bold',
             }
           },
-          data: data
+          data: series
         }
       ]
     };
@@ -72,7 +70,7 @@ export class ChartsConfigurationService {
 
   inExecution(overview: OverviewDemand): EChartOption {
 
-    const data: ChartData[] = [{ value: overview.totalGeralEstorias }];
+    const series: ChartData[] = [{ value: overview.totalGeralEstorias }];
 
     const chartOptions: EChartOption = {
       tooltip: {
@@ -107,7 +105,7 @@ export class ChartsConfigurationService {
             color: 'rgb(91, 155, 213)'
           },
           barWidth: 20,
-          data: data
+          data: series
         }
       ]
     };
@@ -117,7 +115,7 @@ export class ChartsConfigurationService {
 
   squad(overview: OverviewFeature): EChartOption {
 
-    const legends: string[] = overview.ListaFeaturesEstagio.map(item => item.featureDescricao);
+    const legends: string[] = overview.ListaFeaturesEstagio.map(item => item.featureId);
 
     const remanescente = overview.ListaFeaturesEstagio.map(item => item.remanescente);
     const emAndamento = overview.ListaFeaturesEstagio.map(item => item.emAndamento);
@@ -134,10 +132,7 @@ export class ChartsConfigurationService {
       tooltip: {
         trigger: 'axis',
         axisPointer: {
-          type: 'line',
-          label: {
-            backgroundColor: '#6a7985'
-          }
+          type: 'line'
         },
       },
       legend: {
@@ -196,9 +191,7 @@ export class ChartsConfigurationService {
           start: 100,
           textStyle: {
             color: 'rgba(255, 255, 255, 1)'
-          },
-          left: '97%',
-          right: 15,
+          }
         },
         {
           type: 'inside',
@@ -307,17 +300,17 @@ export class ChartsConfigurationService {
 
     let title: string;
     let categories: string[];
-    let seriesIdeal: ChartData[];
-    let seriesSprint: ChartData[];
+    let seriesTotal: ChartData[];
+    let seriesComplete: ChartData[];
 
-    if (overview.SprintBurndown) {
-      const start = moment(overview.SprintBurndown.dataInicio).format('DD/MMM');
-      const end = moment(overview.SprintBurndown.dataFim).format('DD/MMM');
+    if (overview.sprintBurndown) {
+      const start = moment(overview.sprintBurndown.dataInicio).format('DD/MMM');
+      const end = moment(overview.sprintBurndown.dataFim).format('DD/MMM');
       title = `${start} - ${end}`;
 
-      categories = overview.SprintBurndown.demandasHistoricos.map(item => moment(item.dia).format('DD/MM/YYYY'));
-      seriesIdeal = overview.SprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.velocidadeIdeal }));
-      seriesSprint = overview.SprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.velocidadeSprint }));
+      categories = overview.sprintBurndown.demandasHistoricos.map(item => moment(item.dia).format('DD/MM/YYYY'));
+      seriesTotal = overview.sprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.pontosTotalDia }));
+      seriesComplete = overview.sprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.pontosConcluidosDia }));
     }
 
     const chartOptions: EChartOption = {
@@ -328,15 +321,6 @@ export class ChartsConfigurationService {
           color: 'rgba(255, 255, 255, 1)',
           fontSize: 15,
           align: 'center'
-        }
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'cross',
-          label: {
-            backgroundColor: '#6a7985'
-          }
         }
       },
       legend: {
@@ -384,7 +368,7 @@ export class ChartsConfigurationService {
       },
       series: [{
         name: 'Velocidade Ideal',
-        data: seriesIdeal,
+        data: seriesTotal,
         type: 'line',
         symbol: 'none',
         lineStyle: {
@@ -394,7 +378,7 @@ export class ChartsConfigurationService {
       },
       {
         name: 'Velocidade da Sprint',
-        data: seriesSprint,
+        data: seriesComplete,
         type: 'line',
         symbol: 'none',
         lineStyle: {
@@ -408,14 +392,7 @@ export class ChartsConfigurationService {
     return chartOptions;
   }
 
-  velocity(velocity: { [key: string]: number }): EChartOption {
-
-    const sprints = Object.keys(velocity);
-    const data: ChartData[] = sprints.map(item => ({ name: item, value: velocity[item] })).reverse();
-
-    const interval = Math.trunc(data.reduce((a, b) => a + Number(b.value), 0) / data.length / 2);
-    const max = Math.max(...data.map(item => Number(item.value))) + interval;
-
+  velocity(): EChartOption {
     const chartOptions: EChartOption = {
       tooltip: {
         trigger: 'axis',
@@ -438,7 +415,27 @@ export class ChartsConfigurationService {
       xAxis: [
         {
           type: 'category',
-          data: sprints,
+          data: [
+            'Sprint 1',
+            'Sprint 2',
+            'Sprint 3',
+            'Sprint 4',
+            'Sprint 5',
+            'Sprint 6',
+            'Sprint 7',
+            'Sprint 8',
+            'Sprint 9',
+            'Sprint 10',
+            'Sprint 11',
+            'Sprint 12',
+            'Sprint 13',
+            'Sprint 14',
+            'Sprint 15',
+            'Sprint 16',
+            'Sprint 17',
+            'Sprint 18',
+            'Sprint 19',
+          ],
           axisLine: {
             lineStyle: {
               color: 'rgba(255, 255, 255, 1)'
@@ -457,8 +454,6 @@ export class ChartsConfigurationService {
       yAxis: [
         {
           type: 'value',
-          interval: interval,
-          max: max,
           axisLine: {
             lineStyle: {
               color: 'transparent'
@@ -467,26 +462,28 @@ export class ChartsConfigurationService {
           axisLabel: {
             color: 'rgba(255, 255, 255, 1)'
           },
+          interval: 50,
+          max: 300
         }
       ],
       series: [
         {
           type: 'bar',
-          boundaryGap: ['0%'],
+          boundaryGap: '0%',
           barWidth: 15,
           itemStyle: {
             color: 'rgb(79, 129, 189)'
           },
-          // markLine: {
-          //   lineStyle: {
-          //     type: 'dashed'
-          //   },
-          //   data: [
-          //     //@ts-ignore
-          //     [{ type: 'min' }, { type: 'max' }]
-          //   ]
-          // },
-          data: data,
+          data: [18, 32, 47, 33, 88, 56, 63, 67, 94, 106, 158, 143, 231, 147, 125, 113, 90, 111, 252],
+          markLine: {
+            lineStyle: {
+              type: 'dashed'
+            },
+            data: [
+              //@ts-ignore
+              [{ type: 'min' }, { type: 'max' }]
+            ]
+          }
         }
       ]
     };
@@ -500,7 +497,7 @@ export class ChartsConfigurationService {
         top: '3%',
         left: '7%',
         right: '2%',
-        bottom: 80,
+        bottom: 100,
       },
       tooltip: {
         trigger: 'axis',
@@ -514,7 +511,6 @@ export class ChartsConfigurationService {
       },
       legend: {
         icon: 'roundRect',
-        type: 'scroll',
         data: [
           'Em Backlog',
           'Priorizado',
@@ -558,7 +554,7 @@ export class ChartsConfigurationService {
       {
         type: 'category',
         boundaryGap: false,
-        data: ['31 nov', '30 jan', '31 mar', '31 mai', '31 jul', '31 set', '31 nov', '30 nov', '18 dez'],
+        data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         axisLine: {
           lineStyle: {
             color: 'rgba(255, 255, 255, 1)'
@@ -750,7 +746,7 @@ export class ChartsConfigurationService {
     return chartOptions;
   }
 
-  radar(data: any): EChartOption {
+  radar(data): EChartOption {
     const chartOptions: EChartOption = {
       angleAxis: {
         type: 'category',
@@ -877,61 +873,6 @@ export class ChartsConfigurationService {
           data: data
         },
       ],
-    };
-
-    return chartOptions;
-  }
-
-  emails(emailCount: EmailCount): EChartOption {
-    const legends = ['Criado', 'Enviado', 'Entregue', 'Rejeitado', 'Lixo', 'Aberto', 'Clicado'];
-    const data = legends.map(key => ({ name: key, value: emailCount[key.toLowerCase()] || '-' }));
-
-    const chartOptions: EChartOption = {
-      tooltip: {
-        trigger: 'item',
-        formatter: '{b}: {c} e-mails'
-      },
-      legend: {
-        orient: 'vertical',
-        align: 'left',
-        type: 'scroll',
-        left: '5%',
-        top: '10%',
-        textStyle: {
-          color: '#fff'
-        },
-        data: legends,
-      },
-      series: [
-        {
-          type: 'pie',
-          radius: ['40%', '70%'],
-          center: ['40%', '50%'],
-          label: {
-            show: true,
-            color: '#fff',
-            formatter: '{c}',
-            backgroundColor: 'black',
-            padding: 3,
-            align: 'left',
-            borderWidth: 1,
-            borderRadius: 4,
-          },
-          labelLine: {
-            show: true,
-            length: 20,
-            length2: 15
-          },
-          emphasis: {
-            label: {
-              show: true,
-              fontSize: 25,
-              fontWeight: 'bold',
-            }
-          },
-          data: data
-        }
-      ]
     };
 
     return chartOptions;

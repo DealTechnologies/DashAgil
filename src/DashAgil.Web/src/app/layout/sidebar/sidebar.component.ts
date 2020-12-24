@@ -17,9 +17,6 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-
-  public currentUserName;
-
   public sidebarItems: any[];
   showMenu = 'dashboard';
   showSubMenu = '';
@@ -85,7 +82,6 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     if (this.authService.currentUserValue) {
       this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
-      this.currentUserName = this.authService.currentUserValue.nome
     }
 
     this.initLeftSidebar();

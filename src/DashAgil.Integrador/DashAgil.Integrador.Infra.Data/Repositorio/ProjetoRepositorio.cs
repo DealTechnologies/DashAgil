@@ -40,6 +40,8 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
 
         }
 
+        public async Task<IEnumerable<Projeto>> ObterProjetoPorOrganizacaoId(long organizacaoId)
+           => await _context.Connection.QueryAsync<Projeto>("SELECT * FROM DashAgil.dbo.Projetos WHERE OrganizacaoId = @organizacaoId ", new { organizacaoId });
 
         public Task<Projeto> ObterPorNome(string nome)
             => _context.Connection.QueryFirstOrDefaultAsync<Projeto>("SELECT * FROM  DashAgil.dbo.Projetos WHERE Nome =  @nome ", new { nome });

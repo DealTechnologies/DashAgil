@@ -20,7 +20,7 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
         => await _context.Connection.InsertAsync(org);
 
         public async Task<Organizacoes> ObterPorID(long id)
-        => await _context.Connection.GetAsync<Organizacoes>(id);
+        => await _context.Connection.QueryFirstOrDefaultAsync<Organizacoes>("select * from Organizacoes where Id = @id", new { id });
 
         public async Task<Organizacoes> ObterPorNome(string nome)
         => await _context.Connection.QueryFirstOrDefaultAsync<Organizacoes>("select * from Organizacoes where Nome = @nome", new { nome });

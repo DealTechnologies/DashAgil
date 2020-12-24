@@ -15,6 +15,7 @@ namespace DashAgil.Integrador.Repositorio
 
         Task<List<Sprint>> Obter(long projetoId);
 
-        Task<Sprint> Obter(string nome, long projetoId);
+        Task<Sprint> Obter(string nome, long projetoId, long squadId);
+        void Atualizar(Sprint sprint);
     }
 }

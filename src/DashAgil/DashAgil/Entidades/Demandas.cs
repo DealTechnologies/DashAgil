@@ -55,7 +55,7 @@ namespace DashAgil.Entidades
             return retorno;
         }
 
-        public List<DemandaSquadResult> TotalEstoriasPorSquad(IEnumerable<Demandas> demandas)
+        public List<DemandaSquadResult> TotalEstoriasPorSquad(IEnumerable<dynamic> demandas)
         {
             var estoriasGroup = demandas
                 .GroupBy(x => x.Squad.Nome)
@@ -63,9 +63,7 @@ namespace DashAgil.Entidades
                 {
                     SquadNome = group.Key,
                     Quantidade = group.Count()
-                }).ToList();
-
-            estoriasGroup.ForEach(x => x.SquadId = demandas.FirstOrDefault(y => y.Squad.Nome.Equals(x.SquadNome)).SquadId);
+                });
 
             return estoriasGroup.ToList();
         }
@@ -304,7 +302,6 @@ namespace DashAgil.Entidades
         public Guid Id { get; set; }
         public string Descricao { get; set; }
         public string ExternalId { get; set; }
-        public long? SquadId { get; set; }
         public int ClienteId { get; set; }
         public Squads Squad { get; set; }
         public EDemandaTipo Tipo { get; set; }

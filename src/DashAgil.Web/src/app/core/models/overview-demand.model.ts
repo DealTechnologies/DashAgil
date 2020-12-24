@@ -9,7 +9,7 @@ export class OverviewDemand {
     Concluido: number;
   };
 
-  listaEstoriasPorSquad: { squadId: number, squadNome: string, quantidade: number }[];
+  listaEstoriasPorSquad: { squadNome: string, quantidade: number }[];
   listaEvolucaoSquad: { squadNome: string, evolucaoAnterior: number, evolucaoAtual: number, evolucao: number }[];
   totalGeralEstorias: number;
 
