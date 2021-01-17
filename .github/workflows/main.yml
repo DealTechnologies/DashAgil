@@ -2,7 +2,7 @@
 # GitHub Action Workflow to Deploy Flask App to AWS ElasticBeanstalk
 #
 # Version      Date        Info
-# 1.0          2019        Initial Version
+# 1.0          2020        Initial Version
 #
 # Made by Luciano Santos
 #---------------------------------------------------------------------
@@ -11,7 +11,7 @@ name: CI-CD Pipelines
 
 on:
   push:
-    branches:
+    branches: 
       - dev
       - hml
       - release
@@ -45,13 +45,8 @@ jobs:
 
       - name: Test
         run: dotnet test --no-restore --verbosity normal
-<<<<<<< HEAD
-        working-directory: src/DashAgil
-        
-=======
         working-directory: src/DashAgil/DashAgil.Api
 
->>>>>>> dev
 #      - name: Publish
 #        run: dotnet publish -c Release -o '${{ github.workspace }}/out'
 #        working-directory: src/DashAgil/DashAgil.Api
