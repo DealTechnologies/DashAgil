@@ -19,10 +19,10 @@ namespace DashAgil.Integrador.Jira.Queries
         public long Total { get; set; }
 
         [JsonProperty("issues")]
-        public Issue[] Issues { get; set; }
+        public IssueQueryResult[] Issues { get; set; }
     }
 
-    public partial class Issue
+    public partial class IssueQueryResult
     {
         [JsonProperty("expand")]
         public string Expand { get; set; }

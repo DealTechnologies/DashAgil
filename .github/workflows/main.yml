@@ -1,0 +1,73 @@
+#---------------------------------------------------------------------
+# GitHub Action Workflow to Deploy Flask App to AWS ElasticBeanstalk
+#
+# Version      Date        Info
+# 1.0          2019        Initial Version
+#
+# Made by Luciano Santos
+#---------------------------------------------------------------------
+
+name: CI-CD Pipelines
+
+on:
+  push:
+    branches:
+      - dev
+      - hml
+      - release
+      - main
+  pull_request:
+    branches:
+      - dev
+      - hml
+      - release
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.301
+          
+      - name: Install dependencies
+        run: dotnet restore
+        working-directory: src/DashAgil/DashAgil.Api
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+        working-directory: src/DashAgil/DashAgil.Api
+
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
+<<<<<<< HEAD
+        working-directory: src/DashAgil
+        
+=======
+        working-directory: src/DashAgil/DashAgil.Api
+
+>>>>>>> dev
+#      - name: Publish
+#        run: dotnet publish -c Release -o '${{ github.workspace }}/out'
+#        working-directory: src/DashAgil/DashAgil.Api
+#
+#      - name: Zip Package
+#        run: |
+#          cd ${{ github.workspace }}/out 
+#          zip -r ${{ github.workspace }}/out.zip *
+#      - name: Deploy to EB
+#        uses: einaregilsson/beanstalk-deploy@v13
+#        with:
+#          aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
+#          aws_secret_key:  ${{secrets.AWS_SECRET_KEY}}
+#          application_name: DashAgil
+#          environment_name: Dashagil-env-1
+#          region: sa-east-1
+#          version_label: ${{ github.run_id }}
+#          version_description: ${{ github.sha }}
+#          deployment_package: ${{ github.workspace }}/out.zip

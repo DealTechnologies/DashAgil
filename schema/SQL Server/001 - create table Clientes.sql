@@ -36,7 +36,7 @@ GO
 BEGIN
 	
 	INSERT INTO [Clientes] VALUES ('Banco Rendimento', 1, GETDATE(), null, 1)
-	INSERT INTO [Clientes] VALUES ('Banco Votorantim', 2, GETDATE(), null, 1)
+	INSERT INTO [Clientes] VALUES ('Terror By Night', 2, GETDATE(), null, 1)
 	INSERT INTO [Clientes] VALUES ('Tool Seguros', 3, GETDATE(), GETDATE(), 2)
 	INSERT INTO [Clientes] VALUES ('LTM', 3, GETDATE(), null, 1)
 	

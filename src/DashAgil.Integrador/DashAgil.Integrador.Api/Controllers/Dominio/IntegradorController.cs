@@ -29,6 +29,13 @@ namespace DashAgil.Integrador.Api.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
+        [HttpGet("teste")]
+        public IActionResult Teste()
+        {
+            handler.teste();
+            return Ok();
+        }
+
         [HttpGet]
         public IEnumerable<object> Get()
         {

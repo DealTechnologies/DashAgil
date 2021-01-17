@@ -27,7 +27,11 @@ namespace DashAgil.Integrador.Api
 
             services.AddHandlers();
 
+            services.AddSettings(Configuration);
+
             services.AddRepositories();
+
+            services.AddQueries();
 
             services.AddSToSwagger();            
 
@@ -49,6 +53,11 @@ namespace DashAgil.Integrador.Api
             app.UseAuthorization();
 
             app.UseMiddleware<ErrorMiddleware>();
+
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.ConfigureSwaggerUi();
 
