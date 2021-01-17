@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace DashAgil.Integrador.Handlers
@@ -19,7 +18,8 @@ namespace DashAgil.Integrador.Handlers
     public class IntegradorHandler : ICommandHandler<SalvarEstoriaCommand>,
                                      ICommandHandler<IntegracaoInicialDevopsCommand>,
                                      ICommandHandler<AtualizarTiposWorkItensCommand>,
-                                     ICommandHandler<ObterWorkItensSumarizadoCommand>
+                                     ICommandHandler<ObterWorkItensSumarizadoCommand>,
+                                     ICommandHandler<AtualizarSprintsCommand>
     {
         private readonly IAzureDevopsRepository repository;
         private readonly IAzureDevopsQueries _query;
@@ -60,12 +60,10 @@ namespace DashAgil.Integrador.Handlers
         {
             var organizacao = await _orgRepo.ObterPorNome(command.Organizacao);
 
-
             var projetosDevops = await _query.ObterProjetos(command.Organizacao, command.Token);
 
             if (projetosDevops is null || !projetosDevops.Value.Any())
                 return new IntegradorCommandResult(false, "falha ao tentar atualizar a base de projetos", null);
-
 
             if (organizacao is null)
             {
@@ -79,15 +77,15 @@ namespace DashAgil.Integrador.Handlers
                 });
             }
 
-            projetosDevops.Value.ForEach(x => _projetoRepo.Inserir(new Projeto
-            {
-                Descricao = x.Description,
-                DataModificacao = Convert.ToDateTime(x.LastUpdateTime),
-                ExternalId = x.Id,
-                Nome = x.Name,
-                OrganizacaoId = organizacao.Id,
-                DataCriacao = DateTime.Now
-            }));
+            //projetosDevops.Value.ForEach(x => _projetoRepo.Inserir(new Projeto
+            //{
+            //    Descricao = x.Description,
+            //    DataModificacao = Convert.ToDateTime(x.LastUpdateTime),
+            //    ExternalId = x.Id,
+            //    Nome = x.Name,
+            //    OrganizacaoId = organizacao.Id,
+            //    DataCriacao = DateTime.Now
+            //}));
 
             var handleItens = await Handle(new ObterWorkItensSumarizadoCommand { Organizacao = command.Organizacao, Token = command.Token });
 
@@ -125,7 +123,7 @@ namespace DashAgil.Integrador.Handlers
             if (organizacao == null)
                 return new IntegradorCommandResult(false, "Organização não localizada", command);
 
-            foreach(var tipo in Enum.GetValues(typeof(EQueryWorkItemType)).Cast<EQueryWorkItemType>())
+            foreach (var tipo in Enum.GetValues(typeof(EQueryWorkItemType)).Cast<EQueryWorkItemType>())
             {
                 var workItensQuery = await _query.ConsultarPorQuery(command.Organizacao, command.Token, tipo);
 
@@ -137,28 +135,19 @@ namespace DashAgil.Integrador.Handlers
 
                         if (stringResult != null)
                         {
-                            stringResult = stringResult.Replace("System.", string.Empty)
-                                                       .Replace("Microsoft.VSTS.Common.", string.Empty)
-                                                       .Replace("Microsoft.VSTS.Scheduling.", string.Empty);
-
-
-                            var workIten = JsonConvert.DeserializeObject<WorkItemResult>(stringResult);
+                            WorkItemResult workIten = TratarWorkItem(stringResult);
 
                             var projeto = await GerenciarProjeto(workIten, organizacao.Id);
                             var squad = await GerenciarSquad(workIten, projeto.Id);
-                            var sprint = await GerenciarSprint(workIten, projeto.Id);
+                            var sprint = await GerenciarSprint(workIten, projeto, command.Organizacao, squad.Nome, command.Token, squad.Id);
 
                             var workItenDesc = await _query.ObterWorkItemPorId(command.Organizacao, projeto.Nome, command.Token, workIten.Id);
 
                             if (!string.IsNullOrEmpty(workItenDesc))
                             {
-                                workItenDesc = workItenDesc.Replace("System.", string.Empty)
-                                                           .Replace("Microsoft.VSTS.Common.", string.Empty)
-                                                           .Replace("Microsoft.VSTS.Scheduling.", string.Empty);
+                                workIten = TratarWorkItem(workItenDesc);
 
-                                workIten = JsonConvert.DeserializeObject<WorkItemResult>(workItenDesc);
-
-                                var demanda = Demandas.PreencherDemandaDevops(workIten, projeto.Id, squad.Id, sprint.Id);
+                                var demanda = Demandas.PreencherDemandaDevops(workIten, projeto.Id, squad.Id, sprint?.Id);
                                 await TratarHistorico(command, workIten, projeto, squad, sprint, demanda);
 
                                 var historicoResult = await TratarHistorico(command, workIten, projeto, squad, sprint, demanda);
@@ -176,18 +165,27 @@ namespace DashAgil.Integrador.Handlers
             return new IntegradorCommandResult(true, "Tipos de work itens atualizados com sucesso", null);
         }
 
+        private static WorkItemResult TratarWorkItem(string stringResult)
+        {
+            stringResult = stringResult.Replace("System.", string.Empty)
+                                       .Replace("Microsoft.VSTS.Common.", string.Empty)
+                                       .Replace("Microsoft.VSTS.Scheduling.", string.Empty);
+
+            return JsonConvert.DeserializeObject<WorkItemResult>(stringResult);
+        }
+
         private async Task<TratamentoHistoricoResult> TratarHistorico(ObterWorkItensSumarizadoCommand command, WorkItemResult workIten, Projeto projeto, Squad squad, Sprint sprint, Demandas demanda)
         {
             var historicoList = await TratarWorkItemHistorico(workIten.Links.WorkItemUpdates.Href.AbsoluteUri, command.Organizacao, command.Token);
 
             if (historicoList is null)
                 return new TratamentoHistoricoResult(null, 0);
-            
+
             string idPai = null;
 
             if (historicoList.FirstOrDefault(s => s.Relations != null)?.Relations?.Added
                                      .FirstOrDefault(x => x.Url?.AbsoluteUri != null) != null)
-                idPai  = historicoList.FirstOrDefault(s => s.Relations != null).Relations.Added
+                idPai = historicoList.FirstOrDefault(s => s.Relations != null).Relations.Added
                                      .FirstOrDefault(x => x.Url?.AbsoluteUri != null).Url.AbsoluteUri.Split("/")[^1];
 
             var demandaPai = await _demandasRepo.ConsultarPorExternalId(idPai);
@@ -195,13 +193,13 @@ namespace DashAgil.Integrador.Handlers
             int? storyPoint = null;
 
             if (historicoList.LastOrDefault(x => x.Fields?.MicrosoftVstsSchedulingStoryPoints?.NewValue != null) != null)
-                storyPoint  = Convert.ToInt32(historicoList.LastOrDefault(x => x.Fields?.MicrosoftVstsSchedulingStoryPoints?.NewValue != null)
+                storyPoint = Convert.ToInt32(historicoList.LastOrDefault(x => x.Fields?.MicrosoftVstsSchedulingStoryPoints?.NewValue != null)
                                                              ?.Fields.MicrosoftVstsSchedulingStoryPoints?.NewValue.Split(".")[0]);
 
             if (demandaPai is null)
                 return new TratamentoHistoricoResult(null, storyPoint);
 
-            foreach (var historico in new DemandaHistorico().PreencherDemandaHistoricoDevops(historicoList, demanda.ExternalId, projeto.Id, sprint.Id, squad.Id))
+            foreach (var historico in new DemandaHistorico().PreencherDemandaHistoricoDevops(historicoList, demanda.ExternalId, projeto.Id, sprint?.Id, squad.Id))
             {
                 historico.DemandaPaiId = demandaPai.Id;
                 await _historicoRepo.Inserir(historico);
@@ -227,15 +225,22 @@ namespace DashAgil.Integrador.Handlers
             return JsonConvert.DeserializeObject<DevopsResult<WorkItemHistoric>>(content).Value;
         }
 
-        private async Task<Sprint> GerenciarSprint(WorkItemResult workIten, long projetoId)
+        private async Task<Sprint> GerenciarSprint(WorkItemResult workIten, Projeto projeto, string organizacao, string squad, string token, long squadId)
         {
             var nomesprint = workIten.Fields.SystemIterationPath.Split("\\")[^1].Trim();
             nomesprint = nomesprint.Contains("Sprint") ? nomesprint : "Sprint BackLog";
-            var sprint = await _sprintRepo.Obter(nomesprint, projetoId);
+            var sprint = await _sprintRepo.Obter(nomesprint, projeto.Id, squadId);
 
             if (sprint is null)
             {
-                sprint = Sprint.PreencherSprints(nomesprint, projetoId);
+                var sprintResult = await _query.ObterSprints(organizacao, projeto.Nome, token, squad);
+                var filtro = sprintResult.Value.FirstOrDefault(x => x.Name.ToLower() == nomesprint.ToLower());
+
+                if (filtro is null)
+                    return null;
+
+                sprint = Sprint.PreencherSprints(nomesprint, projeto.Id, squadId);
+                sprint = AtualizarDadosSprint(filtro, sprint);
                 sprint.Id = (int)await _sprintRepo.Inserir(sprint);
             }
 
@@ -245,7 +250,7 @@ namespace DashAgil.Integrador.Handlers
 
         private async Task<Squad> GerenciarSquad(WorkItemResult workIten, long projetoId)
         {
-            var nomesquad = workIten.Fields.SystemAreaPath.Split('-')[^1].Trim();
+            var nomesquad = workIten.Fields.SystemAreaPath.Split("\\")[^1].Trim();
             var squad = await _squadRepo.ObterPorNome(nomesquad);
 
             if (squad is null)
@@ -276,5 +281,62 @@ namespace DashAgil.Integrador.Handlers
         {
             repository.test();
         }
+
+        public async Task<ICommandResult> Handle(AtualizarSprintsCommand command)
+        {
+            var organizacao = await _orgRepo.ObterPorID(command.OrganizacaoId);
+
+            if (organizacao is null)
+                return new IntegradorCommandResult(false, "falha ao obter organização por Id", null);
+
+            var projetos = await _projetoRepo.ObterProjetoPorOrganizacaoId(command.OrganizacaoId);
+
+            foreach (var projeto in projetos)
+            {
+                var squads = await _squadRepo.ObterPorProjetoId(projeto.Id);
+
+                foreach (var squad in squads)
+                {
+                    var sprintsResult = await _query.ObterSprints(organizacao.Nome, projeto.Nome, command.Token, squad.Nome);
+
+                    if (sprintsResult is null || sprintsResult.Count < 1)
+                        continue;
+
+                    foreach (var sprint in sprintsResult.Value)
+                    {
+                        var sprintEmBanco = await _sprintRepo.Obter(sprint.Name, projeto.Id, squad.Id);
+
+                        if (sprintEmBanco != null)
+                        {
+                            if (!string.IsNullOrEmpty(sprint.Attributes.StartDate) && !string.IsNullOrEmpty(sprint.Attributes.FinishDate))
+                            {
+                                sprintEmBanco = AtualizarDadosSprint(sprint, sprintEmBanco);
+                                _sprintRepo.Atualizar(sprintEmBanco);
+                            }
+                        }
+                    };
+                }
+            };
+
+            return new IntegradorCommandResult(true, "Sprints atualizadas com sucesso!", null);
+        }
+
+        private Sprint AtualizarDadosSprint(SprintResult sprint, Sprint sprintEmBanco)
+        {
+            sprintEmBanco.DataInicio = Convert.ToDateTime(sprint.Attributes.StartDate);
+            sprintEmBanco.DataFim = Convert.ToDateTime(sprint.Attributes.FinishDate);
+            sprintEmBanco.DataConclusao = Convert.ToDateTime(sprint.Attributes.FinishDate);
+            sprintEmBanco.Status = ObterStatus(sprint.Attributes.TimeFrame);
+
+            return sprintEmBanco;
+        }
+
+        private StatusSprint ObterStatus(string timeFrame)
+            => timeFrame switch
+            {
+                "past" => StatusSprint.Concluida,
+                "current" => StatusSprint.Ativa,
+                _ => StatusSprint.Futura
+            };
     }
 }

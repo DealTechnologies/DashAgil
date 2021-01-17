@@ -48,7 +48,7 @@ namespace DashAgil.Integrador.Entidades
                 return false;
             }
         }
-        public List<DemandaHistorico> PreencherDemandaHistoricoDevops(IList<WorkItemHistoric> historico, string externalId, long projetoId, long sprintId, long squadId )
+        public List<DemandaHistorico> PreencherDemandaHistoricoDevops(IList<WorkItemHistoric> historico, string externalId, long projetoId, long? sprintId, long squadId )
         {
             try
             {

@@ -33,7 +33,6 @@ namespace DashAgil.Handlers
             }
 
             var acessos = await usuarioSquadsRepository.ObterAcessosAsync(usuario.Id);
-
             return new DashAgilCommandResult(true, "success", acessos);
         }
     }

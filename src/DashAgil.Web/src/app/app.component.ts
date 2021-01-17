@@ -4,7 +4,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { PlatformLocation } from '@angular/common';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import * as moment from 'moment';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -31,8 +30,6 @@ export class AppComponent {
       }
       window.scrollTo(0, 0);
     });
-
-    moment.locale('pt');
   }
 
   registerIcons() {

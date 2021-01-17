@@ -5,6 +5,7 @@
         Epic,
         Feature,
         UserStory,
-        Task
+        Task,
+        Bug
     }
 }

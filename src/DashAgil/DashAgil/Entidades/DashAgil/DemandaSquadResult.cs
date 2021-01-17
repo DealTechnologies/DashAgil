@@ -7,7 +7,5 @@ namespace DashAgil.Entidades.DashAgil
         public int Quantidade { get; set; }
 
         public string SquadNome { get; set; }
-
-        public long? SquadId { get; set; }
     }
 }

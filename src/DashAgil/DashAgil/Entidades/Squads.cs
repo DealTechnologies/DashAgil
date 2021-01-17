@@ -17,7 +17,7 @@ namespace DashAgil.Entidades
         public DateTime DataFim { get; set; }
         public int Status { get; set; }
         
-        public List<SquadEvolucaoResult> EvolucaoSquad(IEnumerable<Demandas> demandas)
+        public List<SquadEvolucaoResult> EvolucaoSquad(IEnumerable<dynamic> demandas)
         {
             var estoriasGroup = demandas
                 .GroupBy(x => x.Squad.Nome)
@@ -27,9 +27,7 @@ namespace DashAgil.Entidades
                     EvolucaoAnterior = group.Where(x => x.DataInicio <= DateTime.Today.AddDays(-7)).Count(),
                     EvolucaoAtual = group.Count(),
                     Evolucao = (group.Count() - group.Where(x => x.DataInicio <= DateTime.Today.AddDays(-7)).Count())
-                }).ToList();
-
-            estoriasGroup.ForEach(x => x.SquadId = demandas.FirstOrDefault(y => y.Squad.Nome.Equals(x.SquadNome)).SquadId);
+                });
 
             return estoriasGroup.ToList();
         }

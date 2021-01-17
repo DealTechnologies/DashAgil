@@ -11,6 +11,6 @@ namespace DashAgil.Integrador.Repositorio
         Task<Projeto> ObterPorNome(string nome);
 
         Task<List<Projeto>> ObterPorOrganizaçãoId(long organizacaoId);
-
+        Task<IEnumerable<Projeto>> ObterProjetoPorOrganizacaoId(long organizacaoId);
     }
 }

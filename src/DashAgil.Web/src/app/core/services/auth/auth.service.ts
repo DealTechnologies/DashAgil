@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { User } from '../../models/user.model';
 import { BaseService } from '../api/base.service';
 import { Router } from '@angular/router';
-import { orderBy } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -30,16 +29,8 @@ export class AuthService extends BaseService<User>  {
     }
   }
 
-  get userId(): string {
-    return this.currentUserSubject.value.id;
-  }
-
   get currentUserValue(): User {
     return this.currentUserSubject.value;
-  }
-
-  get clients() {
-    return this.currentUserValue.provedores.map(item => item.clientes).reduce((x, y) => x.concat(y), []);
   }
 
   login(username: string, password: string) {
@@ -47,25 +38,13 @@ export class AuthService extends BaseService<User>  {
       .post<any>(`${this.url}`, { username, password })
       .pipe(map((resp) => {
         if (resp.data == null || !resp.data.length)
-          throw 'InvalidUser';
+          throw "InvalidUser";
 
-        const user = this.orderSquads(resp.data[0]);
-
+        const user = resp.data[0];
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         return user;
       }));
-  }
-
-  orderSquads(user: User) {
-    user.provedores.forEach(prov => {
-      prov.clientes = orderBy(prov.clientes, 'nome', 'asc');
-      prov.clientes.forEach(cli => {
-        cli.squads = orderBy(cli.squads, 'nome', 'asc');
-      });
-    });
-
-    return user;
   }
 
   logout() {

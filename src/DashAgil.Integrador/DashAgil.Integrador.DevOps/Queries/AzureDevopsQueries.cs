@@ -16,6 +16,13 @@ namespace DashAgil.Integrador.DevOps.Query
             _settings = settings;
         }
 
+        public async Task<DevopsResult<SprintResult>> ObterSprints(string organizacao, string projeto, string token, string team)
+        {
+            string uri = string.Format(_settings.EndPoints.URI + _settings.EndPoints.SprintsSettings, organizacao, projeto, team);
+            return await HTTPServices.DevopsRequest<DevopsResult<SprintResult>>(uri, token, organizacao);
+        }
+
+
         public async Task<string> ObterWorkItemPorId(string organizacao, string projeto , string token, long workItenId)
         {
             string uri = string.Format(_settings.EndPoints.URI + _settings.EndPoints.WorkItemById, organizacao, projeto, workItenId);
@@ -45,13 +52,14 @@ namespace DashAgil.Integrador.DevOps.Query
                 "Corporativo" => _settings.CorporativoIds,
                 _ => _settings.RendimentoId,
             };
-        private string ObterQueryPorTipo(Integrador.Enums.EQueryWorkItemType tipo)
+        private string ObterQueryPorTipo(Enums.EQueryWorkItemType tipo)
             => tipo switch
             {
-                Integrador.Enums.EQueryWorkItemType.Epic => _settings.Queries.AllEpics,
-                Integrador.Enums.EQueryWorkItemType.Feature => _settings.Queries.AllFeatures,
-                Integrador.Enums.EQueryWorkItemType.UserStory => _settings.Queries.AllUS,
-                Integrador.Enums.EQueryWorkItemType.Task => _settings.Queries.AllTasks,
+                Enums.EQueryWorkItemType.Epic => _settings.Queries.AllEpics,
+                Enums.EQueryWorkItemType.Feature => _settings.Queries.AllFeatures,
+                Enums.EQueryWorkItemType.UserStory => _settings.Queries.AllUS,
+                Enums.EQueryWorkItemType.Task => _settings.Queries.AllTasks,
+                Enums.EQueryWorkItemType.Bug => _settings.Queries.AllBugs,
                 _ => _settings.Queries.AllTasks,
             };
 

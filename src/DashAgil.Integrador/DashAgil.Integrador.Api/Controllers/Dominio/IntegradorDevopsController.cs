@@ -1,7 +1,6 @@
 ﻿using DashAgil.Integrador.Api.Controllers.Comum;
 using DashAgil.Integrador.Commands.Input;
 using DashAgil.Integrador.Handlers;
-using DashAgil.Integrador.Repositorio;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -20,6 +19,17 @@ namespace DashAgil.Integrador.Api.Controllers.Dominio
 
         [HttpPost("sync")]
         public async Task<IActionResult> Projetos([FromBody] IntegracaoInicialDevopsCommand command)
+        {
+            var result = await _handler.Handle(command);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpPost("update-sprints")]
+        public async Task<IActionResult> AtualizarSprints([FromBody] AtualizarSprintsCommand command)
         {
             var result = await _handler.Handle(command);
 

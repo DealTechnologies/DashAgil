@@ -5,6 +5,10 @@
   color: #cfd7e4;
 }
 
+.chart-squad {
+  height: 345px;
+}
+
 .chart-execution {
   height: 50px;
 }
@@ -44,11 +48,23 @@ table {
   }
 }
 
-.demands .body {
-  overflow: auto;
+::ng-deep .mat-form-field {
+  .mat-form-field-flex {
+    padding: 0.2em 0.75em 0.6em 0.75em !important;
 
-  .chart-squad {
-    min-width: 600px;
-    height: 345px;
+    .mat-select-arrow-wrapper {
+      padding-top: 10px;
+    }
+  }
+
+  &.client {
+    mat-icon {
+      font-size: 25px;
+      color: #2b82ce;
+    }
+
+    .mat-form-field-prefix {
+      top: 8px;
+    }
   }
 }

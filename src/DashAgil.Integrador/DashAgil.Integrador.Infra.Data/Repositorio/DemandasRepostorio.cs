@@ -117,7 +117,6 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
             _param.Add("@Tags", entity.Tags);
             _param.Add("@Tipo", entity.Tipo);
             _param.Add("@Id", entity.Id, DbType.Guid);
-            _param.Add("@Descricao", entity.Descricao);
 
             var result = await _context.Connection.ExecuteScalarAsync<long>(Queries.DemandasQueries.Insert, _param);
 

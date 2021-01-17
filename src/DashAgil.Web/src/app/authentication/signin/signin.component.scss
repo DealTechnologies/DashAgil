@@ -1,11 +1,10 @@
 .container-login100 {
-    background-image: url('../../../assets/images/home3.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
+  background-image: url('../../../assets/images/home3.jpg');
+  background-size: contain;
+  background-repeat: round;
 }
 
-input:-internal-autofill-selected {
-  background-color: black !important;
-  background-image:none !important;
-  color: #000000 !important;
+.login100-form {
+  // background-color: #000000;
+  // opacity: 0.9;
 }

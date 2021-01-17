@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
 import { map } from 'rxjs/operators';
-import { CommandResult } from '../../models/command-result.model';
+import { CommandResult } from '../../models/command-result';
 import { Observable } from 'rxjs';
 
 @Injectable({

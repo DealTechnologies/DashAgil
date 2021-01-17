@@ -59,7 +59,7 @@ export class FirstSyncComponent implements OnInit {
          this.token.value
       ).subscribe(result => {
         this.spinner.hide();
-        alert(result.message)
+        alert(result.Message)
       },
       err => {this.spinner.hide(); alert('Ocorreu um erro ao efetuar sync com devops')} )
       return;
@@ -71,7 +71,7 @@ export class FirstSyncComponent implements OnInit {
       this.token.value
     ).subscribe(result => {
       this.spinner.hide();
-      alert(result.message)
+      alert(result.Message)
     },
     err => {this.spinner.hide(); alert('Ocorreu um erro ao efetuar sync com hira')} )
 

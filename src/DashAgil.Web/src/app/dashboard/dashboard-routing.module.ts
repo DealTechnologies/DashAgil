@@ -7,7 +7,6 @@ import { OverviewComponent } from './overview/overview.component';
 import { SquadComponent } from './squad/squad.component';
 import { StoriesComponent } from './stories/stories.component';
 import { StoriesSquadComponent } from './stories-squad/stories-squad.component';
-import { EmailComponent } from './email/email.component';
 
 const routes: Routes = [
   {
@@ -43,14 +42,10 @@ const routes: Routes = [
     path: 'stories-squad',
     component: StoriesSquadComponent
   },
-  {
-    path: 'email',
-    component: EmailComponent
-  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule { }
+export class DashboardRoutingModule {}

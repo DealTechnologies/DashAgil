@@ -1,4 +1,5 @@
 ﻿using DashAgil.Integrador.Entidades;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DashAgil.Integrador.Repositorio
@@ -9,6 +10,6 @@ namespace DashAgil.Integrador.Repositorio
 
         Task<Squad> ObterPorNome(string nome);
 
-
+        Task<IEnumerable<Squad>> ObterPorProjetoId(long projetoId);
     }
 }

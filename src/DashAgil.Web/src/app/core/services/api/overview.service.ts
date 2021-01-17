@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BaseService } from './base.service';
-import { CommandResult, Demand, OverviewDemand, OverviewFeature, SquadStory } from '../../models';
+import { Demand, OverviewDemand, OverviewFeature } from '../../models';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -11,13 +11,13 @@ export class OverviewService extends BaseService<OverviewDemand> {
     super(http, 'VisaoGeral');
   }
 
-  getOverviewDemands(clientId: number, userId: string): Observable<OverviewDemand> {
+  getOverviewDemands(clientId: number, userId: number): Observable<OverviewDemand> {
     const params = { IdCliente: clientId.toString(), IdUsuario: userId.toString() };
 
     return this.http
-      .get(`${this.url}/ObterVisaoGeralDemandas`, { params: params })
-      .pipe(map((response: CommandResult) => {
-        return response.data;
+      .get<OverviewDemand>(`${this.url}/ObterVisaoGeralDemandas`, { params: params })
+      .pipe(map((req: any) => {
+        return req.data;
       }));;
   }
 
@@ -25,39 +25,19 @@ export class OverviewService extends BaseService<OverviewDemand> {
     const params = { IdCliente: clientId.toString(), IdSquad: squadId.toString(), IdSprint: sprintId.toString() };
 
     return this.http
-      .get(`${this.url}/ObterVisaoGeralFeatures`, { params: params })
-      .pipe(map((response: CommandResult) => {
-        return response.data;
+      .get<OverviewDemand>(`${this.url}/ObterVisaoGeralFeatures`, { params: params })
+      .pipe(map((req: any) => {
+        return req.data;
       }));;
   }
 
-  getDemandList(clientId: number, squadId: number, userId: string): Observable<Demand[]> {
+  getDemandList(clientId: number, squadId: number, userId?: number): Observable<Demand[]> {
     const params = { IdCliente: clientId.toString(), IdSquad: squadId.toString() };
 
     return this.http
-      .get(`${this.url}/ObterListaEstoriasSquad`, { params: params })
-      .pipe(map((response: CommandResult) => {
-        return response.data.listaDemandas;
-      }));;
-  }
-
-  getSquadStories(clientId: number, userId: string): Observable<SquadStory[]> {
-    const params = { IdCliente: clientId.toString(), IdUsuario: userId.toString() };
-
-    return this.http
-      .get(`${this.url}/ObterVisaoEstoriasPorSquad`, { params: params })
-      .pipe(map((response: CommandResult) => {
-        return response.data;
-      }));;
-  }
-
-  getSquadVelocity(clientId: number, squadId: number): Observable<{ [key: string]: number }> {
-    const params = { IdCliente: clientId.toString(), IdSquad: squadId.toString() };
-
-    return this.http
-      .get(`${this.url}/ObterVelocidadePorSquad`, { params: params })
-      .pipe(map((response: CommandResult) => {
-        return response.data;
+      .get<Demand>(`${this.url}/ObterListaEstoriasSquad`, { params: params })
+      .pipe(map((req: any) => {
+        return req.data.listaDemandas;
       }));;
   }
 

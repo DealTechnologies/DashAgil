@@ -26,7 +26,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         const errorMessage = this.getErrorMessage(err);
 
         this.notifier.notify('error', 'Ops, algo deu errado');
-        // this.notifier.notify('error', `${errorMessage}`);
+        this.notifier.notify('error', `${errorMessage}`);
 
         return throwError(errorMessage);
       })

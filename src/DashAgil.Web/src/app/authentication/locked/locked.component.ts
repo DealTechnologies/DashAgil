@@ -25,7 +25,7 @@ export class LockedComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     } else {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/dashboard/main']);
     }
   }
 }

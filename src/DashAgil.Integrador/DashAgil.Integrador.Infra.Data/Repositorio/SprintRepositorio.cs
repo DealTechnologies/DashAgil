@@ -45,12 +45,13 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
             _param.Add("@DataFim", sprint.DataFim);
             _param.Add("@DataConclusao", sprint.DataConclusao);
             _param.Add("@Status", (int)sprint.Status);
+            _param.Add("@SquadId", (int)sprint.SquadId);
 
             var result = await _context.Connection.ExecuteScalarAsync<long>(
                    @" 
                     INSERT INTO DashAgil.dbo.Sprints
-                    (ExternalId, ProjetoId, Nome, Descricao, DataInicio, DataFim, DataConclusao, Status)
-                    VALUES(@ExternalId, @ProjetoId, @Nome, @Descricao, @DataInicio, @DataFim, @DataConclusao, @Status);
+                    (ExternalId, ProjetoId, Nome, Descricao, DataInicio, DataFim, DataConclusao, Status, SquadId)
+                    VALUES(@ExternalId, @ProjetoId, @Nome, @Descricao, @DataInicio, @DataFim, @DataConclusao, @Status, @SquadId);
                     SELECT SCOPE_IDENTITY() ", _param);
 
             return result;
@@ -62,14 +63,31 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
 
             var result = await _context.Connection.QueryAsync<Sprint>(
                    @" 
-                    SELECT Id, ExternalId, ProjetoId, Nome, Descricao, DataInicio, DataFim, DataConclusao, Status
+                    SELECT Id, ExternalId, ProjetoId, Nome, Descricao, DataInicio, DataFim, DataConclusao, Status, SquadId
                     FROM DashAgil.dbo.Sprints WHERE ProjetoId = @ProjetoId
                     ", _param);
 
             return result.ToList();
         }
 
-        public Task<Sprint> Obter(string nome, long projetoId)
-            => _context.Connection.QueryFirstOrDefaultAsync<Sprint>("SELECT * FROM DashAgil.dbo.Sprints WHERE Nome =  @nome and ProjetoId = @projetoId ", new { nome, projetoId });
+        public async void Atualizar(Sprint sprint)
+            => await _context.Connection.ExecuteScalarAsync(@"UPDATE DashAgil.dbo.Sprints set Descricao = @Descricao,
+                                                                                  DataInicio = @DataInicio,
+                                                                                  DataFim = @DataFim, 
+                                                                                  DataConclusao = @DataConclusao,
+                                                                                  Status = @Status
+                                                        WHERE Id = @Id", new
+            {
+                sprint.Descricao,
+                sprint.DataInicio,
+                sprint.DataFim,
+                sprint.DataConclusao,
+                Status = sprint.ObterCodigoStatus(),
+                sprint.Id
+            });
+
+        public Task<Sprint> Obter(string nome, long projetoId, long squadId)
+            => _context.Connection.QueryFirstOrDefaultAsync<Sprint>("SELECT * FROM DashAgil.dbo.Sprints WHERE Nome =  @nome and ProjetoId = @projetoId and SquadId = @squadId ",
+                                                                     new { nome, projetoId, squadId });
     }
 }
