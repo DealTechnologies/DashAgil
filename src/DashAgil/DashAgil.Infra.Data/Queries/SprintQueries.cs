@@ -13,11 +13,9 @@
 				s.DataFim,
 				s.DataConclusao,
 				s.Status
-			FROM Sprints s
-				INNER JOIN Projetos p on s.ProjetoId = p.Id
-				INNER JOIN Squads sq on p.Id = sq.ProjetoId
+			FROM Sprints s	
 			WHERE
-				sq.Id = @SquadId
+				s.SquadId = @SquadId
 			ORDER BY s.DataInicio, s.Nome desc";
 
         public const string SprintById = @" SELECT s.Id, s.Nome, s.ExternalId, s.Descricao, s.ProjetoId, s.DataInicio, s.DataFim, s.DataConclusao, s.Status
