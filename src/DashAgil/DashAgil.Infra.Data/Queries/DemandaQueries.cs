@@ -28,10 +28,10 @@ namespace DashAgil.Infra.Data.Queries
                     DataFim datetime, 
                     Pontos int, 
                     Status int, 
-                    Descricao varchar(200), 
+                    Descricao varchar(400), 
                     StatusDeXPara int,
                     IdSquad bigint,
-                    Nome varchar(200)
+                    Nome varchar(400)
                 )
 
             INSERT INTO @TMP_DEMANDAS
