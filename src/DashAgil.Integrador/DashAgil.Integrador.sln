@@ -1,0 +1,82 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29920.165
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DashAgil.Integrador.Api", "DashAgil.Integrador.Api\DashAgil.Integrador.Api.csproj", "{E14F51A5-0DCB-4609-8131-95705DFAB3C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Api", "1 - Api", "{C0960A9C-FB6B-4405-A596-BDE596AFB288}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Dominio", "2 - Dominio", "{1671157F-5241-416A-B516-6A276ECC1164}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Infra", "5 - Infra", "{6F7B6B28-1847-4005-956B-08C05B1F8B6B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Test", "6 - Test", "{AA55CD6B-8292-42BF-B5C0-A4C0C7620AB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashAgil.Integrador.Tests", "DashAgil.Integrador.Tests\DashAgil.Integrador.Tests.csproj", "{7BE4B139-5AB7-49B8-8360-3A777581E391}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - DevOps", "3 - DevOps", "{1895FBB2-1053-4B31-9179-4DBD9DEA8769}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Jira", "4 - Jira", "{559ABD8D-48E5-4123-A19F-E87BE9735EF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashAgil.Integrador", "DashAgil.Integrador\DashAgil.Integrador.csproj", "{552BA3C2-9B42-4351-AC3B-B81110F926DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashAgil.Integrador.DevOps", "DashAgil.Integrador.DevOps\DashAgil.Integrador.DevOps.csproj", "{5D194597-66D1-4237-A534-7C9D1FB5144C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashAgil.Integrador.Jira", "DashAgil.Integrador.Jira\DashAgil.Integrador.Jira.csproj", "{4A89605A-D8D5-4388-BB94-D66CFDC08AAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashAgil.Integrador.Infra.Data", "DashAgil.Integrador.Infra.Data\DashAgil.Integrador.Infra.Data.csproj", "{C90A9750-54FA-4E1A-8BCC-86E9AC5A56C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashAgil.Integrador.Infra", "DashAgil.Integrador.Infra\DashAgil.Integrador.Infra.csproj", "{E737AE99-DB64-4ACB-BD8F-C20E82068428}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E14F51A5-0DCB-4609-8131-95705DFAB3C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E14F51A5-0DCB-4609-8131-95705DFAB3C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E14F51A5-0DCB-4609-8131-95705DFAB3C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E14F51A5-0DCB-4609-8131-95705DFAB3C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BE4B139-5AB7-49B8-8360-3A777581E391}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BE4B139-5AB7-49B8-8360-3A777581E391}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BE4B139-5AB7-49B8-8360-3A777581E391}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BE4B139-5AB7-49B8-8360-3A777581E391}.Release|Any CPU.Build.0 = Release|Any CPU
+		{552BA3C2-9B42-4351-AC3B-B81110F926DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{552BA3C2-9B42-4351-AC3B-B81110F926DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{552BA3C2-9B42-4351-AC3B-B81110F926DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{552BA3C2-9B42-4351-AC3B-B81110F926DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D194597-66D1-4237-A534-7C9D1FB5144C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D194597-66D1-4237-A534-7C9D1FB5144C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D194597-66D1-4237-A534-7C9D1FB5144C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D194597-66D1-4237-A534-7C9D1FB5144C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A89605A-D8D5-4388-BB94-D66CFDC08AAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A89605A-D8D5-4388-BB94-D66CFDC08AAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A89605A-D8D5-4388-BB94-D66CFDC08AAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A89605A-D8D5-4388-BB94-D66CFDC08AAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C90A9750-54FA-4E1A-8BCC-86E9AC5A56C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C90A9750-54FA-4E1A-8BCC-86E9AC5A56C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C90A9750-54FA-4E1A-8BCC-86E9AC5A56C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C90A9750-54FA-4E1A-8BCC-86E9AC5A56C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E737AE99-DB64-4ACB-BD8F-C20E82068428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E737AE99-DB64-4ACB-BD8F-C20E82068428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E737AE99-DB64-4ACB-BD8F-C20E82068428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E737AE99-DB64-4ACB-BD8F-C20E82068428}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E14F51A5-0DCB-4609-8131-95705DFAB3C2} = {C0960A9C-FB6B-4405-A596-BDE596AFB288}
+		{7BE4B139-5AB7-49B8-8360-3A777581E391} = {AA55CD6B-8292-42BF-B5C0-A4C0C7620AB2}
+		{552BA3C2-9B42-4351-AC3B-B81110F926DF} = {1671157F-5241-416A-B516-6A276ECC1164}
+		{5D194597-66D1-4237-A534-7C9D1FB5144C} = {1895FBB2-1053-4B31-9179-4DBD9DEA8769}
+		{4A89605A-D8D5-4388-BB94-D66CFDC08AAC} = {559ABD8D-48E5-4123-A19F-E87BE9735EF7}
+		{C90A9750-54FA-4E1A-8BCC-86E9AC5A56C4} = {6F7B6B28-1847-4005-956B-08C05B1F8B6B}
+		{E737AE99-DB64-4ACB-BD8F-C20E82068428} = {6F7B6B28-1847-4005-956B-08C05B1F8B6B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6D180981-8446-4ABC-9BA5-257202AC29E3}
+	EndGlobalSection
+EndGlobal
