@@ -45,8 +45,13 @@ jobs:
 
       - name: Test
         run: dotnet test --no-restore --verbosity normal
+<<<<<<< HEAD
+        working-directory: src/DashAgil
+        
+=======
         working-directory: src/DashAgil/DashAgil.Api
 
+>>>>>>> dev
 #      - name: Publish
 #        run: dotnet publish -c Release -o '${{ github.workspace }}/out'
 #        working-directory: src/DashAgil/DashAgil.Api

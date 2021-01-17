@@ -1,5 +1,5 @@
 ﻿using DashAgil.Api.Controllers.Comum;
-using DashAgil.Commands.Input;
+using DashAgil.Commands.Input.VisaoGeral;
 using DashAgil.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -54,8 +54,9 @@ namespace DashAgil.Api.Controllers.Dominio
             return Ok(response);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post(SalvarEstoriaCommand command)
+        [HttpGet]
+        [Route("ObterVelocidadePorSquad")]
+        public async Task<IActionResult> ObterVelocidadePorSquad([FromQuery] ObterVelocidadePorSquadCommand command)
         {
             var response = await handler.Handle(command);
             return Ok(response);

@@ -14,7 +14,16 @@
             <li class="breadcrumb-item bcrumb-2">
               <a href="#" onClick="return false;">Squad</a>
             </li>
-            <li class="breadcrumb-item active">Terror By Night </li>
+            <li class="breadcrumb-item active">{{squadName}}</li>
+            <!-- <li>
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-select [formControl]="squad">
+                  <mat-option *ngFor="let squad of squads" [value]="squad">
+                    {{squad}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </li> -->
           </ul>
         </div>
       </div>
@@ -24,7 +33,7 @@
       <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
         <div class="card">
           <div class="header">
-            <h2>SQUAD <strong>Terror By Night</strong></h2>
+            <h2>SQUAD <strong>{{squadName}}</strong></h2>
           </div>
           <div class="body">
             <div class="graphic" echarts [options]="optionsSquad"></div>
@@ -45,7 +54,50 @@
     </div>
 
     <div class="row">
-      <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12">
+      <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card">
+              <div class="body text-center percent-homolog">
+                <h1 [ngStyle]="{'color': percentFeatures.isProd ? '#00b050' : '#a9d18e'}">
+                  {{percentFeatures.value}}%
+                </h1>
+                <span>{{ percentFeatures.isProd ? 'Em Produção' : 'Em homologação' }} – Features da Squad</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="card risks">
+              <div class="header">
+                <h2>Riscos</h2>
+              </div>
+              <div class="body">
+                <div class="media-list position-relative">
+                  <div class="table-responsive">
+                    <table class="table table-hover table-xl mb-0">
+                      <tbody>
+                        <tr>
+                          <td>
+                            1. Aberto chamado para liberação Sensedia no ambiente de homologação
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            2. Aguardando liberação do chamado do Hangfire
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
         <div class="card">
           <div class="header">
             <h2>Entregas no período</h2>
@@ -90,33 +142,6 @@
                 </div>
               </li>
             </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12">
-        <div class="card">
-          <div class="header">
-            <h2>Riscos</h2>
-          </div>
-          <div class="body">
-            <div class="media-list position-relative">
-              <div class="table-responsive">
-                <table id="risks" class="table table-hover table-xl mb-0">
-                  <tbody>
-                    <tr>
-                      <td>
-                        1. Aberto chamado para liberação Sensedia no ambiente de homologação
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        2. Aguardando liberação do chamado do Hangfire
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
           </div>
         </div>
       </div>

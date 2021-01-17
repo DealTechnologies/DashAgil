@@ -53,14 +53,14 @@ GO
 
 -----------------------------------------------------------------------	
 
-BEGIN
+--BEGIN
 
-	INSERT INTO [SquadIntegrantes] VALUES (1, 1, 2, getdate(), null, 1)
-	INSERT INTO [SquadIntegrantes] VALUES (1, 3, 1, getdate(), null, 1)				
-	INSERT INTO [SquadIntegrantes] VALUES (3, 3, 2, getdate(), null, 1)
-	INSERT INTO [SquadIntegrantes] VALUES (3, 4, 1, getdate(), null, 1)
-	INSERT INTO [SquadIntegrantes] VALUES (3, 6, 1, getdate(), null, 1)
+--	INSERT INTO [SquadIntegrantes] VALUES (1, 1, 2, getdate(), null, 1)
+--	INSERT INTO [SquadIntegrantes] VALUES (1, 3, 1, getdate(), null, 1)				
+--	INSERT INTO [SquadIntegrantes] VALUES (3, 3, 2, getdate(), null, 1)
+--	INSERT INTO [SquadIntegrantes] VALUES (3, 4, 1, getdate(), null, 1)
+--	INSERT INTO [SquadIntegrantes] VALUES (3, 6, 1, getdate(), null, 1)
 	
-END
+--END
 
 -----------------------------------------------------------------------	

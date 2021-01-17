@@ -2,9 +2,7 @@
 using DashAgil.Integrador.Entidades;
 using DashAgil.Integrador.Infra.Data.Context;
 using DashAgil.Integrador.Repositorio;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DashAgil.Integrador.Infra.Data.Repositorio
@@ -37,5 +35,12 @@ namespace DashAgil.Integrador.Infra.Data.Repositorio
             return result;
 
         }
+
+        public async Task<IEnumerable<Squad>> ObterPorProjetoId(long projetoId)
+            => await _context.Connection.QueryAsync<Squad>("SELECT * FROM  DashAgil.dbo.Squads WHERE ProjetoId = @projetoId", new { projetoId });
+
+        public async Task<Squad> ObterPorNome(string nome)
+        => await _context.Connection.QueryFirstOrDefaultAsync<Squad>("SELECT * FROM  DashAgil.dbo.Squads WHERE Nome =  @nome ", new { nome });
+
     }
 }

@@ -2,15 +2,15 @@
 using DashAgil.Integrador.Jira.Queries.Sprints;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DashAgil.Integrador.Entidades
 {
     public class Sprint
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string ExternalId { get; set; }
         public long ProjetoId { get; set; }
+        public long SquadId { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
         public DateTime? DataInicio { get; set; }
@@ -19,6 +19,22 @@ namespace DashAgil.Integrador.Entidades
 
         public StatusSprint Status { get; set; }
 
+
+        public static Sprint PreencherSprints(string nome, long projetoId, long squadId)
+        {
+            return new Sprint()
+            {
+                ExternalId = Guid.NewGuid().ToString(),
+                ProjetoId = projetoId,
+                SquadId = squadId,
+                Nome = nome,
+                Descricao = nome,
+                DataInicio = DateTime.Now,
+                DataFim = DateTime.Now
+            };
+        }
+
+        public int ObterCodigoStatus() => (int)this.Status;
 
         public static List<Sprint> PreencherSprints(SprintPaginateQueryResult sprintJira, long projetoId)
         {

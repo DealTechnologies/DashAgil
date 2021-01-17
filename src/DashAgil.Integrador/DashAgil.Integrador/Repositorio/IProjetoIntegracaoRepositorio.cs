@@ -9,5 +9,6 @@ namespace DashAgil.Integrador.Repositorio
     public interface IProjetoIntegracaoRepositorio
     {
         Task Inserir(ProjetoIntegracao projetoIntegracao);
+        Task<List<ProjetoIntegracao>> ObterPorUrl(string url);
     }
 }

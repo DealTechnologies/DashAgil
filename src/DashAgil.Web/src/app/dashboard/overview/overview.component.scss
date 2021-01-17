@@ -1,58 +1,70 @@
 .counter-box {
-    min-height: 80px;
-    margin: 0px 0px 10px 0px;
-    padding: 8px 0 5px 0;
-    color: #cfd7e4;
+  min-height: 80px;
+  margin: 0px 0px 10px 0px;
+  padding: 8px 0 5px 0;
+  color: #cfd7e4;
 }
 
 .chart-squad {
-    height: 320px;
+  height: 345px;
 }
 
 .chart-execution {
-    height: 50px;
-}
-
-.radar {
-    height: 500px;
+  height: 50px;
 }
 
 .sl-primary {
-    ::before {
-        background-color: #186db1;
-    }
+  ::before {
+    background-color: #186db1;
+  }
 
-    :last-child::after {
-        background-color: #186db1;
-    }
+  :last-child::after {
+    background-color: #186db1;
+  }
 }
 
-#cross {
-    div {
-        position: absolute;
-        background: black;
-        z-index: 10;
-    }
+.evolution {
+  height: 315px;
+  margin-bottom: 40px;
 
-    #cross-vertical {   
-        left: 49.8%;
-        height: 90%;
-        width: 4px;
-        top: 5%;
+  .body {
+    height: 100%;
+
+    .table-responsive {
+      height: 85%;
     }
-    
-    #cross-horizontal {   
-        top: 49.8%;
-        left: 24%;
-        width: 52%;
-        height: 3px;
-    }
+  }
 }
 
-::ng-deep .mat-form-field-flex {
-    padding: .2em .75em 0.60em .75em !important;
+table {
+  tr td:first-child {
+    width: 1%;
+    white-space: nowrap;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+  }
+}
+
+::ng-deep .mat-form-field {
+  .mat-form-field-flex {
+    padding: 0.2em 0.75em 0.6em 0.75em !important;
 
     .mat-select-arrow-wrapper {
-        padding-top: 10px;
+      padding-top: 10px;
     }
+  }
+
+  &.client {
+    mat-icon {
+      font-size: 25px;
+      color: #2b82ce;
+    }
+
+    .mat-form-field-prefix {
+      top: 8px;
+    }
+  }
 }

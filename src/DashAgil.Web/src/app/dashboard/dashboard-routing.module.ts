@@ -1,18 +1,30 @@
+import { FirstSyncComponent } from './first-sync/first-sync.component';
+import { RadarAgilComponent } from './radar-agil/radar-agil.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LeadTimeComponent } from './lead-time/lead-time.component';
 import { OverviewComponent } from './overview/overview.component';
 import { SquadComponent } from './squad/squad.component';
+import { StoriesComponent } from './stories/stories.component';
+import { StoriesSquadComponent } from './stories-squad/stories-squad.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'squad',
+    redirectTo: 'overview',
     pathMatch: 'full'
   },
   {
     path: 'overview',
     component: OverviewComponent
+  },
+  {
+    path: 'radar',
+    component: RadarAgilComponent
+  },
+  {
+    path: 'sync',
+    component: FirstSyncComponent
   },
   {
     path: 'squad',
@@ -21,6 +33,14 @@ const routes: Routes = [
   {
     path: 'leadtime',
     component: LeadTimeComponent
+  },
+  {
+    path: 'stories',
+    component: StoriesComponent
+  },
+  {
+    path: 'stories-squad',
+    component: StoriesSquadComponent
   },
 ];
 

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { EChartOption } from 'echarts';
-import { ChartsConfigurationService, OverviewService } from 'src/app/core/services';
+import { Client, OverviewDemand, Provider } from 'src/app/core/models';
+import { AuthService, ChartsConfigurationService, ClientService, OverviewService, ProviderService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-overview',
@@ -12,101 +13,71 @@ export class OverviewComponent implements OnInit {
 
   optionsDemandsVsSquad: EChartOption;
   optionsInExecution: EChartOption;
-  project: FormControl;
+  overview: OverviewDemand;
+  provider: FormControl;
+  client: FormControl;
+  providers: Provider[];
+  clients: Client[];
 
-  options3: EChartOption;
-
-  constructor(private _overviewService: OverviewService, private chartsConfiguration: ChartsConfigurationService) { }
+  constructor(
+    private overviewService: OverviewService,
+    private chartsConfiguration: ChartsConfigurationService,
+    private clientService: ClientService,
+    private providerService: ProviderService,
+    private authService: AuthService) { }
 
   ngOnInit() {
-    this.project = new FormControl('1');
+    this.overview = new OverviewDemand();
+    this.provider = new FormControl();
+    this.client = new FormControl();
 
-    this.project.valueChanges.subscribe(projectId => {
-      console.log(projectId);
+    this.provider.valueChanges.subscribe(providerId => {
+      this.loadClients(providerId);
     });
 
-    this._overviewService.getDemandsOverview(1).subscribe(demands => {
-      console.log(demands);
+    this.client.valueChanges.subscribe(clientId => {
+      this.loadDemands(clientId);
     });
 
-    this.optionsDemandsVsSquad = this.chartsConfiguration.demandsVsSquad(null);
-    this.optionsInExecution = this.chartsConfiguration.inExecution();
-
-    this.chart3();
+    this.loadProviders();
   }
 
-  private chart3() {
-    this.options3 = {
-      angleAxis: {
-        type: 'category',
-        data: [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5],
-        min: 0,
-        max: 19,
-        axisLine: {
-          show: true,
-          lineStyle: {
-            color: 'rgba(255, 255, 255, 1)'
-          }
-        },
-        axisTick: {
-          show: true,
-          length: 20
-        }
-      },
-      radiusAxis: {
-        min: 0,
-        max: 5,
-        axisLine: {
-          lineStyle: {
-            color: 'transparent'
-          },
-        }
-      },
-      polar: {
-      },
-      tooltip: {
-      },
-      itemStyle: {
-        borderWidth: 0.5,
-        borderColor: 'black'
-      },
-      series: [
-        {
-          type: 'bar',
-          showBackground: true,
-          //@ts-ignore
-          barWidth: '100%',
-          backgroundStyle: {
-            color: 'transparent',
-            borderWidth: 0.5,
-            borderColor: 'rgba(255, 255, 255, 1)'
-          },
-          coordinateSystem: 'polar',
-          data: [
-            { value: 1, name: 'rose1', itemStyle: { color: 'rgb(254, 0, 0)' } },
-            { value: 2, name: 'rose2', itemStyle: { color: 'rgb(254, 0, 0)' } },
-            { value: 3, name: 'rose3', itemStyle: { color: 'rgb(255, 255, 0)' } },
-            { value: 4, name: 'rose4', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 5, name: 'rose5', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 4, name: 'rose6', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 2, name: 'rose7', itemStyle: { color: 'rgb(254, 0, 0)' } },
-            { value: 1, name: 'rose8', itemStyle: { color: 'rgb(254, 0, 0)' } },
-            { value: 5, name: 'rose9', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 2, name: 'rose10', itemStyle: { color: 'rgb(254, 0, 0)' } },
-            { value: 3, name: 'rose11', itemStyle: { color: 'rgb(255, 255, 0)' } },
-            { value: 4, name: 'rose12', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 5, name: 'rose13', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 4, name: 'rose14', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 3, name: 'rose15', itemStyle: { color: 'rgb(255, 255, 0)' } },
-            { value: 4, name: 'rose16', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 5, name: 'rose17', itemStyle: { color: 'rgb(0, 255, 1)' } },
-            { value: 2, name: 'rose18', itemStyle: { color: 'rgb(254, 0, 0)' } },
-            { value: 3, name: 'rose19', itemStyle: { color: 'rgb(255, 255, 0)' } },
-            { value: 4, name: 'rose20', itemStyle: { color: 'rgb(0, 255, 1)' } },
-          ]
-        },
-      ],
-    };
+  loadProviders() {
+    this.providers = this.authService.currentUserValue.provedores;
+
+    if (this.providers.length) {
+      const provider = this.providers[0];
+      this.provider.setValue(provider.id);
+    }
+  }
+
+  loadClients(providerId: number) {
+    const provider = this.providers.find(item => item.id == providerId);
+    this.clients = provider.clientes;
+
+    if (this.clients.length) {
+      this.client.setValue(this.clients[0].id);
+    }
+  }
+
+  loadDemands(clientId: number) {
+    const userId = this.authService.currentUserValue.id;
+    this.overviewService.getOverviewDemands(clientId, userId).subscribe(overview => {
+      this.overview = overview;
+      this.optionsDemandsVsSquad = this.chartsConfiguration.demandsVsSquad(overview);
+      this.optionsInExecution = this.chartsConfiguration.inExecution(overview);
+    });
+  }
+
+  getIcon(providerId: number) {
+    switch (providerId) {
+      case 1:
+        return 'devops';
+      case 2:
+        return 'jira';
+      case 3:
+        return 'trello';
+    }
   }
 
   onChartEvent(event: any, type: string) {

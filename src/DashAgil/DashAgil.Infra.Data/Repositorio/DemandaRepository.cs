@@ -8,41 +8,55 @@ using System.Threading.Tasks;
 
 namespace DashAgil.Infra.Data.Repositorio
 {
-    public class DemandaRepository : BaseRepository<Demanda>, IDemandaRepository
+    public class DemandaRepository : BaseRepository<Demandas>, IDemandaRepository
     {
         public DemandaRepository(DataContext context): base(context)
         {
         }
 
-        public async Task<IEnumerable<Demanda>> GetAll(string projetoId, int tipo, int squadId = 0)
+        public async Task<IEnumerable<Demandas>> GetAll(string clienteId, int tipo, string usuarioId, string squadId = "")
         {
-            return await _context.Connection.QueryAsync<Demanda>(Queries.DemandaQueries.GetAll, new { ProjetoId = projetoId, Tipo = tipo, SquadId = squadId });
+            return await _context.Connection.QueryAsync<Demandas>(Queries.DemandaQueries.GetAll, new { ClienteId = clienteId, Tipo = tipo, SquadId = squadId, UsuarioId = usuarioId });
         }
 
-        public async Task<IEnumerable<Demanda>> GetDemandas(string projetoId, int tipo)
+        public async Task<IEnumerable<Demandas>> GetDemandas(string clienteId, int tipo, string usuarioId)
         {
-            return _context.Connection.Query<Demanda, Squad, Demanda>(Queries.DemandaQueries.GetDemandas,
+            return await _context.Connection.QueryAsync<Demandas, Squads, Demandas>(Queries.DemandaQueries.GetDemandas,
                 (demanda, squad) =>
                 {
                     demanda.Squad = squad;
                     return demanda;
                 },
-                new { ProjetoId = projetoId, Tipo = tipo },
-                splitOn: "SquadId, Id");
+                new { ClienteId = clienteId, Tipo = tipo, UsuarioId = usuarioId },
+                splitOn: "SquadId, IdSquad");
         }
 
-        public async Task<IEnumerable<dynamic>> GetFeaturesEstorias(string projetoId, string squadId)
+        public async Task<IEnumerable<dynamic>> GetFeaturesEstorias(string clienteId, string squadId, string usuarioId)
         {
-            return await _context.Connection.QueryAsync<dynamic>(Queries.DemandaQueries.GetFeaturesEstorias, new { ProjetoId = projetoId, SquadId = squadId, @TipoEstoria = EDemandaTipo.UserStory, @TipoFeature = EDemandaTipo.Feature });
+            return await _context.Connection.QueryAsync<dynamic>(Queries.DemandaQueries.GetFeaturesEstorias, new { ClienteId = clienteId, SquadId = squadId, @TipoEstoria = EDemandaTipo.UserStory, @TipoFeature = EDemandaTipo.Feature, UsuarioId = usuarioId });
         }
 
-        public async Task<IEnumerable<dynamic>> GetEstoriasHistorico(string projetoId, string squadId, string sprintId)
+        public async Task<IEnumerable<dynamic>> GetEstoriasHistorico(string clienteId, string squadId, string sprintId, string usuarioId)
         {
             return await _context.Connection.QueryAsync<dynamic>(Queries.DemandaQueries.GetEstoriasHistorico, 
-                new { ProjetoId = projetoId, 
+                new { 
+                    ClienteId = clienteId, 
                     SquadId = squadId, 
                     SprintId = sprintId,
-                    TipoDemanda = EDemandaTipo.UserStory });
+                    TipoDemanda = EDemandaTipo.UserStory,
+                    UsuarioId = usuarioId });
+        }
+
+        public async Task<IEnumerable<Demandas>> GetDemandasSprint(string clienteId, int tipo, string squadId, string usuarioId)
+        {
+            return await _context.Connection.QueryAsync<Demandas, Sprints, Demandas>(Queries.DemandaQueries.GetDemandasSprint,
+                (demanda, sprint) =>
+                {
+                    demanda.Sprint = sprint;
+                    return demanda;
+                },
+                new { ClienteId = clienteId, Tipo = tipo, SquadId = squadId, UsuarioId = usuarioId },
+                splitOn: "SprintId, IdSprint");
         }
 
         //public async Task<IEnumerable<DemandasEstagio>> GetTotalDemandasPorEstagio(string ProjetoId)

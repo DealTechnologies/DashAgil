@@ -1,3 +1,4 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { EChartOption } from 'echarts';
 import { ChartsConfigurationService } from 'src/app/core/services';
@@ -18,5 +19,4 @@ export class LeadTimeComponent implements OnInit {
     this.velocity = this.chartsConfiguration.velocity();
     this.cumulativeFlow = this.chartsConfiguration.cumulativeFlow();
   }
-
 }

@@ -1,50 +1,42 @@
 import { Injectable } from '@angular/core';
 import { EChartOption } from 'echarts';
-import { Overview } from '../../models';
+import * as moment from 'moment';
+import { OverviewDemand, OverviewFeature } from '../../models';
+
+interface ChartData {
+  value: number | string;
+  name?: string;
+}
 
 @Injectable()
 export class ChartsConfigurationService {
 
   constructor() { }
 
-  demandsVsSquad(overview: Overview): EChartOption {
+  demandsVsSquad(overview: OverviewDemand): EChartOption {
 
-    const legends =
-      ['Squad 1', 'Squad 2', 'Squad 3', 'Squad 4', 'Squad 5', 'Squad 6', 'Squad 7', 'Squad 8', 'Squad 9', 'Squad 10'];
-
-    const seriesData = [
-      { value: 335, name: 'Squad 1' },
-      { value: 310, name: 'Squad 2' },
-      { value: 234, name: 'Squad 3' },
-      { value: 135, name: 'Squad 4' },
-      { value: 1200, name: 'Squad 5' },
-      { value: 548, name: 'Squad 6' },
-      { value: 25, name: 'Squad 7' },
-      { value: 85, name: 'Squad 8' },
-      { value: 200, name: 'Squad 9' },
-      { value: 12, name: 'Squad 10' },
-    ];
+    const legends: string[] = overview.listaEstoriasPorSquad.map(item => item.squadNome);
+    const series: ChartData[] = overview.listaEstoriasPorSquad.map(item => ({ name: item.squadNome, value: item.quantidade }));
 
     const chartOptions: EChartOption = {
       tooltip: {
         trigger: 'item',
-        formatter: '{b}: {c}'
-      },
-      grid: {
+        formatter: '{b}: {c} demandas'
       },
       legend: {
         orient: 'vertical',
-        right: 20,
+        type: 'scroll',
+        left: 400,
         textStyle: {
           color: '#fff'
         },
-        data: legends
+        data: legends,
       },
       series: [
         {
           type: 'pie',
           radius: ['38%', '70%'],
-          center: ['40%', '50%'],
+          center: ['30%', '50%'],
           height: 320,
           label: {
             show: true,
@@ -68,7 +60,7 @@ export class ChartsConfigurationService {
               fontWeight: 'bold',
             }
           },
-          data: seriesData
+          data: series
         }
       ]
     };
@@ -76,32 +68,11 @@ export class ChartsConfigurationService {
     return chartOptions;
   }
 
-  inExecution(): EChartOption {
+  inExecution(overview: OverviewDemand): EChartOption {
 
-    const legends =
-      ['Squad 1', 'Squad 2', 'Squad 3', 'Squad 4', 'Squad 5', 'Squad 6', 'Squad 7', 'Squad 8', 'Squad 9', 'Squad 10'];
-
-    const seriesData = [
-      { value: 335, name: 'Squad 1' },
-      { value: 310, name: 'Squad 2' },
-      { value: 234, name: 'Squad 3' },
-      { value: 135, name: 'Squad 4' },
-      { value: 1200, name: 'Squad 5' },
-      { value: 548, name: 'Squad 6' },
-      { value: 25, name: 'Squad 7' },
-      { value: 85, name: 'Squad 8' },
-      { value: 200, name: 'Squad 9' },
-      { value: 12, name: 'Squad 10' },
-    ];
+    const series: ChartData[] = [{ value: overview.totalGeralEstorias }];
 
     const chartOptions: EChartOption = {
-      // title: {
-      //   text: 'Demandas',
-      //   textStyle: {
-      //     color: 'white'
-      //   },
-      //   textAlign: 'left'
-      // },
       tooltip: {
       },
       grid: {
@@ -134,7 +105,7 @@ export class ChartsConfigurationService {
             color: 'rgb(91, 155, 213)'
           },
           barWidth: 20,
-          data: [2342]
+          data: series
         }
       ]
     };
@@ -142,19 +113,35 @@ export class ChartsConfigurationService {
     return chartOptions;
   }
 
-  squad(): EChartOption {
+  squad(overview: OverviewFeature): EChartOption {
+
+    const legends: string[] = overview.ListaFeaturesEstagio.map(item => item.featureId);
+
+    const remanescente = overview.ListaFeaturesEstagio.map(item => item.remanescente);
+    const emAndamento = overview.ListaFeaturesEstagio.map(item => item.emAndamento);
+    const desenvolvimentoConcluido = overview.ListaFeaturesEstagio.map(item => item.desenvolvimentoConcluido);
+    const homologacao = overview.ListaFeaturesEstagio.map(item => item.homologacao);
+    const homologado = overview.ListaFeaturesEstagio.map(item => item.homologado);
+    const concluido = overview.ListaFeaturesEstagio.map(item => item.concluido);
+
+    const formatter = (params: any) => {
+      return params.value > 0 ? params.value + '%' : '';
+    }
+
     const chartOptions: EChartOption = {
       tooltip: {
         trigger: 'axis',
         axisPointer: {
           type: 'line'
-        }
+        },
       },
       legend: {
+        type: 'scroll',
         data: [
           { name: 'Concluído' },
           { name: 'Desenvolvimento Concluído' },
           { name: 'Homologação' },
+          { name: 'Homologado' },
           { name: 'Em Andamento' },
           { name: 'Remanescente' },
         ],
@@ -164,7 +151,7 @@ export class ChartsConfigurationService {
         bottom: 0
       },
       grid: {
-        top: 0,
+        top: 5,
         left: '3%',
         right: '4%',
         bottom: '10%',
@@ -183,25 +170,40 @@ export class ChartsConfigurationService {
       },
       yAxis: {
         type: 'category',
-        data: [
-          'Monitoramento de Auditoria',
-          'Donload de Documentos',
-          'Consulta de Documentos',
-          'Cadastro de Documentos',
-          'Tratamento das Requisições pelo Sistema de Câmbio',
-          'Estruturação do Projeto'
-        ],
+        data: legends,
         axisLine: { show: false },
         axisTick: { show: false },
         axisLabel: {
           color: 'rgba(255, 255, 255, 1)'
         },
       },
+      dataZoom: [
+        {
+          show: true,
+          type: 'slider',
+          minValueSpan: 4,
+          maxValueSpan: 4,
+          yAxisIndex: [0],
+          handleSize: 0,
+          orient: 'vertical',
+          borderColor: "rgba(43,48,67,.8)",
+          fillerColor: '#33384b',
+          start: 100,
+          textStyle: {
+            color: 'rgba(255, 255, 255, 1)'
+          }
+        },
+        {
+          type: 'inside',
+          show: true,
+          yAxisIndex: [0]
+        },
+      ],
       series: [
         {
           name: 'Concluído',
           type: 'bar',
-          barWidth: '35%',
+          barWidth: '20px',
           stack: '1',
           itemStyle: {
             color: 'rgb(0, 176, 80)'
@@ -209,9 +211,9 @@ export class ChartsConfigurationService {
           label: {
             show: true,
             position: 'inside',
-            formatter: '{c}%'
+            formatter: formatter
           },
-          data: []
+          data: concluido
         },
         {
           name: 'Desenvolvimento Concluído',
@@ -224,9 +226,9 @@ export class ChartsConfigurationService {
           label: {
             show: true,
             position: 'inside',
-            formatter: '{c}%'
+            formatter: formatter
           },
-          data: [30, 40, 50, 60, 70, 80, 90]
+          data: desenvolvimentoConcluido
         },
         {
           name: 'Homologação',
@@ -239,9 +241,24 @@ export class ChartsConfigurationService {
           label: {
             show: true,
             position: 'inside',
-            formatter: '{c}%'
+            formatter: formatter
           },
-          data: [70, 60, 50, 40, 30, 20, 10]
+          data: homologacao
+        },
+        {
+          name: 'Homologado',
+          type: 'bar',
+          barWidth: '35%',
+          itemStyle: {
+            color: 'rgb(0, 190, 240)'
+          },
+          stack: '1',
+          label: {
+            show: true,
+            position: 'inside',
+            formatter: formatter
+          },
+          data: homologado
         },
         {
           name: 'Em Andamento',
@@ -254,9 +271,9 @@ export class ChartsConfigurationService {
           label: {
             show: true,
             position: 'inside',
-            formatter: '{c}%'
+            formatter: formatter
           },
-          data: []
+          data: emAndamento
         },
         {
           name: 'Remanescente',
@@ -269,9 +286,9 @@ export class ChartsConfigurationService {
           label: {
             show: true,
             position: 'inside',
-            formatter: '{c}%'
+            formatter: formatter
           },
-          data: []
+          data: remanescente
         },
       ]
     };
@@ -279,42 +296,48 @@ export class ChartsConfigurationService {
     return chartOptions;
   }
 
-  sprint(): EChartOption {
+  sprint(overview: OverviewFeature): EChartOption {
+
+    let title: string;
+    let categories: string[];
+    let seriesTotal: ChartData[];
+    let seriesComplete: ChartData[];
+
+    if (overview.sprintBurndown) {
+      const start = moment(overview.sprintBurndown.dataInicio).format('DD/MMM');
+      const end = moment(overview.sprintBurndown.dataFim).format('DD/MMM');
+      title = `${start} - ${end}`;
+
+      categories = overview.sprintBurndown.demandasHistoricos.map(item => moment(item.dia).format('DD/MM/YYYY'));
+      seriesTotal = overview.sprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.pontosTotalDia }));
+      seriesComplete = overview.sprintBurndown.demandasHistoricos.map(item => ({ name: moment(item.dia).format('DD/MM/YYYY'), value: item.pontosConcluidosDia }));
+    }
+
     const chartOptions: EChartOption = {
+      title: {
+        text: title,
+        // textAlign: 'center',
+        textStyle: {
+          color: 'rgba(255, 255, 255, 1)',
+          fontSize: 15,
+          align: 'center'
+        }
+      },
       legend: {
         icon: 'roundRect',
-        data: [
-          { name: 'Velocidade Ideal' },
-          { name: 'Velocidade da Sprint' },
-        ],
+        data: ['Velocidade Ideal', 'Velocidade da Sprint'],
         textStyle: {
           color: 'rgba(255, 255, 255, 1)'
         },
         bottom: 0
       },
       grid: {
-        top: '3%',
-        height: '70%'
+        top: 45,
+        bottom: 80,
       },
       xAxis: {
         type: 'category',
-        data: [
-          '29/09/2020',
-          '30/09/2020',
-          '01/10/2020',
-          '02/10/2020',
-          '03/10/2020',
-          '04/10/2020',
-          '05/10/2020',
-          '06/10/2020',
-          '07/10/2020',
-          '08/10/2020',
-          '09/10/2020',
-          '10/10/2020',
-          '11/10/2020',
-          '12/10/2020',
-          '13/10/2020',
-        ],
+        data: categories,
         axisLabel: {
           color: 'rgba(255, 255, 255, 1)',
           rotate: 55,
@@ -345,7 +368,7 @@ export class ChartsConfigurationService {
       },
       series: [{
         name: 'Velocidade Ideal',
-        data: [95, 95, 82, 70, 60, 58, 55, 40, 38, 35, 28, 22, 18, 10, 0],
+        data: seriesTotal,
         type: 'line',
         symbol: 'none',
         lineStyle: {
@@ -355,7 +378,7 @@ export class ChartsConfigurationService {
       },
       {
         name: 'Velocidade da Sprint',
-        data: [95, 95, 95, 80, 75, 70, 52, 35, 28, 42, 30, 20, 15, 15, 0],
+        data: seriesComplete,
         type: 'line',
         symbol: 'none',
         lineStyle: {
@@ -718,6 +741,138 @@ export class ChartsConfigurationService {
           data: [0, 5, 50, 100, 120, 230, 270, 150, 200, 180]
         },
       ]
+    };
+
+    return chartOptions;
+  }
+
+  radar(data): EChartOption {
+    const chartOptions: EChartOption = {
+      angleAxis: {
+        type: 'category',
+        data: [
+          { value: '                                 1. Entrega de valor ao cliente', },
+          { value: '2. Satisfação do cliente', },
+          { value: '3. Cycle Time de histórias', },
+          { value: '4. Product Backlog', },
+          { value: '5. Sprint Backlog', },
+          { value: '1. Práticas DevOps', },
+          { value: '2. A execução de testes automatizados \nfaz cobertura dos principais cenários?', },
+          { value: '3. Clean Code', },
+          { value: '4. Código Sustentável (Refactoring)', },
+          { value: '                                               5.Volume de defeitos dentro das Sprints', },
+          { value: '1. Producção de Baclogs (SLA >= 2.0)                                               ', },
+          { value: '2. Velocidade da Equipe (SLA >= 1.0)', },
+          { value: '3. Qualidade da Entrega (SLA <= 5%)', },
+          { value: '4. Eficácia dos Testes (SLA <= 10%)', },
+          { value: '5. Índice dos Testes (SLA <= 20%)', },
+          { value: '1. Ferramentas e Documentação', },
+          { value: '2. Cerimônias', },
+          { value: '3. Scrum Master', },
+          { value: '4. Product Owner', },
+          { value: '5. Líder Técnico            ', }
+        ],
+        min: 0,
+        max: 19,
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: 'rgba(255, 255, 255, 1)',
+
+          }
+        },
+        axisTick: {
+          show: true,
+          length: 20
+        },
+        axisLabel: {
+          show: true,
+          margin: 20
+        },
+
+      },
+      grid: {
+        top: 0,
+        bottom: 0,
+        left: '25%',
+        right: '25%',
+      },
+      xAxis: {
+        min: -1,
+        max: 1,
+        zlevel: 20,
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: "rgba(6, 6, 6, 1)",
+            width: 3
+          }
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          show: false
+        },
+        splitLine: {
+          show: false
+        }
+      },
+      yAxis: {
+        min: -1,
+        max: 1,
+        zlevel: 20,
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: "rgba(6, 6, 6, 1)",
+            width: 3
+          }
+        },
+        axisLabel: {
+          show: false
+        },
+        axisTick: {
+          show: false
+        },
+        splitLine: {
+          show: false
+        }
+      },
+      radiusAxis: {
+        min: 0,
+        max: 5,
+        axisLine: {
+          lineStyle: {
+            color: 'transparent'
+          },
+        }
+      },
+      polar: {
+      },
+      tooltip: {
+      },
+      itemStyle: {
+        borderWidth: 0.5,
+        borderColor: 'black'
+      },
+      series: [
+        {
+          type: 'bar',
+          //@ts-ignore
+          showBackground: true,
+          //@ts-ignore
+          barWidth: '100%',
+          height: '100%',
+          backgroundStyle: {
+            color: 'transparent',
+            borderWidth: 0.5,
+            borderColor: 'rgba(255, 255, 255, 1)'
+          },
+          coordinateSystem: 'polar',
+          data: data
+        },
+      ],
     };
 
     return chartOptions;

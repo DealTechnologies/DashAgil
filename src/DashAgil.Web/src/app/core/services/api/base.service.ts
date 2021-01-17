@@ -6,7 +6,7 @@ import { InRequest } from '../../interfaces';
 
 export class BaseService<T> {
 
-    url: string;
+    protected url: string;
 
     constructor(protected http: HttpClient, controller: string) {
         this.url = `${environment.apiUrl}/${controller}`;

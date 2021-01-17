@@ -3,47 +3,56 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../../models/user.model';
-import { environment } from 'src/environments/environment';
+import { BaseService } from '../api/base.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService extends BaseService<User>  {
+
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
-  constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(
-      JSON.parse(localStorage.getItem('currentUser'))
-    );
-    this.currentUser = this.currentUserSubject.asObservable();
+  constructor(http: HttpClient, private router: Router) {
+    super(http, 'Authenticate');
+
+    try {
+      this.currentUserSubject = new BehaviorSubject<User>(
+        JSON.parse(localStorage.getItem('currentUser'))
+      );
+
+      this.currentUser = this.currentUserSubject.asObservable();
+    } catch (error) {
+      console.error(error);
+      this.logout();
+    }
   }
 
-  public get currentUserValue(): User {
+  get currentUserValue(): User {
     return this.currentUserSubject.value;
   }
 
   login(username: string, password: string) {
     return this.http
-      .post<any>(`${environment.apiUrl}/authenticate`, {
-        username,
-        password
-      })
-      .pipe(
-        map((user) => {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
+      .post<any>(`${this.url}`, { username, password })
+      .pipe(map((resp) => {
+        if (resp.data == null || !resp.data.length)
+          throw "InvalidUser";
 
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
-          return user;
-        })
-      );
+        const user = resp.data[0];
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+        return user;
+      }));
   }
 
   logout() {
-    // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
+
+    if (this.currentUserSubject)
+      this.currentUserSubject.next(null);
+
     return of({ success: false });
   }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace DashAgil.Integrador.Entidades
 {
@@ -9,7 +8,7 @@ namespace DashAgil.Integrador.Entidades
         public long Id { get; set; }
         public string Nome { get; set; }
         public string Descricao { get; set; }
-        public long ProjetoId { get; set; }
+        public long ProjetoId { get; set; } 
         public long? SubSquadId { get; set; }
         public DateTime DataInicio { get; set; }
         public DateTime? DataFim { get; set; }
@@ -27,6 +26,9 @@ namespace DashAgil.Integrador.Entidades
             };
 
         }
+
+
+
 
 
     }

@@ -4,12 +4,13 @@ using System.Threading.Tasks;
 
 namespace DashAgil.Repositorio
 {
-    public interface IDemandaRepository : IRepository<Demanda>
+    public interface IDemandaRepository : IRepository<Demandas>
     {
-        Task<IEnumerable<Demanda>> GetAll(string projetoId, int tipo, int squadId = 0);
-        Task<IEnumerable<Demanda>> GetDemandas(string idCliente, int tipo);
-        Task<IEnumerable<dynamic>> GetFeaturesEstorias(string clienteId, string squadId);
-        Task<IEnumerable<dynamic>> GetEstoriasHistorico(string projetoId, string squadId, string sprintId);
+        Task<IEnumerable<Demandas>> GetAll(string clienteId, int tipo, string usuarioId, string squadId = "");
+        Task<IEnumerable<Demandas>> GetDemandas(string idCliente, int tipo, string usuarioId);
+        Task<IEnumerable<dynamic>> GetFeaturesEstorias(string clienteId, string squadId, string usuarioId);
+        Task<IEnumerable<dynamic>> GetEstoriasHistorico(string projetoId, string squadId, string sprintId, string usuarioId);
+        Task<IEnumerable<Demandas>> GetDemandasSprint(string clienteId, int tipo, string squadId, string usuarioId);
         //Task<IEnumerable<DemandasEstagio>> GetTotalDemandasPorEstagio(string idCliente);
         //Task<IEnumerable<DemandasSquad>> GetTotalDemandasPorSquad(string clienteId);
     }
