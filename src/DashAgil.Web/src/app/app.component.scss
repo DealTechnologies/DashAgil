@@ -1,0 +1,30 @@
+::ng-deep .mat-form-field.dropdown-icon {
+  width: 100%;
+
+  .mat-form-field-flex {
+    padding: 0.2em 0.75em 0.6em 0.75em !important;
+
+    .mat-select-arrow-wrapper {
+      padding-top: 10px;
+    }
+  }
+
+  &.client {
+    mat-icon {
+      font-size: 25px;
+      color: #2b82ce;
+    }
+
+    .mat-form-field-prefix {
+      top: 8px;
+    }
+  }
+}
+
+::ng-deep .mat-tooltip {
+  font-size: 14px;
+}
+
+::ng-deep .mat-tab-label {
+  color: #ffffff !important;
+}

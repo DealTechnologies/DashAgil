@@ -48,5 +48,8 @@ namespace DashAgil.Api.Controllers.Dominio
             var response = await handler.Handle(command);
             return Ok(response);
         }
+
+
+
     }
 }

@@ -2,6 +2,7 @@
 using DashAgil.Entidades;
 using DashAgil.Enums;
 using DashAgil.Infra.Data.Context;
+using DashAgil.Queries;
 using DashAgil.Repositorio;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -36,9 +37,9 @@ namespace DashAgil.Infra.Data.Repositorio
             return await _context.Connection.QueryAsync<dynamic>(Queries.DemandaQueries.GetFeaturesEstorias, new { ClienteId = clienteId, SquadId = squadId, @TipoEstoria = EDemandaTipo.UserStory, @TipoFeature = EDemandaTipo.Feature, UsuarioId = usuarioId });
         }
 
-        public async Task<IEnumerable<dynamic>> GetEstoriasHistorico(string clienteId, string squadId, string sprintId, string usuarioId)
+        public async Task<IEnumerable<DemandaSprintQueryResult>> GetEstoriasHistorico(string clienteId, string squadId, string sprintId, string usuarioId)
         {
-            return await _context.Connection.QueryAsync<dynamic>(Queries.DemandaQueries.GetEstoriasHistorico, 
+            return await _context.Connection.QueryAsync<DemandaSprintQueryResult>(Queries.DemandaQueries.GetEstoriasHistorico, 
                 new { 
                     ClienteId = clienteId, 
                     SquadId = squadId, 
