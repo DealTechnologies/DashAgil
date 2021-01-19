@@ -500,7 +500,7 @@ export class ChartsConfigurationService {
         top: '3%',
         left: '7%',
         right: '2%',
-        bottom: 100,
+        bottom: 80,
       },
       tooltip: {
         trigger: 'axis',
@@ -514,6 +514,7 @@ export class ChartsConfigurationService {
       },
       legend: {
         icon: 'roundRect',
+        type: 'scroll',
         data: [
           'Em Backlog',
           'Priorizado',
@@ -888,7 +889,7 @@ export class ChartsConfigurationService {
     const chartOptions: EChartOption = {
       tooltip: {
         trigger: 'item',
-        formatter: '{b}: {c} demandas'
+        formatter: '{b}: {c} e-mails'
       },
       legend: {
         orient: 'vertical',
@@ -904,9 +905,8 @@ export class ChartsConfigurationService {
       series: [
         {
           type: 'pie',
-          radius: ['38%', '70%'],
-          center: ['50%', '50%'],
-          height: 320,
+          radius: ['40%', '70%'],
+          center: ['40%', '50%'],
           label: {
             show: true,
             color: '#fff',

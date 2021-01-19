@@ -8,7 +8,7 @@
               <h4 class="page-title">Squad - Lead Time</h4>
             </li>
             <li class="breadcrumb-item bcrumb-1">
-              <a routerLink="/dashboard/main">
+              <a routerLink="/dashboard">
                 <i class="fas fa-home"></i> Dashboard</a>
             </li>
             <li class="breadcrumb-item active">Lead Time </li>
@@ -24,7 +24,7 @@
           <mat-label>Squad</mat-label>
           <mat-select [formControl]="controlSquad">
             <mat-optgroup *ngFor="let client of clients" [label]="client.nome">
-              <mat-option *ngFor="let squad of client.squads | sortBy:'asc':'nome'" [value]="squad.id" with="200px">
+              <mat-option *ngFor="let squad of client.squads" [value]="squad.id" >
                 {{squad.nome}}
               </mat-option>
             </mat-optgroup>
@@ -35,7 +35,7 @@
 
     <div class="row">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-        <div class="card">
+        <div class="card lead">
           <div class="header text-center">
             <h2>Velocidade</h2>
           </div>
@@ -59,30 +59,28 @@
 
     <div class="row">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-        <div class="card">
+        <div class="card lead">
           <div class="header text-center">
             <h2>Diagrama de Fluxo Cumulativo</h2>
           </div>
           <div class="body">
-            <div class="card">
-              <div class="row">
-                <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
-                  <div class="graphic" echarts [options]="cumulativeFlow"></div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 p-t-10">
-                  <p>
-                    <strong>Feature em produção:</strong>
-                    <br>
-                    <span>Convênios/Bancoob (10/09)</span>
-                    <br>
-                    <span>PIX (30/09)</span>
-                  </p>
-                  <p>
-                    <strong>Em andamento, homologação da demanda:</strong>
-                    <br>
-                    <span>Recarga de celular</span>
-                  </p>
-                </div>
+            <div class="row">
+              <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                <div class="graphic" echarts [options]="cumulativeFlow"></div>
+              </div>
+              <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 p-t-10">
+                <p>
+                  <strong>Feature em produção:</strong>
+                  <br>
+                  <span>Convênios/Bancoob (10/09)</span>
+                  <br>
+                  <span>PIX (30/09)</span>
+                </p>
+                <p>
+                  <strong>Em andamento, homologação da demanda:</strong>
+                  <br>
+                  <span>Recarga de celular</span>
+                </p>
               </div>
             </div>
           </div>

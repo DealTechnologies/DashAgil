@@ -1,3 +1,11 @@
 .lead-time {
   height: 94%;
 }
+
+.lead .body {
+  overflow: auto;
+
+  .graphic {
+    min-width: 650px;
+  }
+}

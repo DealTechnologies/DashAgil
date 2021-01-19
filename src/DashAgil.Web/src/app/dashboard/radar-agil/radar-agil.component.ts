@@ -5,7 +5,6 @@ import { Client } from 'src/app/core/models';
 import { AuthService, ChartsConfigurationService, OverviewService } from 'src/app/core/services';
 
 let echarts = require('echarts');
-
 @Component({
   selector: 'app-radar-agil',
   templateUrl: './radar-agil.component.html',

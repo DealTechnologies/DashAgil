@@ -20,3 +20,11 @@
     }
   }
 }
+
+::ng-deep .mat-tooltip {
+  font-size: 14px;
+}
+
+::ng-deep .mat-tab-label {
+  color: #ffffff !important;
+}

@@ -78,3 +78,11 @@
     }
   }
 }
+
+.squad .body {
+  overflow: auto;
+
+  .graphic {
+    min-width: 600px;
+  }
+}

@@ -1,5 +1,28 @@
 .radar-container {
-  align-items: center;
+  h4 {
+    position: absolute;
+    color: #909598;
+
+    &.processo {
+      top: 2%;
+      left: 3%;
+    }
+
+    &.negocio {
+      top: 2%;
+      right: 5%;
+    }
+
+    &.qualidade {
+      bottom: 1%;
+      right: 5%;
+    }
+
+    &.slas {
+      bottom: 1%;
+      left: 3%;
+    }
+  }
 
   .radar {
     width: 100%;

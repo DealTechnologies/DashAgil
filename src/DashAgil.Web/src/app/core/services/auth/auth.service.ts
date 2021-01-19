@@ -47,7 +47,7 @@ export class AuthService extends BaseService<User>  {
       .post<any>(`${this.url}`, { username, password })
       .pipe(map((resp) => {
         if (resp.data == null || !resp.data.length)
-          throw "InvalidUser";
+          throw 'InvalidUser';
 
         const user = this.orderSquads(resp.data[0]);
 

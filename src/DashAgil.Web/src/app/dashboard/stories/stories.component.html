@@ -8,7 +8,7 @@
               <h4 class="page-title">Histórias</h4>
             </li>
             <li class="breadcrumb-item bcrumb-1">
-              <a routerLink="/dashboard/main">
+              <a routerLink="/dashboard">
                 <i class="fas fa-home"></i> Dashboard</a>
             </li>
             <li class="breadcrumb-item active">Histórias</li>
@@ -21,7 +21,7 @@
             <mat-label>Squad</mat-label>
             <mat-select [formControl]="controlSquad">
               <mat-optgroup *ngFor="let client of clients" [label]="client.nome">
-                <mat-option *ngFor="let squad of client.squads | sortBy:'asc':'nome'" [value]="squad.id" with="200px">
+                <mat-option *ngFor="let squad of client.squads" [value]="squad.id" >
                   {{squad.nome}}
                 </mat-option>
               </mat-optgroup>

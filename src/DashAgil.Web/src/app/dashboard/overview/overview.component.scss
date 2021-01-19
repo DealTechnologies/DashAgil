@@ -5,10 +5,6 @@
   color: #cfd7e4;
 }
 
-.chart-squad {
-  height: 345px;
-}
-
 .chart-execution {
   height: 50px;
 }
@@ -45,5 +41,14 @@ table {
   thead th {
     position: sticky;
     top: 0;
+  }
+}
+
+.demands .body {
+  overflow: auto;
+
+  .chart-squad {
+    min-width: 600px;
+    height: 345px;
   }
 }
