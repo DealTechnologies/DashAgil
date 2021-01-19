@@ -1,0 +1,119 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="body">
+              <mat-tab-group>
+                <mat-tab label="Status dos Emails">
+                  <div class="row" class="w-100">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                      <div echarts [options]="optionsEmail"></div>
+                    </div>
+                  </div>
+                </mat-tab>
+                <mat-tab label="Detalhes">
+                  <div class="responsive_table">
+                    <mat-table [dataSource]="dataSource" matSort>
+                      <ng-container matColumnDef="assunto">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Assunto</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.assunto}}</mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="conteudo">
+                        <mat-header-cell mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Conteúdo
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{row.conteudo}}
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="remetente">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Remetente
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{row.remetente}}
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="destinatario">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Destinatário
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{row.destinatario}}
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="dataCriacao">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          DataCriação
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{row.dataCriacao}}
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="dataEnvio">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Data Envio
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{row.dataEnvio}}
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="entregues">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Entregues
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{row.entregues}}
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="lixo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Lixo
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{row.lixo}}
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="rejeitados">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Rejeitados
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{row.rejeitados}}
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="abertos">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Abertos
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{row.abertos}}
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          Status
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                          {{row.status}}
+                        </mat-cell>
+                      </ng-container>
+                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
+                      </mat-row>
+                    </mat-table>
+                    <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10"
+                      [pageSizeOptions]="[5, 10, 25, 100]">
+                    </mat-paginator>
+                  </div>
+                </mat-tab>
+              </mat-tab-group>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

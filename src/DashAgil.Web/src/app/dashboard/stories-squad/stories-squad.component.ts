@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Demand } from 'src/app/core/models';
-import { OverviewService } from 'src/app/core/services';
+import { Client, SquadStory } from 'src/app/core/models';
+import { AuthService, OverviewService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-stories-squad',
@@ -12,45 +13,53 @@ import { OverviewService } from 'src/app/core/services';
 export class StoriesSquadComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  dataSource = new MatTableDataSource<Demand>();
-  displayedColumns = [
-    'squad',
-    'emBacklog',
-    'emDesenvolvimento',
-    'desenvolvimentoConcluido',
-    'emHomologacao',
-    'homologado',
-    'concluido',
-    'totalGeral',
-  ];
 
-  constructor(private overviewService: OverviewService) { }
+  dataSource: MatTableDataSource<SquadStory>;
+  displayedColumns: string[];
+  total: SquadStory;
+  clients: Client[];
+  controlClient: FormControl;
+
+  constructor(
+    private overviewService: OverviewService,
+    private authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
-    const data = [
-      {
-        squad: 'Terror By Night',
-        emBacklog: 8,
-        emDesenvolvimento: 9,
-        desenvolvimentoConcluido: 80,
-        emHomologacao: 0,
-        homologado: 0,
-        concluido: 582,
-        totalGeral: 679,
-      },
-      {
-        squad: 'Squad 3',
-        emBacklog: 5,
-        emDesenvolvimento: 2,
-        desenvolvimentoConcluido: 0,
-        emHomologacao: 0,
-        homologado: 0,
-        concluido: 16,
-        totalGeral: 23,
-      }
+    this.dataSource = new MatTableDataSource<SquadStory>();
+
+    this.displayedColumns = [
+      'squad',
+      'emBacklog',
+      'emDesenvolvimento',
+      'desenvolvimentoConcluido',
+      'emHomologacao',
+      'homologado',
+      'concluido',
+      'totalGeral',
     ];
 
-    this.dataSource = new MatTableDataSource<any>(data);
-    this.dataSource.paginator = this.paginator;
+    this.controlClient = new FormControl();
+    this.valueChanges();
+
+    this.clients = this.authService.clients;
+
+    if (this.clients.length) {
+      this.controlClient.setValue(this.clients[0].id);
+    }
+  }
+
+  loadData(clientId: number) {
+    this.overviewService.getSquadStories(clientId, this.authService.userId).subscribe(stories => {
+      this.total = stories.pop();
+      this.dataSource = new MatTableDataSource<SquadStory>(stories);
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+
+  valueChanges() {
+    this.controlClient.valueChanges.subscribe(clientId => {
+      this.loadData(clientId);
+    });
   }
 }
