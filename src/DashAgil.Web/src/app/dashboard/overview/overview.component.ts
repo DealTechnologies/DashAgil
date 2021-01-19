@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { EChartOption } from 'echarts';
 import { Client, OverviewDemand, Provider } from 'src/app/core/models';
 import { AuthService, ChartsConfigurationService, ClientService, OverviewService, ProviderService } from 'src/app/core/services';
@@ -24,6 +25,7 @@ export class OverviewComponent implements OnInit {
     private chartsConfiguration: ChartsConfigurationService,
     private clientService: ClientService,
     private providerService: ProviderService,
+    private router: Router,
     private authService: AuthService) { }
 
   ngOnInit() {
@@ -81,15 +83,8 @@ export class OverviewComponent implements OnInit {
   }
 
   onChartEvent(event: any, type: string) {
-    alert(event.name);
-  }
-
-  public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
-    console.log(event, active);
-  }
-
-  public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
-    console.log(event, active);
+    const squadId = event.data.squadId;
+    this.router.navigate(['/dashboard/squad'], { queryParams: { squadId } });
   }
 }
 
